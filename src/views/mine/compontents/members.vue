@@ -140,7 +140,7 @@ export default {
 
 	.radius {
 		width: 17px;
-		height: 16px;
+		height: 17.8px;
 		background: #0066FF;
 		border-radius: 50%;
 		font-size: 12px;
