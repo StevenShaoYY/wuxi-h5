@@ -1,25 +1,17 @@
 <template>
   <div class="content">
     <div class="timeLine">
-		<!--<el-steps :active="1" align-center>-->
-			<!--<el-step title="基本信息"></el-step>-->
-			<!--<el-step title="认证确认"></el-step>-->
-			<!--<el-step title="完成"></el-step>-->
-		<!--</el-steps>-->
 		<div class="top">
 			<div class="radiusbox">
 				<div class="radius">1</div>
-				<!--<div class="text">基本信息</div>-->
 			</div>
 			<div class="dashed"></div>
 			<div class="radiusbox">
 				<div class="radius">2</div>
-				<!--<div class="text">认证确认</div>-->
 			</div>
 			<div class="dashed"></div>
 			<div class="radiusbox">
 				<div class="radius">3</div>
-				<!--<div class="text">完成</div>-->
 			</div>
 		</div>
 		<div class="bot">
@@ -31,46 +23,46 @@
 	</div>
     <div class="boxform">
       <div class="input">
-        <span class="red">*</span><span>企业工商业登记名称</span> <input type="text" placeholder="请输入单位名称" />
+        <span class="red">*</span><span class="name">企业工商业登记名称</span> <input type="text" placeholder="请输入单位名称" />
       </div>
       <div class="input">
-        <span class="red">*</span><span>统一社会信用代码</span> <input type="text" placeholder="请输入统一社会信用代码" />
+        <span class="red">*</span><span class="name">统一社会信用代码</span> <input type="text" placeholder="请输入统一社会信用代码" />
       </div>
       <div class="input">
-        <span class="red">*</span><span>单位地址</span> <input type="text" placeholder="请输入单位地址" />
+        <span class="red">*</span><span class="name">单位地址</span> <input type="text" placeholder="请输入单位地址" />
       </div>
       <div class="input">
-        <span class="red">*</span><span>法定代表人</span> <input type="text" placeholder="请输入法人" />
+        <span class="red">*</span><span class="name">法定代表人</span> <input type="text" placeholder="请输入法人" />
       </div>
       <div class="input">
-        <span class="red">*</span><span>联系电话</span> <input type="text" placeholder="请输入联系电话" />
+        <span class="red">*</span><span class="name">联系电话</span> <input type="text" placeholder="请输入联系电话" />
       </div>
 		<div class="input">
-			<span class="red">*</span><span>经办人</span> <input type="text" placeholder="请输入经办人" />
+			<span class="red">*</span><span class="name">经办人</span> <input type="text" placeholder="请输入经办人" />
 		</div>
       <div class="input">
-        <span class="red"></span><span>经营/业务范围</span> <input type="text" placeholder="请输入业务范围" />
+        <span class="red"></span><span class="name">经营/业务范围</span> <input type="text" placeholder="请输入业务范围" />
       </div>
       <div class="input">
-        <span class="red"></span><span>注册资金</span> <input type="text" placeholder="请输入注册资金" />
+        <span class="red"></span><span class="name">注册资金</span> <input type="text" placeholder="请输入注册资金" />
       </div>
 		<div class="input">
-			<span class="red"></span><span>单位性质</span> <input type="text" placeholder="请输入单位性质" />
+			<span class="red"></span><span class="name">单位性质</span> <input type="text" placeholder="请输入单位性质" />
 		</div>
 		<div class="input">
-			<span class="red"></span><span>注册类型</span> <input type="text" placeholder="请输入注册类型" />
+			<span class="red"></span><span class="name">注册类型</span> <input type="text" placeholder="请输入注册类型" />
 		</div>
 		<div class="input">
-			<span class="red"></span><span>行业分类</span> <input type="text" placeholder="请输入行业分类" />
+			<span class="red"></span><span class="name">行业分类</span> <input type="text" placeholder="请输入行业分类" />
 		</div>
 		<div class="input">
-			<span class="red"></span><span>年营业额</span> <input type="text" placeholder="请输入年营业额" />
+			<span class="red"></span><span class="name">年营业额</span> <input type="text" placeholder="请输入年营业额" />
 		</div>
 		<div class="input">
-			<span class="red"></span><span>职工总数</span> <input type="text" placeholder="请输入职工总数" />
+			<span class="red"></span><span class="name">职工总数</span> <input type="text" placeholder="请输入职工总数" />
 		</div>
 		<div class="input">
-			<span class="red"></span><span>邮箱</span> <input type="text" placeholder="请输入邮箱" />
+			<span class="red"></span><span class="name">邮箱</span> <input type="text" placeholder="请输入邮箱" />
 		</div>
     </div>
 	  <div class="next">
@@ -123,7 +115,7 @@ export default {
 	 .bot {
 		 width: 100%;
 		 box-sizing: border-box;
-		 padding-left: 25px;
+		 padding-left: 21px;
 		 display: flex;
 		 div {
 			 width: 33.3%;
@@ -134,41 +126,29 @@ export default {
 		 }
 		 .div3 {
 			 text-align: right;
-			 padding-right: 10px;
+			 padding-right: 32px;
 		 }
 
 	 }
 	 .radiusbox {
 		 float: left;
 		 font-size: 12px;
-		 /*position: relative;*/
-		 /*.text1 {*/
-			 /*position: absolute;*/
-				/**/
-		 /*}*/
-		 /*.text2 {*/
-			 /*position: absolute;*/
-
-		 /*}*/
-		 /*.text3 {*/
-			 /*position: absolute;*/
-
-		 /*}*/
 	 }
 	 .radiusbox:first-child {
-		 margin-left: 32px;
+		 margin-left: 30px;
 	 }
 
 	.radius {
-		width: 14px;
-		height: 14px;
+		width: 17px;
+		height: 16px;
 		background: #0066FF;
 		border-radius: 50%;
 		font-size: 12px;
 		color: #ffffff;
-		text-align: center;
-		line-height: 15px;
-		margin: 5px 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 5px 5px;
 	}
 
 	 .dashed {
@@ -184,22 +164,28 @@ export default {
    background:rgba(255,255,255,1);
    box-shadow:0px 0px 8px 0px rgba(10,103,241,0.1);
    border-radius:4px;
-   input {
-     outline: none;
-     border: none;
-     float: right;
-      height: 43px;
-     text-align: right;
-     padding-right: 10px;
-   }
+
+
    .input {
-      width: 100%;
+     width: 100%;
      height: 45px;
      border-bottom: 1px solid #E6E6E6;
-     line-height: 45px;
      font-size:14px;
      font-weight:500;
      color:#666666;
+	 overflow: hidden;
+	   input {
+		   width: 50%;
+		   height: 43px;
+		   outline: none;
+		   border: none;
+		   float: right;
+		   text-align: right;
+		   padding-right: 10px;
+	   }
+	   .name{
+		   line-height: 48px;
+	   }
    }
  }
 .red {

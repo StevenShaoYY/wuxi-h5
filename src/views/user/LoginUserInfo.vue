@@ -12,7 +12,7 @@
       <div class="box_input_code">
         <div class="left_code">
           <div class="imgs"><img src="@/assets/imgs/user/code.png" alt=""></div>
-          <input type="tel" class="input input" placeholder="请输入验证码" @change="handlecodeFlag()" v-model.trim="code" />
+          <input type="tel" class="input" placeholder="请输入验证码" @change="handlecodeFlag()" v-model.trim="code" />
         </div>
         <div class="gitcode" @click="gitcode">获取验证码</div>
       </div>
@@ -62,6 +62,8 @@ export default {
     width: 100%;
     height: 100vh;
     background-image: url("./../../assets/imgs/user/back.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
   }
   .header {
     width: 100%;
@@ -99,20 +101,24 @@ export default {
       margin-bottom: 15px;
       background: #FFFFFF;
       border-radius: 4px;
-      line-height: 37px;
-      .input {
+      overflow: hidden;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      input {
         border: none;
         outline: none;
         float: left;
         width: 80%;
-        height: 35px;
+        height: 30px;
         font-size: 16px;
       }
       .imgs {
         width: 14px;
         height: 22px;
         float: left;
-        padding: 7px 22.5px 0 14px;
+        padding: 0px 22px 0 14px;
         img {
           width: 100%;
         }
@@ -128,22 +134,25 @@ export default {
         margin-bottom: 15px;
         background: #FFFFFF;
         border-radius: 4px;
-        line-height: 37px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
         .imgs {
           width: 14px;
           height: 22px;
           float: left;
-          padding: 7px 22.5px 0 14px;
+          padding: 2px 22px 0 14px;
           img {
             width: 100%;
           }
         }
-        .input {
+        input {
           border: none;
           outline: none;
           float: left;
+          height: 30px;
           width: 70%;
-          height: 35px;
           font-size: 16px;
         }
 
@@ -151,8 +160,9 @@ export default {
       .gitcode{
         width: 30%;
         height: 37px;
-        text-align: center;
-        line-height: 37px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         float: right;
         background: #0066FF;
         border-radius: 4px;
@@ -180,11 +190,12 @@ export default {
       background: #0066FF;
       font-size: 16px;
       color: #ffffff;
-      text-align: center;
       margin-top: 32px;
       box-shadow:0px 0px 6px 0px rgba(0, 255, 102, 0.35);
       border-radius:5px;
-      line-height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 
