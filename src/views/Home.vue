@@ -20,7 +20,7 @@
     <div class="buttons">
       <van-button type="warning" @click="logout">退出登录</van-button>
       <router-link to="/404">
-        <svg-icon icon-class="404" />前往404页面的你
+        <svg-icon icon-class="404" />前往404页面的你是的
       </router-link>
     </div>
     <footer-tabbar />
