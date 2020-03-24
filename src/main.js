@@ -8,7 +8,7 @@ import 'utils/permission'
 import SvgIcon from 'components/SvgIcon'
 import '@/icons' // icon
 import '@/style/common.scss'
-import { Lazyload } from 'vant'
+import { Lazyload,Checkbox, CheckboxGroup } from 'vant'
 import defaultSettings from '@/settings'
 
 /**
@@ -29,6 +29,8 @@ FastClick.attach(document.body)
 
 // options 为可选参数，无则不传
 Vue.use(Lazyload)
+Vue.use(Checkbox)
+Vue.use(CheckboxGroup)
 
 Vue.component('svg-icon', SvgIcon)
 
@@ -38,6 +40,19 @@ if (process.env.NODE_ENV === 'development' && defaultSettings.vconsole) {
   const my_console = new VConsole()
 }
 // var vConsole = new VConsole(option)
+
+// element-ui 引用
+// import {
+//   Steps
+// } from 'element-ui'
+// Vue.component(Steps);
+// import 'element-ui/lib/theme-chalk/index.css'
+// const componentsArr = {
+//   Steps
+// }
+// Object.keys(componentsArr).forEach(item => {
+//   Vue.component(componentsArr[item].name, componentsArr[item])
+// })
 
 Vue.config.productionTip = false
 

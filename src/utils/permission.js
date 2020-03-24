@@ -4,7 +4,7 @@ import { Notify } from 'vant'
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 
-const whiteList = ['/login', '/register'] // 白名单列表
+const whiteList = ['/LoginUserInfo', '/register'] // 白名单列表
 
 router.beforeEach(async (to, from, next) => {
   // 设置页面标题
@@ -14,7 +14,7 @@ router.beforeEach(async (to, from, next) => {
   const hasToken = getToken()
 
   if (hasToken) {
-    if (to.path === '/login') {
+    if (to.path === '/LoginUserInfo') {
       // 已经登录，跳转到首页
       next({ path: '/' })
     } else {
@@ -31,18 +31,19 @@ router.beforeEach(async (to, from, next) => {
           // 清除用户信息，退出登录，跳转登录页
           store.commit('user/LOGOUT')
           Notify.error(error || 'Has Error')
-          next(`/login?redirect=${to.path}`)
+          next(`/LoginUserInfo?redirect=${to.path}`)
         }
       }
     }
   } else {
+    next()
     /* has no token */
-    if (whiteList.indexOf(to.path) !== -1) {
-      // 白名单中，无需验证
-      next()
-    } else {
-      // other pages that do not have permission to access are redirected to the login page.
-      next(`/login?redirect=${to.path}`)
-    }
+    // if (whiteList.indexOf(to.path) !== -1) {
+    //   // 白名单中，无需验证
+    //   next()
+    // } else {
+    //   // other pages that do not have permission to access are redirected to the login page.
+    //   next(`/LoginUserInfo?redirect=${to.path}`)
+    // }
   }
 })

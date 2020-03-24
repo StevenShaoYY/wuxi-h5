@@ -1,94 +1,108 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from 'views/Home.vue'
-import store from '@/store'
+
+const mine = () => import('@/views/mine/index.vue') // 个人中心
+const carServe = () => import('@/views/carServe/index.vue') // 车辆服务
+const LoginUserInfo = () => import('@/views/user/LoginUserInfo.vue') // 登录注册
+
+const members = () => import('@/views/mine/compontents/members.vue') // 会员
+const carInfo = () => import('@/views/mine/compontents/carInfo.vue') // 车辆
+const driveInfo = () => import('@/views/mine/compontents/driveInfo.vue') // 驾驶
+const feedback = () => import('@/views/mine/compontents/feedback.vue') // 意见反馈
 
 Vue.use(Router)
+const router = new Router({
+  routes: [
 
-let routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home,
-    meta: {
-      title: '首页',
-      keepAlive: true
-    }
-  },
-  {
-    path: '/404',
-    name: '404',
-    component: () => import(/* webpackChunkName: "404" */ 'views/404.vue'),
-    meta: {
-      title: '404',
-      keepAlive: true
-    }
-  }
-]
-
-const routerContext = require.context('./', true, /\.js$/)
-routerContext.keys().forEach(route => {
-  // 如果是根目录的 index.js 、不处理
-  if (route.startsWith('./index')) {
-    return
-  }
-  const routerModule = routerContext(route)
-  /**
-   * 兼容 import export 和 require module.export 两种规范
-   */
-  routes = routes.concat(routerModule.default || routerModule)
-})
-
-routes = routes.concat({
-  path: '*',
-  redirect: '/404'
-})
-
-const createRouter = () => new Router({
-  mode: 'history', // require service support
-  base: process.env.BASE_URL,
-  scrollBehavior: () => ({ y: 0 }),
-  routes
-})
-
-const myRouter = createRouter()
-
-// const myRouter = new Router({
-//   mode: 'history',
-//   base: process.env.BASE_URL,
-//   routes
-// })
-
-const history = window.sessionStorage
-history.clear()
-let historyCount = history.getItem('count') * 1 || 0
-history.setItem('/', 0)
-
-myRouter.beforeEach((to, from, next) => {
-  if (to.params.direction) {
-    store.commit('updateDirection', to.params.direction)
-  } else {
-    const toIndex = history.getItem(to.path)
-    const fromIndex = history.getItem(from.path)
-    // 判断并记录跳转页面是否访问过，以此判断跳转过渡方式
-    if (toIndex) {
-      if (!fromIndex || parseInt(toIndex, 10) > parseInt(fromIndex, 10) || (toIndex === '0' && fromIndex === '0')) {
-        store.commit('updateDirection', 'forward')
-      } else {
-        store.commit('updateDirection', 'back')
+    {
+      path: '/',
+      redirect: 'LoginUserInfo'
+    },
+    {
+      path: '/LoginUserInfo',
+      name: 'LoginUserInfo',
+      component: LoginUserInfo,
+      meta: {
+        title: '登陆',
+        keepAlive: false
       }
-    } else {
-      ++historyCount
-      history.setItem('count', historyCount)
-      to.path !== '/' && history.setItem(to.path, historyCount)
-      store.commit('updateDirection', 'forward')
+    },
+    {
+      path: '/carServe',
+      name: 'carServe',
+      component: carServe,
+      meta: {
+        title: '车辆服务',
+        keepAlive: false
+      }
+    },
+    {
+      path: '/mine',
+      name: 'mine',
+      component: mine,
+      meta: {
+        title: '个人中心',
+        keepAlive: false
+      }
+    },
+
+    {
+      path: '/mine/members',
+      name: 'members',
+      component: members,
+      meta: {
+        title: '会员认证',
+        keepAlive: false
+      }
+    },
+    {
+      path: '/mine/carInfo',
+      name: 'carInfo',
+      component: carInfo,
+      meta: {
+        title: '车辆信息',
+        keepAlive: false
+      }
+    },
+    {
+      path: '/mine/driveInfo',
+      name: 'driveInfo',
+      component: driveInfo,
+      meta: {
+        title: '驾驶证信息',
+        keepAlive: false
+      }
+    },
+    {
+      path: '/mine/feedback',
+      name: 'feedback',
+      component: feedback,
+      meta: {
+        title: '意见反馈',
+        keepAlive: false
+      }
+    },
+    {
+      path: '/Home',
+      name: 'Home',
+      component: Home,
+      meta: {
+        title: '首页',
+        keepAlive: false
+      }
+    },
+    {
+      path: '/404',
+      name: '404',
+      component: () => import('views/404.vue'),
+      meta: {
+        title: '404',
+        keepAlive: true
+      }
     }
-  }
-  next()
+
+  ]
 })
 
-export function resetRouter () {
-  myRouter.replace('/login')
-}
-
-export default myRouter
+export default router
