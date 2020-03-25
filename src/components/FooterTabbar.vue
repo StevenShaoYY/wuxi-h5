@@ -23,11 +23,11 @@
         active: 0,
         icon: {
           active: require("@/assets/imgs/mine/carServe.png"),
-          inactive: require("@/assets/imgs/mine/carServe.png")
+          inactive: require("@/assets/imgs/mine/carServe1.png")
         },
         icon2: {
           active: require("@/assets/imgs/mine/mine.png"),
-          inactive: require("@/assets/imgs/mine/mine.png")
+          inactive: require("@/assets/imgs/mine/mine1.png")
         }
       }
     },

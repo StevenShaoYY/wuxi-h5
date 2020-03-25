@@ -1,5 +1,7 @@
 <template>
-  <div class="content">
+	<div>
+		<headerTop :title="title" :head-style="headStyle" :back-icon="backIcon" @goback="goback"/>
+		<div class="content">
     <div class="timeLine">
 		<div class="top">
 			<div class="radiusbox">
@@ -23,65 +25,68 @@
 	</div>
     <div class="boxform">
       <div class="input">
-        <span class="red">*</span><span class="name">企业工商业登记名称</span> <input type="text" placeholder="请输入单位名称" />
+        <span class="red">*</span><span class="name">姓名</span> <input type="text" placeholder="请输入姓名" />
       </div>
       <div class="input">
-        <span class="red">*</span><span class="name">统一社会信用代码</span> <input type="text" placeholder="请输入统一社会信用代码" />
+        <span class="red">*</span><span class="name">身份证号</span> <input type="text" placeholder="请输入身份证号" />
       </div>
       <div class="input">
-        <span class="red">*</span><span class="name">单位地址</span> <input type="text" placeholder="请输入单位地址" />
+        <span class="red">*</span><span class="name">联系地址</span> <input type="text" placeholder="请输入联系地址" />
       </div>
       <div class="input">
-        <span class="red">*</span><span class="name">法定代表人</span> <input type="text" placeholder="请输入法人" />
+        <span class="red">*</span><span class="name">手机号码</span> <input type="text" placeholder="请输入手机号码" />
       </div>
       <div class="input">
-        <span class="red">*</span><span class="name">联系电话</span> <input type="text" placeholder="请输入联系电话" />
+        <span class="red"></span><span class="name">性别</span> <input type="text" placeholder="请选择" />
       </div>
 		<div class="input">
-			<span class="red">*</span><span class="name">经办人</span> <input type="text" placeholder="请输入经办人" />
+			<span class="red"></span><span class="name">民族</span> <input type="text" placeholder="请选择" />
 		</div>
       <div class="input">
-        <span class="red"></span><span class="name">经营/业务范围</span> <input type="text" placeholder="请输入业务范围" />
+        <span class="red"></span><span class="name">籍贯</span> <input type="text" placeholder="请输入籍贯" />
       </div>
       <div class="input">
-        <span class="red"></span><span class="name">注册资金</span> <input type="text" placeholder="请输入注册资金" />
+        <span class="red"></span><span class="name">政治面貌</span> <input type="text" placeholder="请输入政治面貌" />
       </div>
 		<div class="input">
-			<span class="red"></span><span class="name">单位性质</span> <input type="text" placeholder="请输入单位性质" />
+			<span class="red"></span><span class="name">毕业学校</span> <input type="text" placeholder="请输入毕业学校" />
 		</div>
 		<div class="input">
-			<span class="red"></span><span class="name">注册类型</span> <input type="text" placeholder="请输入注册类型" />
+			<span class="red"></span><span class="name">学历</span> <input type="text" placeholder="请选择" />
 		</div>
 		<div class="input">
-			<span class="red"></span><span class="name">行业分类</span> <input type="text" placeholder="请输入行业分类" />
+			<span class="red"></span><span class="name">学位</span> <input type="text" placeholder="学位" />
 		</div>
 		<div class="input">
-			<span class="red"></span><span class="name">年营业额</span> <input type="text" placeholder="请输入年营业额" />
+			<span class="red"></span><span class="name">单位名称</span> <input type="text" placeholder="请输入单位名称" />
 		</div>
 		<div class="input">
-			<span class="red"></span><span class="name">职工总数</span> <input type="text" placeholder="请输入职工总数" />
+			<span class="red"></span><span class="name">职务</span> <input type="text" placeholder="请输入职务" />
 		</div>
 		<div class="input">
-			<span class="red"></span><span class="name">邮箱</span> <input type="text" placeholder="请输入邮箱" />
+			<span class="red"></span><span class="name">职称</span> <input type="text" placeholder="请输入职称" />
 		</div>
     </div>
 	  <div class="next">
-		  <div class="text">下一步</div>
+		  <div class="text" @click="nexted">下一步</div>
 	  </div>
   </div>
+	</div>
 </template>
 
 <script>
-
+  import headerTop from '@/components/header/index.vue';
 export default {
   name: 'feedback',
   data () {
     return {
-      title: '意见反馈' // 名称
+      title: '个人会员认证', // 名称
+      headStyle: {}, // 头部样式
+      backIcon: false,
     }
   },
   components: {
-
+    headerTop
   },
   computed: {},
   created () {
@@ -90,7 +95,12 @@ export default {
   methods: {
     goback () {
       this.$router.push('/mine')
-    }
+    },
+		nexted () {
+      this.$router.push({
+        path: "/mine/personalMembers/sure"
+      });
+		}
   }
 }
 </script>
@@ -98,7 +108,7 @@ export default {
  .content {
    width: 100%;
    box-sizing: border-box;
-   padding: 12px;
+   padding:0 12px 12px 12px;
 
  }
  .timeLine {
@@ -139,10 +149,10 @@ export default {
 	 }
 
 	.radius {
-		width: 17px;
-		height: 17.8px;
+		width: 2.8vh;
+		height: 2.8vh;
 		background: #0066FF;
-		border-radius: 50%;
+		border-radius: 1.4vh;
 		font-size: 12px;
 		color: #ffffff;
 		display: flex;
@@ -173,7 +183,7 @@ export default {
      font-size:14px;
      font-weight:500;
      color:#666666;
-	 overflow: hidden;
+	 		overflow: hidden;
 	   input {
 		   width: 50%;
 		   height: 43px;

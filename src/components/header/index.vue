@@ -71,13 +71,13 @@ export default {
 <style scoped>
 .header {
   width: 100%;
-  height: 50px;
-  background: #61c280;
+  height: 44px;
+  background: #FFFFFF;
   position: relative;
   text-align: center;
-  line-height: 49px;
-  color: white;
-  font-size: 16px;
+  line-height: 45px;
+  color: #333333;
+  font-size: 18px;
   overflow: hidden;
 }
 
@@ -86,6 +86,6 @@ export default {
   top: 0;
   left: 10px;
   font-size: 18px;
-  line-height: 49px;
+  line-height: 45px;
 }
 </style>

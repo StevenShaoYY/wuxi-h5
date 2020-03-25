@@ -3,9 +3,9 @@
     <headerTop :title="title" :head-style="headStyle" :back-icon="backIcon" @goback="goback"/>
     <div class="content">
       <div class="boxform">
-        <div class="title1">请输入您宝贵的意见</div>
-        <div class="title2">因为有您，我们会努力做的更好</div>
-        <textarea class="input" type="text" />
+        <div class="title1 title">更新日期：2020年1月13日</div>
+        <div class="title1">生效日期：2020年1月13日</div>
+        <textarea class="input" type="text" v-model="value" />
       </div>
       <div class="next">
         确认
@@ -20,12 +20,10 @@
     name: 'feedback',
     data () {
       return {
-        title: '意见反馈', // 名称
+        title: '隐私政策', // 名称
         headStyle: {}, // 头部样式
         backIcon: false,
-        value: '',
-        columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
-        showPicker: false,
+        value: '隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容',
       }
     },
     components: {
@@ -38,10 +36,6 @@
     methods: {
       goback () {
         this.$router.push('/mine')
-      },
-      onConfirm(value) {
-        this.value = value;
-        this.showPicker = false;
       },
     }
   }
@@ -56,36 +50,28 @@
     .boxform {
       width: 100%;
       border-radius:5px;
+      .title {
+        padding-top: 20px;
+      }
       .title1 {
         width: 100%;
         height: 20px;
-        font-size:13px;
+        font-size:11px;
         font-weight:500;
         color:rgba(51,51,51,1);
-        display: flex;
-        justify-content: center;
-        padding-top: 20px;
-      }
-      .title2 {
-        width: 100%;
-        height: 20px;
-        font-size:10px;
-        font-weight:500;
-        color:rgba(102,102,102,1);
-        display: flex;
-        justify-content: center;
-
       }
       .input {
         margin-top: 13px;
         border:1px solid rgba(204,204,204,1);
         outline: none;
         resize: none;
-        width:99%;
-        height:155px;
+        width:95%;
+        height:336px;
         background:rgba(255,255,255,1);
         border:1px solid rgba(204,204,204,1);
         border-radius:5px;
+        color: #999999;
+        padding: 18px 9px 0 9px;
       }
     }
     .next {

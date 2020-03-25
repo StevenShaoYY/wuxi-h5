@@ -20,7 +20,7 @@
         <van-checkbox v-model="checked" icon-size="14px" style="float: left" shape="square">
           <span class="text">我已阅读并同意</span>
         </van-checkbox>
-        <span class="agreement">《用户注册协议》和《隐私政策》</span>
+        <span class="agreement" @click="privacy">《用户注册协议》和《隐私政策》</span>
       </div>
       <div class="confirm" @click="confirm">
         确认
@@ -50,6 +50,11 @@ export default {
     confirm () {
       this.$router.push({
         path: '/mine'
+      })
+    },
+    privacy () {
+      this.$router.push({
+        path: '/privacy'
       })
     }
   },

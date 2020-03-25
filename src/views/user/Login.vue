@@ -36,65 +36,65 @@
   </div>
 </template>
 <script>
-import { Field, Icon, Button } from "vant";
-import { mapActions } from "vuex";
-import VerifyCodeBtn from "@/components/VerifyCodeBtn";
+import { Field, Icon, Button } from 'vant'
+import { mapActions } from 'vuex'
+import VerifyCodeBtn from '@/components/VerifyCodeBtn'
 export default {
-  name: "Login",
-  data() {
+  name: 'Login',
+  data () {
     return {
-      phoneNumber: "13216698987",
-      password: "123456",
-      code: "",
-      loginWay: "password",
-      passwordType: "password",
-      phoneNumberError: ""
-    };
+      phoneNumber: '13216698987',
+      password: '123456',
+      code: '',
+      loginWay: 'password',
+      passwordType: 'password',
+      phoneNumberError: ''
+    }
   },
   methods: {
-    sendVerifyCode() {
-      this.phoneNumberError = "";
+    sendVerifyCode () {
+      this.phoneNumberError = ''
       if (!this.phoneNumber) {
         // 根据需求做判断
-        this.phoneNumberError = "手机号码必填";
+        this.phoneNumberError = '手机号码必填'
       }
     },
-    switchPasswordType() {
+    switchPasswordType () {
       this.passwordType =
-        this.passwordType === "password" ? "text" : "password";
+        this.passwordType === 'password' ? 'text' : 'password'
     },
-    switchLoginWay() {
-      this.password = this.code = "";
-      this.loginWay = this.loginWay === "password" ? "verifyCode" : "password";
+    switchLoginWay () {
+      this.password = this.code = ''
+      this.loginWay = this.loginWay === 'password' ? 'verifyCode' : 'password'
     },
-    handleLogin() {
+    handleLogin () {
       const data = {
         phoneNumber: this.phoneNumber,
         password: this.password,
         $router: this.$router,
         $route: this.$route
-      };
-      this.login(data);
+      }
+      this.login(data)
     },
     ...mapActions({
-      login: "user/login"
+      login: 'user/login'
     })
   },
   computed: {
-    loginWayObj: function() {
-      if (this.loginWay === "password") {
+    loginWayObj: function () {
+      if (this.loginWay === 'password') {
         return {
-          icon: "closed-eye",
-          toggleMsg: "验证码登录"
-        };
+          icon: 'closed-eye',
+          toggleMsg: '验证码登录'
+        }
       }
       return {
-        icon: "eye",
-        toggleMsg: "密码登录"
-      };
+        icon: 'eye',
+        toggleMsg: '密码登录'
+      }
     },
-    passwordIcon: function() {
-      return this.passwordType === "password" ? "closed-eye" : "eye";
+    passwordIcon: function () {
+      return this.passwordType === 'password' ? 'closed-eye' : 'eye'
     }
   },
   components: {
@@ -103,7 +103,7 @@ export default {
     [Button.name]: Button,
     VerifyCodeBtn
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .header {

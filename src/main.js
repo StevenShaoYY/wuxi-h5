@@ -8,7 +8,7 @@ import 'utils/permission'
 import SvgIcon from 'components/SvgIcon'
 import '@/icons' // icon
 import '@/style/common.scss'
-import { Lazyload,Checkbox, CheckboxGroup } from 'vant'
+import { Lazyload, Checkbox, CheckboxGroup, Popup, Picker, Calendar} from 'vant' //Calendar
 import defaultSettings from '@/settings'
 
 /**
@@ -31,6 +31,9 @@ FastClick.attach(document.body)
 Vue.use(Lazyload)
 Vue.use(Checkbox)
 Vue.use(CheckboxGroup)
+Vue.use(Popup)
+Vue.use(Picker)
+Vue.use(Calendar)
 
 Vue.component('svg-icon', SvgIcon)
 
