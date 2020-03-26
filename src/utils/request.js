@@ -1,72 +1,54 @@
 import axios from 'axios'
-import { Toast } from 'vant'
-import store from '@/store'
-import { getToken } from '@/utils/auth'
 
-// create an axios instance
+// console.log(process.env.BASE_API)
+
+// api项目:http://192.168.1.117:9000/api/address/test
+// back项目:http://192.168.1.117:9000/back/admin/test
+// seller项目:http://192.168.1.117:9000/seller/admin/test
+
+// console.log(api)
+
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  // baseURL: process.env.BASE_API + '/api',
+  // baseURL: process.env.BASE_API,
+  baseURL: process.env.VUE_APP_BASE_API,
+  // baseURL:'http://101.132.194.14/traffic/',
+  withCredentials: false,
+  timeout: 5000 // 请求超时时间
 })
 
-// request interceptor
+// respone响应期
 service.interceptors.request.use(
   config => {
-    // do something before request is sent
-    if (store.getters.token) {
-      config.headers['X-Token'] = getToken()
-    }
+    const token = localStorage.getItem('token')
+    config.headers['Content-Type'] = 'application/json;charset=UTF-8'
+    config.headers['token'] = token
+
     return config
   },
   error => {
-    // do something with request error
-    console.log(error, 'err') // for debug
+    // console.log(error) // for debug
+    // const res = response.data
+
     return Promise.reject(error)
   }
 )
-
-// response interceptor
+// respone拦截器
 service.interceptors.response.use(
-  /**
-   * If you want to get http information such as headers or status
-   * Please return  response => response
-  */
-
-  /**
-   * Determine the request status by custom code
-   * Here is just an example
-   * You can also judge the status by HTTP Status Code
-   */
   response => {
-    const res = response.data
-
-    // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 200) {
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        // to re-login
-        Toast.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-          confirmButtonText: 'Re-Login',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
-        })
-      }
-      return Promise.reject(new Error(res.message || 'Error'))
-    } else {
-      return res
-    }
+    // console.log(JSON.stringify(response))
+    // console.log(response)
+    // const resp = response.data;
+    // if (resp.status === 200) {
+    //     return resp;
+    // } else {
+    //     Toast.fail(resp.message);
+    // }
+    // console.log(response)
+    return response
   },
   error => {
-    console.log('err' + error) // for debug
-    Toast.fail({
-      message: error.message,
-      duration: 1.5 * 1000
-    })
+    // console.log("err" + error); // for debug
     return Promise.reject(error)
   }
 )

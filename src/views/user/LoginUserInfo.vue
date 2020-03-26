@@ -7,14 +7,15 @@
     <div class="content">
       <div class="box_input">
         <div class="imgs"><img src="@/assets/imgs/user/phone.png" alt=""></div>
-        <input type="tel" class="input" placeholder="请输入手机号码" v-model.trim="phone" @change="handlephoneFlag()" />
+        <input type="tel" class="input" placeholder="请输入手机号码" v-model.trim="phoneNumber" @change="handlephoneFlag()" />
       </div>
       <div class="box_input_code">
         <div class="left_code">
           <div class="imgs"><img src="@/assets/imgs/user/code.png" alt=""></div>
           <input type="tel" class="input" placeholder="请输入验证码" @change="handlecodeFlag()" v-model.trim="code" />
         </div>
-        <div class="gitcode" @click="gitcode">获取验证码</div>
+        <div class="gitcode" @click="gitcode" v-if="smsCodeFlag">获取验证码</div>
+        <div class="gitcode" v-if="!smsCodeFlag">{{timeNum}}秒后重试</div>
       </div>
       <div class="checkbox">
         <van-checkbox v-model="checked" icon-size="14px" style="float: left" shape="square">
@@ -29,34 +30,91 @@
   </div>
 </template>
 <script>
-
+  import { login , smsVerification } from '@/api/user/user.js'
 export default {
+
   name: "LoginUserInfo",
   data() {
     return {
-      phone:"",
-      code:"",
-      checked:false
+      phoneNumber:null,
+      code:null,
+      codeName:'获取验证码',
+      smsCodeFlag:true,
+      checked:false,
+      timeNum:60
     };
   },
-  created() {},
+  created() {
+
+  },
   methods: {
     //验证手机号
     handlephoneFlag() {},
     //验证码
     handlecodeFlag() {},
+    clock() {
+      let timeIndex = setInterval(() => {
+        this.timeNum -= 1;
+        if(this.timeNum == 0) {
+          this.smsCodeFlag = true;
+          clearInterval(timeIndex);
+          this.timeNum = 60;
+          this.$toast.success('发送成功')
+
+        }
+      }, 1000)
+    },
     //获取验证码
-    gitcode() {},
+    gitcode() {
+      if(this.phoneNumber) {
+        smsVerification({phoneNumber:Number(this.phoneNumber)}).then(res => {
+          if (res.status == 200) {
+            this.smsCodeFlag = false;
+            this.clock();
+            return this.$toast('发送成功')
+          }
+        })
+      }else {
+        return this.$toast('请输入手机号码')
+      }
+    },
     confirm () {
-      this.$router.push({
-        path: '/mine'
-      })
+      if(!this.phoneNumber) {
+        return this.$toast('请输入手机号码')
+      }
+      if(!this.code) {
+        return this.$toast('请输入验证码')
+      }
+      if(!this.checked) {
+        return this.$toast('请勾选用户注册协议和隐私政策')
+      }
+      this.login()
     },
     privacy () {
       this.$router.push({
         path: '/privacy'
       })
-    }
+    },
+    //登录
+    login () {
+      let data = {
+        clientType: 1,
+        clientVersion: 1,
+        code: this.code,
+        openid: 1,
+        phoneNumber: this.phoneNumber
+      }
+      login(data).then(res => {
+        if (res.status == 200) {
+          localStorage.setItem('token', res.data.message)
+          this.$router.push({
+            path: '/mine'
+          })
+        }else {
+          return this.$toast(res.data.message)
+        }
+      })
+    },
   },
   computed: {},
   components: {}
