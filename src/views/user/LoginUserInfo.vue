@@ -101,7 +101,7 @@ export default {
         clientType: 1,
         clientVersion: 1,
         code: this.code,
-        openid: 1,
+        openid: 333333,
         phoneNumber: this.phoneNumber
       }
       login(data).then(res => {

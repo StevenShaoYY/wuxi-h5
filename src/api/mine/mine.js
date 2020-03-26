@@ -5,7 +5,10 @@ export function userInfo (data) {
   return request({
     url: '/app/user/info',
     method: 'post',
-    data: data
+    data: data,
+    headers:{
+      'Content-Type' : 'application/json;charset=UTF-8'
+    }
   })
 }
 

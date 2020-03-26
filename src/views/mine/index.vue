@@ -57,6 +57,8 @@
 <script>
 import FooterTabbar from "components/FooterTabbar";
 import headerTop from '@/components/header/index.vue';
+import { userInfo } from '@/api/mine/mine.js'
+
 export default {
   data() {
     return {
@@ -102,6 +104,9 @@ export default {
     headerTop
   },
   computed: {},
+  created() {
+    this.userInfo()
+  },
   methods: {
     goback() {
       this.$router.push({
@@ -115,6 +120,13 @@ export default {
     },
     jumpRouter(item) {
       this.$router.push(item.path);
+    },
+    userInfo() {
+      userInfo().then(res => {
+        if (res.status == 200) {
+          console.log(res.data)
+        }
+      })
     }
   }
 };

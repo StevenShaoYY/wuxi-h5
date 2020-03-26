@@ -21,9 +21,9 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     const token = localStorage.getItem('token')
-    config.headers['Content-Type'] = 'application/json;charset=UTF-8'
+    config.headers['Content-Type'] = 'application/json'
     config.headers['token'] = token
-
+    console.log("config",config)
     return config
   },
   error => {
