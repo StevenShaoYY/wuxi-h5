@@ -10,7 +10,11 @@ const privacy = () => import('@/views/user/privacy.vue') // 隐私
 
 
 const carInfo = () => import('@/views/mine/compontents/carInfo.vue') // 车辆
+const carInforRemove = () => import('@/views/mine/compontents/carInforRemove.vue') // 车辆
+
 const driveInfo = () => import('@/views/mine/compontents/driveInfo.vue') // 驾驶
+const driveInfoRemove = () => import('@/views/mine/compontents/driveInfoRemove.vue') // 驾驶
+
 const feedback = () => import('@/views/mine/compontents/feedback.vue') // 意见反馈
 
 const members = () => import('@/views/mine/certification/index.vue') // 会员认证
@@ -168,9 +172,27 @@ const router = new Router({
       }
     },
     {
+      path: '/mine/carInforRemove',
+      name: 'carInforRemove',
+      component: carInforRemove,
+      meta: {
+        title: '车辆信息',
+        keepAlive: false
+      }
+    },
+    {
       path: '/mine/driveInfo',
       name: 'driveInfo',
       component: driveInfo,
+      meta: {
+        title: '驾驶证信息',
+        keepAlive: false
+      }
+    },
+    {
+      path: '/mine/driveInfoRemove',
+      name: 'driveInfoRemove',
+      component: driveInfoRemove,
       meta: {
         title: '驾驶证信息',
         keepAlive: false

@@ -28,7 +28,8 @@
     },
     computed: {},
     created () {
-
+      sessionStorage.removeItem("personalObj")
+      sessionStorage.removeItem("unitObj")
     },
     methods: {
       goback () {

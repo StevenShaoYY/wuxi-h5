@@ -5,7 +5,8 @@
 			<div class="timeLine">
 				<div class="top">
 					<div class="radiusbox">
-						<div class="radius">1</div>
+						<!--<div class="radius">1</div>-->
+						<div class="radius radius1"><img src="@/assets/imgs/mine/duihao.png" alt=""></div>
 					</div>
 					<div class="dashed"></div>
 					<div class="radiusbox">
@@ -53,7 +54,8 @@
     },
     computed: {},
     created () {
-
+      // sessionStorage.removeItem("personalObj")
+      // sessionStorage.removeItem("unitObj")
     },
     methods: {
       goback () {
@@ -138,11 +140,18 @@
 			align-items: center;
 			margin: 5px 5px;
 		}
+		.radius1 {
+			background: #fff;
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
 
 		.dashed {
 			width: 30%;
 			height: 1px;
-			border-bottom: 1px dashed #BDBDBD;
+			border-bottom: 1px solid #0066FF;
 			float: left;
 			margin-top: 10px;
 		}

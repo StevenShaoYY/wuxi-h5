@@ -8,7 +8,7 @@ import 'utils/permission'
 import SvgIcon from 'components/SvgIcon'
 import '@/icons' // icon
 import '@/style/common.scss'
-import { Lazyload, Checkbox, CheckboxGroup, Popup, Picker, Calendar,Toast} from 'vant' //Calendar
+import { Lazyload, Checkbox, CheckboxGroup, Popup, Picker, Calendar,Toast,Notify} from 'vant' //Calendar
 import defaultSettings from '@/settings'
 
 /**
@@ -35,6 +35,7 @@ Vue.use(Popup)
 Vue.use(Picker)
 Vue.use(Calendar)
 Vue.use(Toast)
+Vue.use(Notify);
 Vue.component('svg-icon', SvgIcon)
 
 if (process.env.NODE_ENV === 'development' && defaultSettings.vconsole) {

@@ -3,43 +3,42 @@
     <headerTop :title="title" :head-style="headStyle" :back-icon="backIcon" @goback="goback"/>
     <div class="content">
       <div class="boxform">
-        <div class="input_title">
-          <div class="imgs"><img src="@/assets/imgs/car/car.png" alt=""></div><span class="name">绑定车辆</span>
+
+        <div class="input">
+          <span class="red"></span><span class="name">车型</span>
+          <span class="picker_bottom" >{{vehicleType}}</span>
         </div>
         <div class="input">
-          <span class="red">*</span><span class="name">车型</span>
-          <div class="picker_bottom"  @click="showPicker = true">{{vehicleType?vehicleType:'请选择'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
-          <van-popup v-model="showPicker" position="bottom">
-            <van-picker
-              show-toolbar
-              :columns="columns"
-              @confirm="onConfirm"
-              @cancel="showPicker = false"
-            />
-          </van-popup>
+          <span class="red"></span><span class="name">车牌号码</span>
+          <span class="picker_bottom" >{{plateNumber}}</span>
         </div>
         <div class="input">
-          <span class="red">*</span><span class="name">车牌号码</span> <input type="text" v-model="plateNumber" placeholder="请填写车牌号码" />
-        </div>
-        <div class="input">
-          <span class="red">*</span><span class="name">注册时间</span>
-          <div class="picker_bottom" @click="showFlag = true">{{registerTime?registerTime:'请选择日期'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
-          <van-calendar v-model="showFlag" color="#0066FF" :min-date="minDate" :max-date="maxDate" :default-date="defaultdate" @confirm="onConfirmTime" />
+          <span class="red"></span><span class="name">注册时间</span>
+          <span class="picker_bottom" >{{registerTime}}</span>
         </div>
       </div>
-      <div class="next" @click="confirms">
-        立即绑定
+      <div class="next" @click="confirms" >
+        解除绑定
       </div>
     </div>
+
+    <van-popup v-model="showconfirmFlag">
+      <div class="boxshow">
+        <div class="title">确认解绑川{{plateNumber}}</div>
+        <div class="box">
+          <div class="sure" @click="sures">确认</div><div class="cancel" @click="cancels">取消</div>
+        </div>
+      </div>
+    </van-popup>
+
   </div>
 </template>
 
 <script>
   import headerTop from '@/components/header/index.vue';
   import { formatDate } from '@/utils/index.js';
-  import { vehiclebind } from '@/api/car/car.js'
   import { getDictionaryAll } from '@/api/mine/mine.js'
-
+  import { vehiclequery,vehicleunbind } from '@/api/car/car.js'
   export default {
     name: 'feedback',
     data () {
@@ -55,6 +54,7 @@
         maxDate: new Date(2050, 0, 31),
         defaultdate: new Date(),
         showFlag: false,
+        showconfirmFlag:false,
         plateNumber: '',
         registerTime: '',
         vehicleType: '',
@@ -66,7 +66,7 @@
     },
     computed: {},
     created () {
-      this.getDictionaryAll()
+      this.vehiclequery()
     },
     methods: {
       goback () {
@@ -83,47 +83,45 @@
       },
       //提交
       confirms() {
-        if(!this.vehicleType) {
-          return this.$notify('请选择车型');
-          // return this.$toast('请选择车型')
-        }
-        if(!this.plateNumber) {
-          return this.$notify('请输入车牌号码')
-        }
-        if(!this.registerTime) {
-          return this.$notify('请选择日期')
-        }
-        this.vehiclebind()
+        this.showconfirmFlag = true
+      },
+      cancels() {
+        this.showconfirmFlag = false
+      },
+      sures() {
+        this.vehicleunbind()
+      },
+      //获取信息
+      vehiclequery() {
+        vehiclequery({}).then(res => {
+          if (res.status == 200) {
+            let data = res.data.result
+            this.plateNumber = data.plateNumber
+            this.registerTime = data.registerTime
+
+            this.getDictionaryAll(data.vehicleType)
+          }
+        })
       },
       //字典
-      getDictionaryAll() {
+      getDictionaryAll(datas) {
         getDictionaryAll({}).then(res => {
           if (res.status == 200) {
             this.vehicleTypeOption = res.data.result.vehicleType
-            let a = []
             this.vehicleTypeOption.forEach(item => {
-              a.push(item.name)
+              if(datas == item.value){
+                this.vehicleType = item.name
+              }
             })
-            this.columns = a
+
           }
         })
       },
-      //提交
-      vehiclebind() {
-        let a = ''
-        this.vehicleTypeOption.forEach(item => {
-          if(item.name == this.vehicleType) {
-            a = item.value
-          }
-        })
-        let data = {
-          plateNumber: this.plateNumber,
-          registerTime: this.registerTime,
-          vehicleType: a
-        }
-        vehiclebind(data).then(res => {
+      //解除绑定
+      vehicleunbind() {
+        vehicleunbind({}).then(res => {
           if (res.status == 200) {
-            this.$toast.success('绑定成功')
+            this.$toast.success('解除绑定成功')
             this.$router.go(-1)
           }
         })
@@ -215,5 +213,50 @@
       align-items: center;
       margin-top: 28px;
     }
+  }
+
+  .boxshow {
+    width: 75vw;
+    height: 155px;
+    .title {
+      font-size:20px;
+      margin-top: 32px;
+      font-weight:500;
+      color:rgba(51,51,51,1);
+      text-align: center;
+    }
+    .box {
+      width: 100%;
+      margin-top: 33px;
+      display: flex;
+      justify-content: space-around;
+      .sure {
+        width: 38%;
+        height:40px;
+        background:rgba(225,225,225,1);
+        border-radius:5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size:16px;
+        font-weight:500;
+        color:rgba(51,51,51,1);
+        line-height:23px;
+      }
+      .cancel {
+        width: 38%;
+        height:40px;
+        background:rgba(0,102,255,1);
+        border-radius:5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size:16px;
+        font-weight:500;
+        color:rgba(255,255,255,1);
+        line-height:23px;
+      }
+    }
+
   }
 </style>

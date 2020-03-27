@@ -39,6 +39,8 @@
 <script>
 import FooterTabbar from "components/FooterTabbar";
 import headerTop from '@/components/header/index.vue';
+import { userInfo } from '@/api/mine/mine.js'
+
 export default {
   data() {
     return {
@@ -50,15 +52,15 @@ export default {
       tab_lists: [
         {
           name: "姓名",
-          keys: "小王",
+          keys: "--",
         },
         {
           name: "身份证号码",
-          keys: "5119xxxxxxxxxxxxxx",
+          keys: "--",
         },
         {
           name: "车牌号码",
-          keys: "川A00000",
+          keys: "--",
         }
       ]
     };
@@ -68,14 +70,33 @@ export default {
     headerTop
   },
   computed: {},
+  created() {
+    this.userInfo()
+  },
   methods: {
     goback() {
       this.$router.push({
         path: "/mine"
       });
     },
-    jumpRouter(item) {
-      this.$router.push(item.path);
+    userInfo() {
+      let data = {}
+      userInfo(data).then(res => {
+        if (res.status == 200) {
+          let data = res.data.result
+          this.tab_lists.forEach(item => {
+            if(item.name == '姓名') {
+              item.keys = data.name?data.name: '--'
+            }
+            if(item.name == '身份证号码') {
+              item.keys = data.certificateNumber?data.certificateNumber: '--'
+            }
+            if(item.name == '车牌号码') {
+              item.keys = data.plateNumber?data.plateNumber: '--'
+            }
+          })
+        }
+      })
     }
   }
 };

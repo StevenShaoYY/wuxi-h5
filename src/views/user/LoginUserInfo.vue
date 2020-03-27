@@ -40,12 +40,12 @@ export default {
       code:null,
       codeName:'获取验证码',
       smsCodeFlag:true,
-      checked:false,
+      checked:true,
       timeNum:60
     };
   },
   created() {
-
+    this.phoneNumber = sessionStorage.getItem('phoneNumber')?sessionStorage.getItem('phoneNumber'):null
   },
   methods: {
     //验证手机号
@@ -88,6 +88,7 @@ export default {
       if(!this.checked) {
         return this.$toast('请勾选用户注册协议和隐私政策')
       }
+      sessionStorage.setItem("phoneNumber",this.phoneNumber)
       this.login()
     },
     privacy () {

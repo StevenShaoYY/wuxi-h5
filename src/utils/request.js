@@ -1,12 +1,6 @@
 import axios from 'axios'
-
-// console.log(process.env.BASE_API)
-
-// api项目:http://192.168.1.117:9000/api/address/test
-// back项目:http://192.168.1.117:9000/back/admin/test
-// seller项目:http://192.168.1.117:9000/seller/admin/test
-
-// console.log(api)
+import { Toast } from 'vant'
+import router from '@/router'
 
 const service = axios.create({
   // baseURL: process.env.BASE_API + '/api',
@@ -23,7 +17,6 @@ service.interceptors.request.use(
     const token = localStorage.getItem('token')
     config.headers['Content-Type'] = 'application/json'
     config.headers['token'] = token
-    console.log("config",config)
     return config
   },
   error => {
@@ -38,14 +31,17 @@ service.interceptors.response.use(
   response => {
     // console.log(JSON.stringify(response))
     // console.log(response)
-    // const resp = response.data;
-    // if (resp.status === 200) {
-    //     return resp;
-    // } else {
-    //     Toast.fail(resp.message);
-    // }
+    // const resp = response.data
+
+    if(response.data.code == 400) {
+      router.push('/LoginUserInfo');
+      return Toast.fail(response.data.message);
+    }else {
+      return response
+    }
+
     // console.log(response)
-    return response
+
   },
   error => {
     // console.log("err" + error); // for debug

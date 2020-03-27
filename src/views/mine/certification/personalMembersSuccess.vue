@@ -11,38 +11,31 @@
 					<span class="red"></span><span class="name">会员类型</span> <span class="right">个人会员</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">姓名</span> <span class="right">小明</span>
+					<span class="red"></span><span class="name">姓名</span> <span class="right">{{objs.name}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">性别</span> <span class="right">男</span>
+					<span class="red"></span><span class="name">性别</span> <span class="right">{{objs.gender == 1?'男':'女'}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">身份证号</span> <span class="right">11111111111</span>
+					<span class="red"></span><span class="name">身份证号</span> <span class="right">{{objs.certificateNumber}}</span>
 				</div>
 			</div>
 			<div class="boxform boxformCost">
 				<div class="input">
-					<span class="red"></span><span class="name">联系地址</span> <span class="right">四川省成都市</span>
+					<span class="red"></span><span class="name">联系地址</span> <span class="right">{{objs.address}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">认证时间</span> <span class="right">2020-01-01</span>
+					<span class="red"></span><span class="name">认证时间</span> <span class="right">{{createTime}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">认证状态</span> <span class="right">认证通过</span>
+					<span class="red"></span><span class="name">认证状态</span> <span class="right">{{changeauthStatus(authStatus)}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">到期时间</span> <span class="right">2020-01-01</span>
+					<span class="red"></span><span class="name">到期时间</span> <span class="right">{{expiredTime}}</span>
 				</div>
 			</div>
 
-			<div class="boxform boxformCost">
-				<div class="input_t">
-					<span class="name">会员费用</span>
-				</div>
-				<div class="input">
-					<span class="red"></span><span class="name">会员年费</span> <span class="right">100元</span>
-				</div>
-			</div>
+
 			<div class="next">
 				<div class="text" @click="editAddress">联系地址更新</div>
 			</div>
@@ -52,7 +45,7 @@
 
 <script>
   import headerTop from '@/components/header/index.vue'
-
+  import { authQuery } from '@/api/certification/certification.js'
   export default {
     name: 'feedback',
     data () {
@@ -60,6 +53,10 @@
         title: '个人会员认证', // 名称
         headStyle: {}, // 头部样式
         backIcon: false,
+        objs:{},
+        createTime:'',//认证时间
+        authStatus:'',//认证状态
+        expiredTime:''//到期时间
       }
     },
     components: {
@@ -67,7 +64,7 @@
     },
     computed: {},
     created () {
-
+			this.authQuery()
     },
     methods: {
       goback () {
@@ -77,13 +74,43 @@
         this.$router.push({
           path: '/mine/personalMembers/success/editAddress'
         })
-      }
+      },
+      changeauthStatus (type) {
+        if(type == 1) {
+          return '未支付'
+        }else if(type == 2) {
+          return '已支付'
+        }else if(type == 3) {
+          return '支付异常'
+        }else if(type == 4) {
+          return '已退款'
+        }else if(type == 5) {
+          return '已清除'
+        }else if(type == 6){
+          return '已审核'
+        }else {
+          return '--'
+        }
+      },
+      //会员提交
+      authQuery () {
+        authQuery({}).then(res => {
+          if (res.status == 200) {
+            let data = res.data.result
+            this.objs = data.authInfo
+            this.createTime = data.createTime
+            this.expiredTime = data.expiredTime
+            this.authStatus = data.authStatus
+          }
+        })
+      },
     }
   }
 </script>
 <style lang="scss" scoped>
 	.content {
 		width: 100%;
+		height: calc(100vh - 44px);
 		box-sizing: border-box;
 		padding: 12px 12px 12px 12px;
 		background: #F5F5F5;

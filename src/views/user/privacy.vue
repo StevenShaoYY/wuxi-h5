@@ -7,7 +7,7 @@
         <div class="title1">生效日期：2020年1月13日</div>
         <textarea class="input" type="text" v-model="value" />
       </div>
-      <div class="next">
+      <div class="next" @click="goback">
         确认
       </div>
     </div>
@@ -35,7 +35,7 @@
     },
     methods: {
       goback () {
-        this.$router.push('/mine')
+        this.$router.go(-1)
       },
     }
   }

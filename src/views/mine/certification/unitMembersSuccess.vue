@@ -8,47 +8,47 @@
 					<span class="name">认证信息</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">会员类型</span> <span class="right">个人会员</span>
+					<span class="red"></span><span class="name">会员类型</span> <span class="right">单位会员</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">企业工商登记名称</span> <span class="right">四川省电子商务有限公司</span>
+					<span class="red"></span><span class="name">企业工商登记名称</span> <span class="right">{{objs.companyName}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">统一社会信用代码</span> <span class="right">11111111111</span>
+					<span class="red"></span><span class="name">统一社会信用代码</span> <span class="right">{{objs.companyCreditCode}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">单位地址</span> <span class="right">四川省成都市</span>
-				</div>
-			</div>
-			<div class="boxform boxformCost">
-				<div class="input">
-					<span class="red"></span><span class="name">联系地址</span> <span class="right">四川省成都市</span>
-				</div>
-				<div class="input">
-					<span class="red"></span><span class="name">法定代表人</span> <span class="right">小王</span>
-				</div>
-				<div class="input">
-					<span class="red"></span><span class="name">法定代表人联系电话</span> <span class="right">152XXXXXXXX</span>
-				</div>
-				<div class="input">
-					<span class="red"></span><span class="name">法定代表人身份证号码</span> <span class="right">5119XXXXXXXXXXXXXX</span>
+					<span class="red"></span><span class="name">单位地址</span> <span class="right">{{objs.companyAddress}}</span>
 				</div>
 			</div>
 			<div class="boxform boxformCost">
 				<div class="input">
-					<span class="red"></span><span class="name">经办人</span> <span class="right">四川省成都市</span>
+					<span class="red"></span><span class="name">联系地址</span> <span class="right">{{objs.address}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">经办人联系电话</span> <span class="right">152XXXXXXXX</span>
+					<span class="red"></span><span class="name">法定代表人</span> <span class="right">{{objs.companyLegalPerson}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">认证时间</span> <span class="right">2020-12-30</span>
+					<span class="red"></span><span class="name">法定代表人联系电话</span> <span class="right">{{objs.companyLegalPersonPhone}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">认证状态</span> <span class="right">认证通过</span>
+					<span class="red"></span><span class="name">法定代表人身份证号码</span> <span class="right">{{objs.companyLegalPersonCertificateNumber}}</span>
+				</div>
+			</div>
+			<div class="boxform boxformCost">
+				<div class="input">
+					<span class="red"></span><span class="name">经办人</span> <span class="right">{{objs.companyChargelPerson}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">到期时间</span> <span class="right">2020-01-01</span>
+					<span class="red"></span><span class="name">经办人联系电话</span> <span class="right">{{objs.companyChargelPersonPhone}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">认证时间</span> <span class="right">{{createTime}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">认证状态</span> <span class="right">{{changeauthStatus(authStatus)}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">到期时间</span> <span class="right">{{expiredTime}}</span>
 				</div>
 			</div>
 			<div class="next">
@@ -60,7 +60,7 @@
 
 <script>
   import headerTop from '@/components/header/index.vue'
-
+  import { authQuery } from '@/api/certification/certification.js'
   export default {
     name: 'feedback',
     data () {
@@ -68,6 +68,11 @@
         title: '单位会员认证', // 名称
         headStyle: {}, // 头部样式
         backIcon: false,
+        objs:{},
+        createTime:'',//认证时间
+        authStatus:'',//认证状态
+        expiredTime:''//到期时间
+
       }
     },
     components: {
@@ -75,7 +80,7 @@
     },
     computed: {},
     created () {
-
+			this.authQuery()
     },
     methods: {
       goback () {
@@ -85,7 +90,36 @@
         this.$router.push({
           path: '/mine/personalMembers/success/editAddress'
         })
-      }
+      },
+      changeauthStatus (type) {
+        if(type == 1) {
+          return '未支付'
+				}else if(type == 2) {
+          return '已支付'
+        }else if(type == 3) {
+          return '支付异常'
+        }else if(type == 4) {
+          return '已退款'
+        }else if(type == 5) {
+          return '已清除'
+        }else if(type == 6){
+          return '已审核'
+				}else {
+          return '--'
+				}
+			},
+      //会员提交
+      authQuery () {
+        authQuery({}).then(res => {
+          if (res.status == 200) {
+            let data = res.data.result
+						this.objs = data.authInfo
+						this.createTime = data.createTime
+            this.expiredTime = data.expiredTime
+						this.authStatus = data.authStatus
+          }
+        })
+      },
     }
   }
 </script>

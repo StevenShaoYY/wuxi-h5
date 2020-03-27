@@ -13,8 +13,8 @@
               <img src="@/assets/imgs/mine/people.png" alt />
             </div>
             <div class="left_text">
-              <div class="name">小王</div>
-              <div class="labels">未认证</div>
+              <div class="name">{{result.name?result.name:'小微'}}</div>
+              <div class="labels">{{result.type == 0 ?'未认证':'已认证'}}</div>
             </div>
           </div>
           <div class="right">
@@ -58,7 +58,6 @@
 import FooterTabbar from "components/FooterTabbar";
 import headerTop from '@/components/header/index.vue';
 import { userInfo } from '@/api/mine/mine.js'
-
 export default {
   data() {
     return {
@@ -73,30 +72,36 @@ export default {
           keys: "like-o",
           imgs: require("@/assets/imgs/mine/huiyuan.png"),
           imgright: require("@/assets/imgs/mine/right.png"),
-          path: "/mine/members"
+          path: "/mine/members",
+          pathp: "/mine/personalMembers/success",
+          pathu: "/mine/unitMembers/success",
         },
         {
           name: "车辆信息",
           keys: "location-o",
           imgs: require("@/assets/imgs/mine/cheliang.png"),
           imgright: require("@/assets/imgs/mine/right.png"),
-          path: "/mine/carInfo"
+          path: "/mine/carInfo",
+          paths: "/mine/carInforRemove"
         },
         {
           name: "驾驶证信息",
           keys: "records",
           imgs: require("@/assets/imgs/mine/jiashi.png"),
           imgright: require("@/assets/imgs/mine/right.png"),
-          path: "/mine/driveInfo"
+          path: "/mine/driveInfo",
+          paths: "/mine/driveInfoRemove"
         },
         {
           name: "意见反馈",
           keys: "records",
           imgs: require("@/assets/imgs/mine/yijian.png"),
           imgright: require("@/assets/imgs/mine/right.png"),
-          path: "/mine/feedback"
+          path: "/mine/feedback",
+          paths: "/mine/feedback"
         }
-      ]
+      ],
+      result:{}
     };
   },
   components: {
@@ -110,7 +115,7 @@ export default {
   methods: {
     goback() {
       this.$router.push({
-        path: "/mine"
+        path: "/carInfo"
       });
     },
     handlepersonalInfo() {
@@ -119,12 +124,38 @@ export default {
       });
     },
     jumpRouter(item) {
-      this.$router.push(item.path);
+      if(item.name == '车辆信息') {
+        if(this.result.plateNumber) {
+          this.$router.push(item.paths)
+        }else {
+          this.$router.push(item.path)
+        }
+      }else if(item.name == '驾驶证信息') {
+        if(this.result.quasiVehiclType) {
+          this.$router.push(item.paths)
+        }else {
+          this.$router.push(item.path)
+        }
+      }else if(item.name == '会员认证') {
+        if(this.result.type == 0) {
+          this.$router.push(item.path)
+        }else if(this.result.type == 1) {
+          this.$router.push(item.pathp)
+        }else{
+          this.$router.push(item.pathu)
+        }
+      }else {
+        this.$router.push(item.path)
+      }
+
+
+
     },
     userInfo() {
-      userInfo().then(res => {
+      let data = {}
+      userInfo(data).then(res => {
         if (res.status == 200) {
-          console.log(res.data)
+          this.result = res.data.result
         }
       })
     }

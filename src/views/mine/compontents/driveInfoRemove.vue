@@ -3,62 +3,70 @@
     <headerTop :title="title" :head-style="headStyle" :back-icon="backIcon" @goback="goback"/>
     <div class="content">
       <div class="boxform">
-        <div class="input_title">
-          <div class="imgs"><img src="@/assets/imgs/car/car.png" alt=""></div><span class="name">绑定车辆</span>
+
+        <div class="input">
+          <span class="red"></span><span class="name">准驾车型</span>
+          <div class="picker_bottom">{{vehicleType}}</div>
         </div>
         <div class="input">
-          <span class="red">*</span><span class="name">车型</span>
-          <div class="picker_bottom"  @click="showPicker = true">{{vehicleType?vehicleType:'请选择'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
-          <van-popup v-model="showPicker" position="bottom">
-            <van-picker
-              show-toolbar
-              :columns="columns"
-              @confirm="onConfirm"
-              @cancel="showPicker = false"
-            />
-          </van-popup>
+          <span class="red"></span><span class="name">初次领证日期</span>
+          <div class="picker_bottom">{{driveCertTime}}</div>
         </div>
         <div class="input">
-          <span class="red">*</span><span class="name">车牌号码</span> <input type="text" v-model="plateNumber" placeholder="请填写车牌号码" />
+          <span class="red"></span><span class="name">驾驶证有效期</span>
+          <div class="picker_bottom">{{driveExpiredTime}}</div>
         </div>
+
         <div class="input">
-          <span class="red">*</span><span class="name">注册时间</span>
-          <div class="picker_bottom" @click="showFlag = true">{{registerTime?registerTime:'请选择日期'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
-          <van-calendar v-model="showFlag" color="#0066FF" :min-date="minDate" :max-date="maxDate" :default-date="defaultdate" @confirm="onConfirmTime" />
+          <span class="red"></span><span class="name">现住址</span>
+          <div class="picker_bottom">{{address}}</div>
         </div>
       </div>
       <div class="next" @click="confirms">
-        立即绑定
+        解除绑定
       </div>
     </div>
+
+    <van-popup v-model="showconfirmFlag">
+      <div class="boxshow">
+        <div class="title">确认解绑驾驶证信息吗？</div>
+        <div class="box">
+          <div class="sure" @click="sures">确认</div><div class="cancel" @click="cancels">取消</div>
+        </div>
+      </div>
+    </van-popup>
+
   </div>
 </template>
 
 <script>
   import headerTop from '@/components/header/index.vue';
   import { formatDate } from '@/utils/index.js';
-  import { vehiclebind } from '@/api/car/car.js'
+  import { drivequery,driveunbind } from '@/api/car/car.js'
   import { getDictionaryAll } from '@/api/mine/mine.js'
-
   export default {
     name: 'feedback',
     data () {
       return {
-        title: '车辆信息', // 名称
+        title: '驾驶证信息', // 名称
         headStyle: {}, // 头部样式
         backIcon: false,
         value: '',
-        columns: [],
-        showPicker: false,
-        datetime: '',
+        columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
         minDate: new Date(1970, 0, 1),
         maxDate: new Date(2050, 0, 31),
         defaultdate: new Date(),
+        showPicker: false,
+        datetime: '',
         showFlag: false,
-        plateNumber: '',
-        registerTime: '',
-        vehicleType: '',
-        vehicleTypeOption:'',
+        showFlags: false,
+        vehicleType:'',
+        vehicleTypeOption:[],
+        quasiVehicleType:'',
+        address: '',
+        driveCertTime: '',
+        driveExpiredTime:  '',
+        showconfirmFlag:false
       }
     },
     components: {
@@ -66,68 +74,57 @@
     },
     computed: {},
     created () {
-      this.getDictionaryAll()
+      this.drivequery()
     },
     methods: {
       goback () {
         this.$router.push('/mine')
       },
-      onConfirm(value) {
-        this.vehicleType = value;
-        this.showPicker = false;
-
-      },
-      onConfirmTime(date) {
-        this.showFlag = false;
-        this.registerTime = formatDate(date,'yyyy-MM-dd')
-      },
       //提交
       confirms() {
-        if(!this.vehicleType) {
-          return this.$notify('请选择车型');
-          // return this.$toast('请选择车型')
-        }
-        if(!this.plateNumber) {
-          return this.$notify('请输入车牌号码')
-        }
-        if(!this.registerTime) {
-          return this.$notify('请选择日期')
-        }
-        this.vehiclebind()
+        this.showconfirmFlag = true
+      },
+      cancels() {
+        this.showconfirmFlag = false
+      },
+      sures() {
+        this.driveunbind()
+      },
+      //获取信息
+      drivequery() {
+        drivequery({}).then(res => {
+          if (res.status == 200) {
+            let data = res.data.result
+            this.driveCertTime = data.driveCertTime
+            this.driveExpiredTime = data.driveExpiredTime
+            this.address = data.address
+            this.getDictionaryAll(data.quasiVehicleType)
+          }
+        })
       },
       //字典
-      getDictionaryAll() {
+      getDictionaryAll(datas) {
         getDictionaryAll({}).then(res => {
           if (res.status == 200) {
             this.vehicleTypeOption = res.data.result.vehicleType
-            let a = []
             this.vehicleTypeOption.forEach(item => {
-              a.push(item.name)
+              if(datas == item.value){
+                this.vehicleType = item.name
+              }
             })
-            this.columns = a
           }
         })
       },
-      //提交
-      vehiclebind() {
-        let a = ''
-        this.vehicleTypeOption.forEach(item => {
-          if(item.name == this.vehicleType) {
-            a = item.value
-          }
-        })
-        let data = {
-          plateNumber: this.plateNumber,
-          registerTime: this.registerTime,
-          vehicleType: a
-        }
-        vehiclebind(data).then(res => {
+      //解除绑定
+      driveunbind() {
+        driveunbind({}).then(res => {
           if (res.status == 200) {
-            this.$toast.success('绑定成功')
+            this.$toast.success('解除绑定成功')
             this.$router.go(-1)
           }
         })
       }
+
     }
   }
 </script>
@@ -197,7 +194,6 @@
           img {
             width: 10px;
             height: 6px;
-            margin-left: 5px;
           }
         }
       }
@@ -215,5 +211,51 @@
       align-items: center;
       margin-top: 28px;
     }
+  }
+
+
+  .boxshow {
+    width: 75vw;
+    height: 155px;
+    .title {
+      font-size:20px;
+      margin-top: 32px;
+      font-weight:500;
+      color:rgba(51,51,51,1);
+      text-align: center;
+    }
+    .box {
+      width: 100%;
+      margin-top: 33px;
+      display: flex;
+      justify-content: space-around;
+      .sure {
+        width: 38%;
+        height:40px;
+        background:rgba(225,225,225,1);
+        border-radius:5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size:16px;
+        font-weight:500;
+        color:rgba(51,51,51,1);
+        line-height:23px;
+      }
+      .cancel {
+        width: 38%;
+        height:40px;
+        background:rgba(0,102,255,1);
+        border-radius:5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size:16px;
+        font-weight:500;
+        color:rgba(255,255,255,1);
+        line-height:23px;
+      }
+    }
+
   }
 </style>

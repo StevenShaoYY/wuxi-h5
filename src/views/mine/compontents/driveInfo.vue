@@ -8,7 +8,7 @@
         </div>
         <div class="input">
           <span class="red">*</span><span class="name">准驾车型</span>
-          <div class="picker_bottom"  @click="showPicker = true">请选择 <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
+          <div class="picker_bottom"  @click="showPicker = true">{{quasiVehicleType?quasiVehicleType:'请选择'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
           <van-popup v-model="showPicker" position="bottom">
             <van-picker
               show-toolbar
@@ -20,21 +20,21 @@
         </div>
         <div class="input">
           <span class="red">*</span><span class="name">初次领证日期</span>
-          <div class="picker_bottom"  @click="showFlag = true">请选择日期 <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
+          <div class="picker_bottom"  @click="showFlag = true">{{driveCertTime?driveCertTime:'请选择日期'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
           <van-calendar v-model="showFlag" color="#0066FF" :min-date="minDate" :max-date="maxDate" :default-date="defaultdate" @confirm="onConfirmTime" />
           <!--<input type="text" placeholder="请选择日期" />-->
         </div>
         <div class="input">
           <span class="red">*</span><span class="name">驾驶证有效期</span>
-          <div class="picker_bottom"  @click="showFlags = true">请选择日期 <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
+          <div class="picker_bottom"  @click="showFlags = true">{{driveExpiredTime?driveExpiredTime:'请选择日期'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
           <van-calendar v-model="showFlags" color="#0066FF" :min-date="minDate" :max-date="maxDate" :default-date="defaultdate" @confirm="onConfirmTimes" />
         </div>
 
         <div class="input">
-          <span class="red">*</span><span class="name">现住址</span> <input type="text" placeholder="请输入住址" />
+          <span class="red">*</span><span class="name">现住址</span> <input type="text" v-model="address" placeholder="请输入住址" />
         </div>
       </div>
-      <div class="next">
+      <div class="next" @click="confirms">
         立即绑定
       </div>
     </div>
@@ -44,6 +44,9 @@
 <script>
   import headerTop from '@/components/header/index.vue';
   import { formatDate } from '@/utils/index.js';
+  import { drivebind } from '@/api/car/car.js'
+  import { getDictionaryAll } from '@/api/mine/mine.js'
+
   export default {
     name: 'feedback',
     data () {
@@ -59,7 +62,12 @@
         showPicker: false,
         datetime: '',
         showFlag: false,
-        showFlags: false
+        showFlags: false,
+        vehicleTypeOption:[],
+        quasiVehicleType:'',
+        address: '',
+        driveCertTime: '',
+        driveExpiredTime:  '',
       }
     },
     components: {
@@ -67,24 +75,76 @@
     },
     computed: {},
     created () {
-
+      this.getDictionaryAll()
     },
     methods: {
       goback () {
         this.$router.push('/mine')
       },
       onConfirm(value) {
-        this.value = value;
+        this.quasiVehicleType = value;
         this.showPicker = false;
       },
       onConfirmTime(date) {
         this.showFlag = false;
-        console.log(formatDate(date,'yyyy-MM-dd'))
+        this.driveCertTime = formatDate(date,'yyyy-MM-dd')
       },
       onConfirmTimes(date) {
-        this.showFlag = false;
-        console.log(formatDate(date,'yyyy-MM-dd'))
+        this.showFlags = false;
+        this.driveExpiredTime = formatDate(date,'yyyy-MM-dd')
+      },
+      //提交
+      confirms() {
+        if(!this.quasiVehicleType) {
+          return this.$notify('请选择准驾车型');
+          // return this.$toast('请选择车型')
+        }
+        if(!this.driveCertTime) {
+          return this.$notify('请选择初次领证日期')
+        }
+        if(!this.driveExpiredTime) {
+          return this.$notify('请选择驾驶证日期')
+        }
+        if(!this.address) {
+          return this.$notify('请输入现住址')
+        }
+        this.drivebind()
+      },
+      //字典
+      getDictionaryAll() {
+        getDictionaryAll({}).then(res => {
+          if (res.status == 200) {
+            this.vehicleTypeOption = res.data.result.quasiVehicleType
+            let a = []
+            this.vehicleTypeOption.forEach(item => {
+              a.push(item.name)
+            })
+            this.columns = a
+          }
+        })
+      },
+      //提交
+      drivebind() {
+        let a = ''
+        this.vehicleTypeOption.forEach(item => {
+          if(item.name == this.quasiVehicleType) {
+            a = item.value
+          }
+        })
+        let data = {
+          quasiVehicleType: a,
+          address: this.address,
+          driveCertTime:  this.driveCertTime,
+          driveExpiredTime:  this.driveExpiredTime,
+        }
+        drivebind(data).then(res => {
+          if (res.status == 200) {
+            this.$toast.success('绑定成功')
+            this.$router.go(-1)
+          }
+        })
       }
+
     }
   }
 </script>

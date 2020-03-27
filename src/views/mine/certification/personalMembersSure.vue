@@ -3,19 +3,22 @@
 		<headerTop :title="title" :head-style="headStyle" :back-icon="backIcon" @goback="goback"/>
 		<div class="content">
 			<div class="timeLine">
+
 				<div class="top">
 					<div class="radiusbox">
-						<div class="radius">1</div>
+						<!--<div class="radius">1</div>-->
+						<div class="radius radius1"><img src="@/assets/imgs/mine/duihao.png" alt=""></div>
 					</div>
-					<div class="dashed"></div>
+					<div class="dashed dashed1"></div>
 					<div class="radiusbox">
-						<div class="radius">2</div>
+						<div class="radius radius2">2</div>
 					</div>
-					<div class="dashed"></div>
+					<div class="dashed dashed2"></div>
 					<div class="radiusbox">
-						<div class="radius">3</div>
+						<div class="radius radius3">3</div>
 					</div>
 				</div>
+
 				<div class="bot">
 					<div>基本信息</div>
 					<div class="div2">认证确认</div>
@@ -31,13 +34,13 @@
 					<span class="red"></span><span class="name">会员类型</span> <span class="right">个人会员</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">姓名</span> <span class="right">小明</span>
+					<span class="red"></span><span class="name">姓名</span> <span class="right">{{objs.name}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">身份证号</span> <span class="right">11111111111</span>
+					<span class="red"></span><span class="name">身份证号</span> <span class="right">{{objs.certificateNumber}}</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">联系地址</span> <span class="right">四川省成都市</span>
+					<span class="red"></span><span class="name">联系地址</span> <span class="right">{{objs.address}}</span>
 				</div>
 			</div>
 			<div class="boxform boxformCost">
@@ -71,6 +74,7 @@
 
 <script>
   import headerTop from '@/components/header/index.vue'
+  import { authAdd,authRenew,usertesPay } from '@/api/certification/certification.js'
 
   export default {
     name: 'feedback',
@@ -79,7 +83,8 @@
         title: '个人会员认证', // 名称
         headStyle: {}, // 头部样式
         backIcon: false,
-        showFlag:false
+        showFlag:false,
+				objs:{}
       }
     },
     components: {
@@ -87,7 +92,9 @@
     },
     computed: {},
     created () {
-
+      let tt = sessionStorage.getItem("personalObj")
+      let dataobj = JSON.parse(JSON.stringify(tt))
+      this.objs = JSON.parse(dataobj)
     },
     methods: {
       goback () {
@@ -100,16 +107,43 @@
         // })
       },
       showPopup() {
+        this.authAdd()
         this.showFlag = true;
       },
       closed() {
         this.showFlag = false;
       },
       over() {
-        this.$router.push({
-          path: '/mine/unitMembers/over'
+        this.usertesPay()
+      },
+			//会员提交
+      authAdd () {
+        let data = {
+          authInfo:this.objs,
+          authType:1   //1个人 2单位
+				}
+        authAdd(data).then(res => {
+          if (res.status == 200) {
+
+          }
         })
-      }
+			},
+			//会员续费支付
+      usertesPay () {
+        usertesPay().then(res => {
+          if (res.status == 200) {
+            const div = document.createElement('div')
+            div.innerHTML = res.data
+            document.body.appendChild(div)
+            document.forms[0].submit()
+
+            // this.$router.push({
+            //   path: '/mine/unitMembers/over'
+            // })
+          }
+        })
+			}
+
     }
   }
 </script>
@@ -177,6 +211,21 @@
 			align-items: center;
 			margin: 5px 5px;
 		}
+		.radius1 {
+			background: #fff;
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+		.radius3 {
+			width: 2.4vh;
+			height: 2.4vh;
+			border-radius: 999999px;
+			border: 1px solid #999999;
+			background: #ffffff;
+			color: #333333;
+		}
 
 		.dashed {
 			width: 30%;
@@ -184,6 +233,9 @@
 			border-bottom: 1px dashed #BDBDBD;
 			float: left;
 			margin-top: 10px;
+		}
+		.dashed1 {
+			border-bottom: 1px solid #0066FF;
 		}
 	}
 

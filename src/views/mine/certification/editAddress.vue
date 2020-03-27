@@ -3,7 +3,7 @@
     <headerTop :title="title" :head-style="headStyle" :back-icon="backIcon" @goback="goback"/>
     <div class="content">
       <div class="input_tetx">
-        <input type="text" placeholder="请填写地址" />
+        <input type="text" v-model="address" placeholder="请填写地址" />
       </div>
       <div class="next" @click="members">
         确认
@@ -14,6 +14,7 @@
 
 <script>
   import headerTop from '@/components/header/index.vue';
+  import { updateAddress } from '@/api/certification/certification.js'
   export default {
     name: 'feedback',
     data () {
@@ -21,6 +22,7 @@
         title: '编辑地址', // 名称
         headStyle: {}, // 头部样式
         backIcon: false,
+        address:''
       }
     },
     components: {
@@ -35,8 +37,19 @@
         this.$router.push('/mine')
       },
       members() {
-        this.$router.go(-1)
+        if(!this.address) {
+          return this.$notify('请输入地址')
+        }
+        this.updateAddress()
       },
+      updateAddress() {
+        updateAddress({ address: this.address}).then(res => {
+          if (res.status == 200) {
+            this.$toast.success('编辑成功')
+            this.$router.go(-1)
+          }
+        })
+      }
     }
   }
 </script>
