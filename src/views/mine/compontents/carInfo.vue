@@ -87,8 +87,11 @@
           return this.$notify('请选择车型');
           // return this.$toast('请选择车型')
         }
+        let regExp = /^([京津晋冀蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼渝川贵云藏陕甘青宁新][ABCDEFGHJKLMNPQRSTUVWXY][1-9DF][1-9ABCDEFGHJKLMNPQRSTUVWXYZ]\d{3}[1-9DF]|[京津晋冀蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼渝川贵云藏陕甘青宁新][ABCDEFGHJKLMNPQRSTUVWXY][\dABCDEFGHJKLNMxPQRSTUVWXYZ]{5})$/
         if(!this.plateNumber) {
           return this.$notify('请输入车牌号码')
+        }else if(!regExp.test(this.plateNumber)) {
+          return this.$notify('请输入正确的车牌号码')
         }
         if(!this.registerTime) {
           return this.$notify('请选择日期')

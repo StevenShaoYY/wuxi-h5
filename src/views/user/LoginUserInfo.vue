@@ -49,7 +49,9 @@ export default {
   },
   methods: {
     //验证手机号
-    handlephoneFlag() {},
+    handlephoneFlag() {
+
+    },
     //验证码
     handlecodeFlag() {},
     clock() {
@@ -79,9 +81,13 @@ export default {
       }
     },
     confirm () {
+      const regphone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/
       if(!this.phoneNumber) {
         return this.$toast('请输入手机号码')
+      }else if (!regphone.test(this.phoneNumber)) {
+        return this.$toast('请输入正确的手机号码')
       }
+
       if(!this.code) {
         return this.$toast('请输入验证码')
       }

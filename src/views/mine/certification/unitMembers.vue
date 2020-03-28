@@ -37,7 +37,7 @@
 					<span class="red">*</span><span class="name">法定代表人</span> <input type="text" v-model="froms.companyLegalPerson" placeholder="请输入法人"/>
 				</div>
 				<div class="input">
-					<span class="red">*</span><span class="name">联系电话</span> <input type="text" v-model="froms.companyLegalPersonPhone" placeholder="请输入联系电话"/>
+					<span class="red">*</span><span class="name">法人联系电话</span> <input type="text" v-model="froms.companyLegalPersonPhone" placeholder="请输入联系电话"/>
 				</div>
 				<div class="input">
 					<span class="red">*</span><span class="name">法人身份证号码</span> <input type="text" v-model="froms.companyLegalPersonCertificateNumber" placeholder="请输入法人身份证号码"/>
@@ -46,7 +46,7 @@
 					<span class="red">*</span><span class="name">经办人</span> <input type="text" v-model="froms.companyChargelPerson" placeholder="请输入经办人"/>
 				</div>
 				<div class="input">
-					<span class="red">*</span><span class="name">联系电话</span> <input type="text" v-model="froms.companyChargelPersonPhone" placeholder="请输入联系电话"/>
+					<span class="red">*</span><span class="name">经办人联系电话</span> <input type="text" v-model="froms.companyChargelPersonPhone" placeholder="请输入联系电话"/>
 				</div>
 				<div class="input">
 					<span class="red">*</span><span class="name">联系地址</span> <input type="text" v-model="froms.address" placeholder="请输入联系地址"/>
@@ -85,7 +85,7 @@
 
 <script>
   import headerTop from '@/components/header/index.vue'
-
+  import { checkIDCard } from '@/utils/index.js'
   export default {
     name: 'feedback',
     data () {
@@ -144,6 +144,10 @@
         }
         if(!this.froms.companyLegalPersonCertificateNumber) {
           return this.$notify('请输入法人身份证号码')
+        }
+        let sfz = checkIDCard(this.froms.companyLegalPersonCertificateNumber)
+        if (!sfz) {
+          return this.$notify('请输入正确的身份证号')
         }
         if(!this.froms.companyChargelPerson) {
           return this.$notify('请输入经办人')

@@ -85,7 +85,7 @@
 <script>
   import headerTop from '@/components/header/index.vue'
   import { getDictionaryAll } from '@/api/mine/mine.js'
-
+  import { checkIDCard } from '@/utils/index.js';
   export default {
     name: 'feedback',
     data () {
@@ -178,12 +178,20 @@
         if (!this.froms.certificateNumber) {
           return this.$notify('请输入身份证号')
         }
+        let sfz = checkIDCard(this.froms.certificateNumber)
+				if (!sfz) {
+          return this.$notify('请输入正确的身份证号')
+				}
         if (!this.froms.address) {
           return this.$notify('请输入联系地址')
         }
+        const regphone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/
         if (!this.froms.phoneNumber) {
           return this.$notify('请输入手机号码')
+        }else if (!regphone.test(this.froms.phoneNumber)) {
+          return this.$notify('请输入正确的手机号码')
         }
+
         this.$router.push({
           path: '/mine/personalMembers/sure'
         })
