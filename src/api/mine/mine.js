@@ -20,4 +20,3 @@ export function userInfo (data) {
     data: data,
   })
 }
-

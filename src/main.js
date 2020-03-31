@@ -8,7 +8,7 @@ import 'utils/permission'
 import SvgIcon from 'components/SvgIcon'
 import '@/icons' // icon
 import '@/style/common.scss'
-import { Lazyload, Checkbox, CheckboxGroup, Popup, Picker, Calendar,Toast,Notify} from 'vant' //Calendar
+import { Lazyload, Checkbox, CheckboxGroup, Popup, Picker, Calendar,Toast,Notify,DatetimePicker } from 'vant' //Calendar
 import defaultSettings from '@/settings'
 
 /**
@@ -35,7 +35,8 @@ Vue.use(Popup)
 Vue.use(Picker)
 Vue.use(Calendar)
 Vue.use(Toast)
-Vue.use(Notify);
+Vue.use(Notify)
+Vue.use(DatetimePicker)
 Vue.component('svg-icon', SvgIcon)
 
 if (process.env.NODE_ENV === 'development' && defaultSettings.vconsole) {
@@ -63,5 +64,8 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  watch: {
+
+  }
 }).$mount('#app')

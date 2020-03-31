@@ -17,3 +17,21 @@ export function smsVerification (data) {
     data: data
   })
 }
+
+//协议政策查询
+export function userGetPolicy (data) {
+  return request({
+    url: '/app/user/getPolicy',
+    method: 'post',
+    data: data,
+  })
+}
+
+// 会员微信登录
+export function loginWeiXin (data) {
+  return request({
+    url: '/app/user/loginWeiXin',
+    method: 'post',
+    data: data,
+  })
+}

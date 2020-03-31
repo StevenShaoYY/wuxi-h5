@@ -24,7 +24,10 @@
         <div class="input">
           <span class="red">*</span><span class="name">注册时间</span>
           <div class="picker_bottom" @click="showFlag = true">{{registerTime?registerTime:'请选择日期'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
-          <van-calendar v-model="showFlag" color="#0066FF" :min-date="minDate" :max-date="maxDate" :default-date="defaultdate" @confirm="onConfirmTime" />
+          <van-popup v-model="showFlag" position="bottom">
+            <van-datetime-picker v-model="defaultdate" type="date" :min-date="minDate" :max-date="maxDate" @confirm="onConfirmTime"/>
+          </van-popup>
+          <!--<van-calendar v-model="showFlag" color="#0066FF" :min-date="minDate" :max-date="maxDate" :default-date="defaultdate" @confirm="onConfirmTime" />-->
         </div>
       </div>
       <div class="next" @click="confirms">
@@ -137,7 +140,7 @@
 <style lang="scss" scoped>
   .content {
     width: 100%;
-    height: calc(100vh - 44px);
+    height: 100vh;
     background:rgba(245,245,245,1);
     box-sizing: border-box;
     padding: 20px 12px 12px 12px;

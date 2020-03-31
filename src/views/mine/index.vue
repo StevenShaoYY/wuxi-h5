@@ -1,11 +1,10 @@
 <template>
-  <div class="container">
+  <div >
     <!--<headerTop :title="title" :head-style="headStyle" :back-icon="backIcon" @goback="goback"/>-->
-
     <div class="middles">
       <div class="header_background">
         <div class="header">
-          个人中心
+          <!--个人中心-->
         </div>
         <div class="header_title" @click="handlepersonalInfo">
           <div class="left">
@@ -13,7 +12,7 @@
               <img src="@/assets/imgs/mine/people.png" alt />
             </div>
             <div class="left_text">
-              <div class="name">{{result.name?result.name:'小微'}}</div>
+              <div class="name">{{result.name?result.name:'暂无'}}</div>
               <div class="labels">{{result.type == 0 ?'未认证':'已认证'}}</div>
             </div>
           </div>
@@ -101,7 +100,10 @@ export default {
           paths: "/mine/feedback"
         }
       ],
-      result:{}
+      result:{
+        name:'',
+        type:0
+      }
     };
   },
   components: {
@@ -119,9 +121,13 @@ export default {
       });
     },
     handlepersonalInfo() {
-      this.$router.push({
-        path: "/personalInfo"
-      });
+      if(this.result.type == 0) {
+        return this.$toast.fail('请完成会员认证')
+      }else {
+        this.$router.push({
+          path: "/personalInfo"
+        });
+      }
     },
     jumpRouter(item) {
       if(item.name == '车辆信息') {
@@ -160,11 +166,22 @@ export default {
       })
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
+  .container {
+    height: auto;
+    width: 100%;
+  }
 .middles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 50px;
+  overflow-y: auto;
   width: 100%;
+  z-index: 10;
+  -webkit-overflow-scrolling: touch;
 }
 .header_background {
   width: 100%;

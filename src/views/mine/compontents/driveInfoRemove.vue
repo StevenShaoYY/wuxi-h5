@@ -131,7 +131,7 @@
 <style lang="scss" scoped>
   .content {
     width: 100%;
-    height: calc(100vh - 44px);
+    height: 100vh;
     background:rgba(245,245,245,1);
     box-sizing: border-box;
     padding: 20px 12px 12px 12px;

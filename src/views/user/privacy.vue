@@ -3,9 +3,10 @@
     <headerTop :title="title" :head-style="headStyle" :back-icon="backIcon" @goback="goback"/>
     <div class="content">
       <div class="boxform">
-        <div class="title1 title">更新日期：2020年1月13日</div>
-        <div class="title1">生效日期：2020年1月13日</div>
-        <textarea class="input" type="text" v-model="value" />
+        <div class="title1 title">更新日期：{{result.updateTime}}</div>
+        <div class="title1">生效日期：{{result.effectiveTime}}</div>
+        <div class="input" v-html="result.content"></div>
+        <!--<textarea class="input" type="text" v-model="result.content" />-->
       </div>
       <div class="next" @click="goback">
         确认
@@ -16,6 +17,8 @@
 
 <script>
   import headerTop from '@/components/header/index.vue';
+  import { userGetPolicy } from '@/api/user/user.js'
+
   export default {
     name: 'feedback',
     data () {
@@ -23,7 +26,12 @@
         title: '隐私政策', // 名称
         headStyle: {}, // 头部样式
         backIcon: false,
-        value: '隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容隐私政策内容',
+        value: '',
+        result:{
+          content: "",
+          effectiveTime: "",
+          updateTime: ""
+        }
       }
     },
     components: {
@@ -31,12 +39,26 @@
     },
     computed: {},
     created () {
-
+      //1隐私 2注册协议
+      if(this.$route.query.type == 1) {
+        this.title = "隐私政策"
+      }else {
+        this.title = "用户注册协议"
+      }
+        this.userGetPolicy()
     },
     methods: {
       goback () {
         this.$router.go(-1)
       },
+      userGetPolicy() {
+        userGetPolicy({type: this.$route.query.type}).then(res => {
+          if (res.status == 200) {
+            let data = res.data.result
+            this.result = data
+          }
+        })
+      }
     }
   }
 </script>
@@ -66,12 +88,12 @@
         outline: none;
         resize: none;
         width:95%;
-        height:336px;
+        /*height:336px;*/
         background:rgba(255,255,255,1);
         border:1px solid rgba(204,204,204,1);
         border-radius:5px;
         color: #999999;
-        padding: 18px 9px 0 9px;
+        padding: 18px 9px 18px 9px;
       }
     }
     .next {
@@ -86,6 +108,7 @@
       justify-content: center;
       align-items: center;
       margin-top: 28px;
+      margin-bottom: 20px;
     }
   }
 </style>

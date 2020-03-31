@@ -47,10 +47,10 @@
 <style lang="scss" scoped>
   .content {
     width: 100%;
-    height: calc(100vh - 44px);
+    height:100vh;
     background:rgba(245,245,245,1);
     box-sizing: border-box;
-    padding: 150px 80px 12px 80px;
+    padding: 190px 80px 12px 80px;
     .boxform {
       width: 100%;
       border-radius:5px;

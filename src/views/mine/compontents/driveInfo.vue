@@ -21,15 +21,19 @@
         <div class="input">
           <span class="red">*</span><span class="name">初次领证日期</span>
           <div class="picker_bottom"  @click="showFlag = true">{{driveCertTime?driveCertTime:'请选择日期'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
-          <van-calendar v-model="showFlag" color="#0066FF" :min-date="minDate" :max-date="maxDate" :default-date="defaultdate" @confirm="onConfirmTime" />
-          <!--<input type="text" placeholder="请选择日期" />-->
+          <!--<van-calendar v-model="showFlag" color="#0066FF" :min-date="minDate" :max-date="maxDate" :default-date="defaultdate" @confirm="onConfirmTime" />-->
+          <van-popup v-model="showFlag" position="bottom">
+            <van-datetime-picker v-model="defaultdate" type="date" :min-date="minDate" :max-date="maxDate" @confirm="onConfirmTime"/>
+          </van-popup>
         </div>
         <div class="input">
           <span class="red">*</span><span class="name">驾驶证有效期</span>
           <div class="picker_bottom"  @click="showFlags = true">{{driveExpiredTime?driveExpiredTime:'请选择日期'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
-          <van-calendar v-model="showFlags" color="#0066FF" :min-date="minDate" :max-date="maxDate" :default-date="defaultdate" @confirm="onConfirmTimes" />
+          <van-popup v-model="showFlags" position="bottom">
+            <van-datetime-picker v-model="defaultdate" type="date" :min-date="minDate" :max-date="maxDate" @confirm="onConfirmTimes"/>
+          </van-popup>
+          <!--<van-calendar v-model="showFlags" color="#0066FF" :min-date="minDate" :max-date="maxDate" :default-date="defaultdate" @confirm="onConfirmTimes" />-->
         </div>
-
         <div class="input">
           <span class="red">*</span><span class="name">现住址</span> <input type="text" v-model="address" placeholder="请输入住址" />
         </div>
@@ -151,7 +155,7 @@
 <style lang="scss" scoped>
   .content {
     width: 100%;
-    height: calc(100vh - 44px);
+    height: 100vh;
     background:rgba(245,245,245,1);
     box-sizing: border-box;
     padding: 20px 12px 12px 12px;

@@ -1,4 +1,5 @@
 <template>
+  <div class="footers">
   <van-tabbar route :safe-area-inset-bottom="true" active-color="#0066FF" v-model="active">
     <van-tabbar-item replace to="/carServe">
       <span>车辆服务</span>
@@ -13,6 +14,7 @@
       </template>
     </van-tabbar-item>
   </van-tabbar>
+  </div>
 </template>
 <script>
   import { Tabbar, TabbarItem } from 'vant';
@@ -37,3 +39,18 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .footers {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 99999 !important;
+    width: 100%;
+    height: 50px;
+  }
+  .van-tabbar--fixed {
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+  }
+</style>

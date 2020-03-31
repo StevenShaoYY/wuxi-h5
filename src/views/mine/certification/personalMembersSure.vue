@@ -108,13 +108,14 @@
       },
       showPopup() {
         this.authAdd()
-        this.showFlag = true;
+        this.usertesPay()
+        // this.showFlag = true;
       },
       closed() {
         this.showFlag = false;
       },
       over() {
-        this.usertesPay()
+        // this.usertesPay()
       },
 			//会员提交
       authAdd () {

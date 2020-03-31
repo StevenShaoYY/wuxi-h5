@@ -1,9 +1,9 @@
 <template>
-  <div class="header" :style="_headStyle" :backIcon="_backIcon">
-    <span class="iconfont iconimg" v-if="_backIcon" @click="goback">&#xe630;</span>
-    {{_title}}
-    <slot name="righticon"></slot>
-  </div>
+  <!--<div class="header" :style="_headStyle" :backIcon="_backIcon">-->
+    <!--<span class="iconfont iconimg" v-if="_backIcon" @click="goback">&#xe630;</span>-->
+    <!--{{_title}}-->
+    <!--<slot name="righticon"></slot>-->
+  <!--</div>-->
 </template>
 
 <script>

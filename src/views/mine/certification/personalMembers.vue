@@ -34,7 +34,7 @@
 					<span class="red">*</span><span class="name">联系地址</span> <input type="text" placeholder="请输入联系地址" v-model="froms.address"/>
 				</div>
 				<div class="input">
-					<span class="red">*</span><span class="name">手机号码</span> <input type="text" placeholder="请输入手机号码" v-model="froms.phoneNumber"/>
+					<span class="red">*</span><span class="name">手机号码</span> <input type="tel" placeholder="请输入手机号码" v-model="froms.phoneNumber"/>
 				</div>
 				<div class="input">
 					<span class="red"></span><span class="name">性别</span>
@@ -131,6 +131,17 @@
       let dataobj = JSON.parse(JSON.stringify(tt))
       this.froms = JSON.parse(dataobj)?JSON.parse(dataobj) : {}
     },
+		mounted(){
+
+      document.addEventListener("blur",function(ev){
+        alert("aaa");
+      })
+
+      // $(document).on('blur', 'input,textarea', function() {
+      //   var scrollTop = $('body').scrollTop()
+      //   $('body').scrollTop(scrollTop)
+      // })
+		},
     methods: {
       goback () {
         this.$router.push('/mine')

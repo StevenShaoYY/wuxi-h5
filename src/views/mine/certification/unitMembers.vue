@@ -37,7 +37,7 @@
 					<span class="red">*</span><span class="name">法定代表人</span> <input type="text" v-model="froms.companyLegalPerson" placeholder="请输入法人"/>
 				</div>
 				<div class="input">
-					<span class="red">*</span><span class="name">法人联系电话</span> <input type="text" v-model="froms.companyLegalPersonPhone" placeholder="请输入联系电话"/>
+					<span class="red">*</span><span class="name">法人联系电话</span> <input type="tel" v-model="froms.companyLegalPersonPhone" placeholder="请输入联系电话"/>
 				</div>
 				<div class="input">
 					<span class="red">*</span><span class="name">法人身份证号码</span> <input type="text" v-model="froms.companyLegalPersonCertificateNumber" placeholder="请输入法人身份证号码"/>
@@ -46,7 +46,7 @@
 					<span class="red">*</span><span class="name">经办人</span> <input type="text" v-model="froms.companyChargelPerson" placeholder="请输入经办人"/>
 				</div>
 				<div class="input">
-					<span class="red">*</span><span class="name">经办人联系电话</span> <input type="text" v-model="froms.companyChargelPersonPhone" placeholder="请输入联系电话"/>
+					<span class="red">*</span><span class="name">经办人联系电话</span> <input type="tel" v-model="froms.companyChargelPersonPhone" placeholder="请输入联系电话"/>
 				</div>
 				<div class="input">
 					<span class="red">*</span><span class="name">联系地址</span> <input type="text" v-model="froms.address" placeholder="请输入联系地址"/>
@@ -121,6 +121,16 @@
       let tt = sessionStorage.getItem("unitObj")
       let dataobj = JSON.parse(JSON.stringify(tt))
 			this.froms = JSON.parse(dataobj)?JSON.parse(dataobj) : {}
+    },
+    mounted(){
+      $(document).on('blur', 'input,textarea', function() {
+        var scrollTop = $('body').scrollTop()
+        $('body').scrollTop(scrollTop)
+      })
+
+      $(document).on('blur', 'input,textarea', function() {
+        var scrollTop = $('body')
+      })
     },
     methods: {
       goback () {

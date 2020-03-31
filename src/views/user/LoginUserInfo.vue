@@ -1,8 +1,8 @@
 <template>
   <div class="box-wrapper">
     <div class="header">
-      <div class="left"><img src="@/assets/imgs/user/goback.png" alt=""><span class="goback">返回</span></div>
-      注册
+      <!--<div class="left"><img src="@/assets/imgs/user/goback.png" alt=""><span class="goback">返回</span></div>-->
+      <!--注册-->
     </div>
     <div class="content">
       <div class="box_input">
@@ -21,7 +21,7 @@
         <van-checkbox v-model="checked" icon-size="14px" style="float: left" shape="square">
           <span class="text">我已阅读并同意</span>
         </van-checkbox>
-        <span class="agreement" @click="privacy">《用户注册协议》和《隐私政策》</span>
+        <span class="agreement" ><span @click="privacy(2)">《用户注册协议》</span>和<span @click="privacy(1)">《隐私政策》</span></span>
       </div>
       <div class="confirm" @click="confirm">
         确认
@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-  import { login , smsVerification } from '@/api/user/user.js'
+  import { login , smsVerification ,loginWeiXin} from '@/api/user/user.js'
 export default {
 
   name: "LoginUserInfo",
@@ -48,6 +48,18 @@ export default {
     this.phoneNumber = sessionStorage.getItem('phoneNumber')?sessionStorage.getItem('phoneNumber'):null
   },
   methods: {
+    //获取url参数
+    getUrlParam(name){
+      return decodeURIComponent((new RegExp('[?|&]'+name+'='+'([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g,'%20'))||null;
+    },
+    isWeixin(){
+      const ua = window.navigator.userAgent.toLowerCase();
+      if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+        return true;
+      } else {
+        return false;
+      }
+    },
     //验证手机号
     handlephoneFlag() {
 
@@ -62,7 +74,6 @@ export default {
           clearInterval(timeIndex);
           this.timeNum = 60;
           this.$toast.success('发送成功')
-
         }
       }, 1000)
     },
@@ -97,9 +108,12 @@ export default {
       sessionStorage.setItem("phoneNumber",this.phoneNumber)
       this.login()
     },
-    privacy () {
+    privacy (type) {
       this.$router.push({
-        path: '/privacy'
+        path: '/privacy',
+        query:{
+          type:type
+        }
       })
     },
     //登录

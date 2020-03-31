@@ -7,6 +7,7 @@ const carServe = () => import('@/views/carServe/index.vue') // 车辆服务
 const LoginUserInfo = () => import('@/views/user/LoginUserInfo.vue') // 登录注册
 const personalInfo = () => import('@/views/mine/personalInfo.vue') // 个人信息
 const privacy = () => import('@/views/user/privacy.vue') // 隐私
+const changeWx = () => import('@/views/user/changeWx.vue') // kongbai
 
 
 const carInfo = () => import('@/views/mine/compontents/carInfo.vue') // 车辆
@@ -34,7 +35,16 @@ const router = new Router({
 
     {
       path: '/',
-      redirect: 'LoginUserInfo'
+      redirect: 'changeWx'
+    },
+    {
+      path: '/changeWx',
+      name: 'changeWx',
+      component: changeWx,
+      meta: {
+        title: '',
+        keepAlive: false
+      }
     },
     {
       path: '/LoginUserInfo',
@@ -77,7 +87,7 @@ const router = new Router({
       name: 'personalInfo',
       component: personalInfo,
       meta: {
-        title: '个人信息',
+        title: '信息展示',
         keepAlive: false
       }
     },
