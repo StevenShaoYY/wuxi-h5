@@ -5,8 +5,8 @@ import router from '@/router'
 const service = axios.create({
   // baseURL: process.env.BASE_API + '/api',
   // baseURL: process.env.BASE_API,
-  baseURL: process.env.NODE_ENV == 'production' ? window.location.origin + '/' : '/traffic/',
-  // baseURL: process.env.VUE_APP_BASE_API,
+  // baseURL: process.env.NODE_ENV == 'production' ? window.location.origin + '/' : '/traffic/',
+  baseURL: process.env.VUE_APP_BASE_API,
   // baseURL:'http://101.132.194.14/traffic/',
   withCredentials: false,
   timeout: 5000 // 请求超时时间
