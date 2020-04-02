@@ -15,7 +15,7 @@ const service = axios.create({
 // respone响应期
 service.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('tokens')
     config.headers['Content-Type'] = 'application/json'
     config.headers['token'] = token
     return config

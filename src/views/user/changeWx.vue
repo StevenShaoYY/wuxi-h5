@@ -14,7 +14,7 @@ export default {
     };
   },
   created() {
-    localStorage.removeItem("token")
+    localStorage.removeItem("tokens")
     if(this.isWeixin()) {
       this.getCodes()
     }else {
@@ -62,7 +62,7 @@ export default {
           this.$router.push({
             path: '/mine'
           })
-          localStorage.setItem('token', res.data.message)
+          localStorage.setItem('tokens', res.data.message)
         }else {
           this.$router.push({
             path: '/LoginUserInfo'

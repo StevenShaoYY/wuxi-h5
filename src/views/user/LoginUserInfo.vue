@@ -127,7 +127,7 @@ export default {
       }
       LoginUserInfo(data).then(res => {
         if (res.status == 200) {
-          localStorage.setItem('token', res.data.message)
+          localStorage.setItem('tokens', res.data.message)
           this.$router.push({
             path: '/mine'
           })

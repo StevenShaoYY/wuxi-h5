@@ -21,61 +21,61 @@ const users = {
 
 export default [
   // user login
-  {
-    url: '/user/login',
-    type: 'post',
-    response: config => {
-      const { phoneNumber } = config.body
-      const token = tokens[phoneNumber]
-
-      // mock error
-      if (!token) {
-        return {
-          code: 60204,
-          message: 'Account and password are incorrect.'
-        }
-      }
-
-      return {
-        code: 200,
-        data: token
-      }
-    }
-  },
+  // {
+  //   url: '/user/login',
+  //   type: 'post',
+  //   response: config => {
+  //     const { phoneNumber } = config.body
+  //     const token = tokens[phoneNumber]
+  //
+  //     // mock error
+  //     if (!token) {
+  //       return {
+  //         code: 60204,
+  //         message: 'Account and password are incorrect.'
+  //       }
+  //     }
+  //
+  //     return {
+  //       code: 200,
+  //       data: token
+  //     }
+  //   }
+  // },
 
   // get user info
-  {
-    // eslint-disable-next-line
-    url: '/user/info\.*',
-    type: 'get',
-    response: config => {
-      const { token } = config.query
-      const info = users[token]
-
-      // mock error
-      if (!info) {
-        return {
-          code: 50008,
-          message: 'Login failed, unable to get user details.'
-        }
-      }
-
-      return {
-        code: 200,
-        data: info
-      }
-    }
-  },
+  // {
+  //   // eslint-disable-next-line
+  //   url: '/user/info\.*',
+  //   type: 'get',
+  //   response: config => {
+  //     const { token } = config.query
+  //     const info = users[token]
+  //
+  //     // mock error
+  //     if (!info) {
+  //       return {
+  //         code: 50008,
+  //         message: 'Login failed, unable to get user details.'
+  //       }
+  //     }
+  //
+  //     return {
+  //       code: 200,
+  //       data: info
+  //     }
+  //   }
+  // },
 
   // user logout
-  {
-    url: '/user/logout',
-    type: 'post',
-    response: _ => {
-      return {
-        code: 200,
-        data: 'success'
-      }
-    }
-  }
+  // {
+  //   url: '/user/logout',
+  //   type: 'post',
+  //   response: _ => {
+  //     return {
+  //       code: 200,
+  //       data: 'success'
+  //     }
+  //   }
+  // }
 ]
