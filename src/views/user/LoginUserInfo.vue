@@ -73,7 +73,7 @@ export default {
           this.smsCodeFlag = true;
           clearInterval(timeIndex);
           this.timeNum = 60;
-          this.$toast.success('发送成功')
+          // this.$toast.success('发送成功')
         }
       }, 1000)
     },
