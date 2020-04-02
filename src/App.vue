@@ -10,8 +10,22 @@
 </template>
 <script>
 import defaultSetting from './settings'
+import fixedInput from '@/utils/mixinFixedInput'
 export default {
   name: 'app',
+  mixins: [fixedInput],
+  updated() {
+    // 解决ios输入框弹出的页面样式问题
+    document.querySelectorAll("input").forEach(item => {
+      item.onblur = this.temporaryRepair
+    });
+    document.querySelectorAll("select").forEach(item => {
+      item.onchange = this.temporaryRepair
+    });
+    document.querySelectorAll("textarea").forEach(item => {
+      item.onblur = this.temporaryRepair
+    });
+  },
   computed: {
     transitionName () {
       if (defaultSetting.needPageTrans) {

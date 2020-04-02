@@ -58,6 +58,32 @@
 				<div class="input">
 					<span class="red"></span><span class="name">经办人联系电话</span> <span class="right">{{objs.companyChargelPersonPhone}}</span>
 				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">经营/业务范围</span> <span class="right">{{objs.businessScope}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">注册资金</span> <span class="right">{{objs.registeredCapital}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">单位性质</span> <span class="right">{{objs.companyProperty}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">注册类型</span> <span class="right">{{objs.registeredType}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">行业分类</span> <span class="right">{{objs.industryClass}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">年营业额</span> <span class="right">{{objs.annualSale}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">职工总数</span> <span class="right">{{objs.totalStaff}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">邮箱</span> <span class="right">{{objs.email}}</span>
+				</div>
+
+
 			</div>
 			<div class="boxform boxformCost">
 				<div class="input_t">

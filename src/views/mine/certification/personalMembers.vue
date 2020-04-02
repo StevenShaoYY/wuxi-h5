@@ -133,9 +133,9 @@
     },
 		mounted(){
 
-      document.addEventListener("blur",function(ev){
-        alert("aaa");
-      })
+      // document.addEventListener("blur",function(ev){
+			//
+      // })
 
       // $(document).on('blur', 'input,textarea', function() {
       //   var scrollTop = $('body').scrollTop()

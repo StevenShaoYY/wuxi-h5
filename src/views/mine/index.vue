@@ -137,7 +137,7 @@ export default {
           this.$router.push(item.path)
         }
       }else if(item.name == '驾驶证信息') {
-        if(this.result.quasiVehiclType) {
+        if(this.result.quasiVehicleType) {
           this.$router.push(item.paths)
         }else {
           this.$router.push(item.path)

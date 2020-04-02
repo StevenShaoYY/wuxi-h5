@@ -123,20 +123,16 @@
 			this.froms = JSON.parse(dataobj)?JSON.parse(dataobj) : {}
     },
     mounted(){
-      $(document).on('blur', 'input,textarea', function() {
-        var scrollTop = $('body').scrollTop()
-        $('body').scrollTop(scrollTop)
-      })
 
-      $(document).on('blur', 'input,textarea', function() {
-        var scrollTop = $('body')
-      })
+
     },
     methods: {
       goback () {
         this.$router.push('/mine')
       },
       nexted () {
+        const regphone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/
+
         if(!this.froms.companyName) {
           return this.$notify('请输入单位名称')
         }
@@ -152,6 +148,7 @@
         if(!this.froms.companyLegalPersonPhone) {
           return this.$notify('请输入法人联系电话')
         }
+
         if(!this.froms.companyLegalPersonCertificateNumber) {
           return this.$notify('请输入法人身份证号码')
         }

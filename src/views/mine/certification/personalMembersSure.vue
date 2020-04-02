@@ -42,6 +42,39 @@
 				<div class="input">
 					<span class="red"></span><span class="name">联系地址</span> <span class="right">{{objs.address}}</span>
 				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">手机号码</span> <span class="right">{{objs.phoneNumber}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">性别</span> <span class="right">{{objs.gender}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">民族</span> <span class="right">{{objs.nation}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">籍贯</span> <span class="right">{{objs.areaName}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">政治面貌</span> <span class="right">{{objs.politicalFace}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">毕业学校</span> <span class="right">{{objs.school}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">学历</span> <span class="right">{{objs.educationRecord}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">学位</span> <span class="right">{{objs.academicDegree}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">单位名称</span> <span class="right">{{objs.companyName}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">职务</span> <span class="right">{{objs.companyDuty}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">职称</span> <span class="right">{{objs.companyGradle}}</span>
+				</div>
 			</div>
 			<div class="boxform boxformCost">
 				<div class="input_t">
@@ -75,6 +108,7 @@
 <script>
   import headerTop from '@/components/header/index.vue'
   import { authAdd,authRenew,usertesPay } from '@/api/certification/certification.js'
+  import { getDictionaryAll } from '@/api/mine/mine.js'
 
   export default {
     name: 'feedback',
@@ -84,7 +118,8 @@
         headStyle: {}, // 头部样式
         backIcon: false,
         showFlag:false,
-				objs:{}
+				objs:{},
+        resultList:{},
       }
     },
     components: {
@@ -92,6 +127,8 @@
     },
     computed: {},
     created () {
+      this.getDictionaryAll()
+
       let tt = sessionStorage.getItem("personalObj")
       let dataobj = JSON.parse(JSON.stringify(tt))
       this.objs = JSON.parse(dataobj)
@@ -100,11 +137,17 @@
       goback () {
         this.$router.push('/mine')
       },
+      //字典
+      getDictionaryAll() {
+        getDictionaryAll({}).then(res => {
+          if (res.status == 200) {
+            let data = res.data.result
+						this.resultList = data
+          }
+        })
+      },
       textLast () {
         this.$router.go(-1)
-        // this.$router.push({
-        //   path: '/mine/unitMembers'
-        // })
       },
       showPopup() {
         this.authAdd()
@@ -117,8 +160,21 @@
       over() {
         // this.usertesPay()
       },
+			 changeObjs (dataList,name) {
+				 let tt = null
+         dataList.forEach(item => {
+           if(item.name == name) {
+             tt = item.value
+           }
+         })
+				 return tt
+			 },
 			//会员提交
       authAdd () {
+        this.objs.gender = this.changeObjs(this.resultList.gender,this.objs.gender)
+        this.objs.nation = this.changeObjs(this.resultList.nation,this.objs.nation)
+        this.objs.educationRecord = this.changeObjs(this.resultList.educationRecord,this.objs.educationRecord)
+        this.objs.academicDegree = this.changeObjs(this.resultList.academicDegree,this.objs.academicDegree)
         let data = {
           authInfo:this.objs,
           authType:1   //1个人 2单位

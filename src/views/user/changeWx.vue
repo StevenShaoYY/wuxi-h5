@@ -14,7 +14,14 @@ export default {
     };
   },
   created() {
-    this.getCodes()
+    if(this.isWeixin()) {
+      this.getCodes()
+    }else {
+      this.$toast.fail('请在微信端打开')
+      this.$router.push({
+        path: '/LoginUserInfo'
+      })
+    }
   },
   methods: {
     //获取url参数
@@ -30,15 +37,22 @@ export default {
       }
     },
     getCodes () {
-      let local = process.env.VUE_APP_LOCAL_URL  //这个地址
-      let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_base&state=123#wechat_redirect'
-      let code = this.getUrlParam('code') || ''
-      if (code === '') {
-        window.location.href = url
-        code = this.getUrlParam('code')
-        this.getOppenId(code)
-      } else {
-        this.getOppenId(code)
+      // let local = process.env.VUE_APP_LOCAL_URL  //这个地址
+      let local = ''
+      if(local) {
+        let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_base&state=123#wechat_redirect'
+        let code = this.getUrlParam('code') || ''
+        if (code === '') {
+          window.location.href = url
+          code = this.getUrlParam('code')
+          this.getOppenId(code)
+        } else {
+          this.getOppenId(code)
+        }
+      }else {
+        this.$router.push({
+          path: '/LoginUserInfo'
+        })
       }
     },
     getOppenId (code) {
