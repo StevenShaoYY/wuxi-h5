@@ -14,6 +14,7 @@ export default {
     };
   },
   created() {
+    localStorage.removeItem("token")
     if(this.isWeixin()) {
       this.getCodes()
     }else {
