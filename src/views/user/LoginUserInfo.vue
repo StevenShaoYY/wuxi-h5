@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-  import { login , smsVerification ,loginWeiXin} from '@/api/user/user.js'
+  import { LoginUserInfo , smsVerification ,loginWeiXin} from '@/api/user/user.js'
 export default {
 
   name: "LoginUserInfo",
@@ -106,7 +106,7 @@ export default {
         return this.$toast('请勾选用户注册协议和隐私政策')
       }
       sessionStorage.setItem("phoneNumber",this.phoneNumber)
-      this.login()
+      this.LoginUserInfo()
     },
     privacy (type) {
       this.$router.push({
@@ -117,7 +117,7 @@ export default {
       })
     },
     //登录
-    login () {
+    LoginUserInfo () {
       let data = {
         clientType: 1,
         clientVersion: 1,
@@ -125,7 +125,7 @@ export default {
         openid: 333333,
         phoneNumber: this.phoneNumber
       }
-      login(data).then(res => {
+      LoginUserInfo(data).then(res => {
         if (res.status == 200) {
           localStorage.setItem('token', res.data.message)
           this.$router.push({

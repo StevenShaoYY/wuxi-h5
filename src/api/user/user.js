@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 //登录
-export function login (data) {
+export function LoginUserInfo (data) {
   return request({
     url: '/app/user/login',
     method: 'post',
