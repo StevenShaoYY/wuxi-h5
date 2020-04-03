@@ -3,9 +3,9 @@
     <!--<headerTop :title="title" :head-style="headStyle" :back-icon="backIcon" @goback="goback"/>-->
     <div class="middles">
       <div class="header_background">
-        <div class="header">
-          <!--个人中心-->
-        </div>
+        <!--<div class="header">-->
+          <!--&lt;!&ndash;个人中心&ndash;&gt;-->
+        <!--</div>-->
         <div class="header_title" @click="handlepersonalInfo">
           <div class="left">
             <div class="left_imgs">
@@ -122,7 +122,7 @@ export default {
     },
     handlepersonalInfo() {
       if(this.result.type == 0) {
-        return this.$toast.fail('请完成会员认证')
+        return this.$toast('请完成会员认证')
       }else {
         this.$router.push({
           path: "/personalInfo"
@@ -136,31 +136,120 @@ export default {
         }else {
           this.$router.push(item.path)
         }
-      }else if(item.name == '驾驶证信息') {
+      }
+
+      if(item.name == '驾驶证信息') {
         if(this.result.quasiVehicleType) {
           this.$router.push(item.paths)
         }else {
           this.$router.push(item.path)
         }
-      }else if(item.name == '会员认证') {
+      }
+      if(item.name == '会员认证') {
+        //authStatus 认证状态 1.未支付，2.已支付，3.已过期，4. 支付异常，5. 已重置，6.已审核，7. 已退款
+        //type  会员类型 0.非会员，1.普通会员，2.单位会员，3.单位成员
+
+   //      第一步判断 type
+   //      0.非会员    进行下一步分析
+   //      1.普通会员  展示普通会员认证结果
+   //      2.单位会员  展示单位会员认证结果
+   //      3.单位成员  展示单位成员认证结果
+   //
+   //      如果非会员判断 authStatus
+   //      空， 则提示步骤一选择会员认证类型
+   //      未支付，则显示步骤二  【特殊情况说明：当前时间大于payEndTime,则提示，“认证过期，重新提交认证”】
+   // 已支付，则显示步骤三
+   //      支付异常，同未支付处理
+   //      已重置，忽略，客户端不会遇到该状态
+   //      已审核，展示审核后的信息
+   //      已退款，展示审核后的信息，显示已退款，可重新认证
+
+
         if(this.result.type == 0) {
-          this.$router.push(item.path)
-        }else if(this.result.type == 1) {
+
+          if(this.result.authType == 1) {  //是单位还是个人
+            if(this.result.authStatus == 1) {
+              this.$router.push({
+                path: "/mine/personalMembers/sure",
+                query:{authStatus:1}
+              })
+            }
+            if(this.result.authStatus == 2) {
+              this.$router.push("/mine/unitMembers/over")
+            }
+            if(this.result.authStatus == 3) {
+              this.$router.push({
+                path: "/mine/personalMembers/sure",
+                query:{authStatus:3}
+              })
+            }
+            if(this.result.authStatus == 4) {
+              this.$router.push({
+                path: "/mine/personalMembers/sure",
+                query:{authStatus:4}
+              })
+            }
+            if(this.result.authStatus == 6) {
+              this.$router.push("/mine/personalMembers/success")
+            }
+            if(this.result.authStatus == 7) {
+              this.$router.push({
+                path: "/mine/personalMembers/success",
+                query:{authStatus:7}
+              })
+            }
+          }else if (this.result.authType == 2){
+            if(this.result.authStatus == 1) {
+              this.$router.push({
+                path: "/mine/unitMembers/sure",
+                query:{authStatus:1}
+              })
+            }
+            if(this.result.authStatus == 2) {
+              this.$router.push("/mine/unitMembers/over")
+            }
+            if(this.result.authStatus == 3) {
+              this.$router.push({
+                path: "/mine/unitMembers/sure",
+                query:{authStatus:3}
+              })
+            }
+            if(this.result.authStatus == 4) {
+              this.$router.push({
+                path: "/mine/unitMembers/sure",
+                query:{authStatus:4}
+              })
+            }
+            if(this.result.authStatus == 6) {
+              this.$router.push("/mine/unitMembers/success")
+            }
+            if(this.result.authStatus == 7) {
+              this.$router.push({
+                path: "/mine/unitMembers/success",
+                query:{authStatus:7}
+              })
+            }
+          }else {
+            this.$router.push(item.path)
+          }
+
+
+        }
+
+        if(this.result.type == 1) {
           this.$router.push(item.pathp)
-        }else{
+        }
+
+        if(this.result.type == 2){
           this.$router.push(item.pathu)
         }
-      }else {
-        this.$router.push(item.path)
+
       }
-
-
-
     },
     userInfo() {
       let data = {}
       userInfo(data).then(res => {
-        if (res.status == 200) {
+        if (res.data.code == 200) {
           this.result = res.data.result
         }
       })
@@ -185,7 +274,7 @@ export default {
 }
 .header_background {
   width: 100%;
-  height: 164px;
+  height: 134px;
   background: linear-gradient(
       151deg,
       rgba(0, 114, 255, 1),
@@ -205,7 +294,7 @@ export default {
 }
 .header_title {
   width: 100%;
-  height: 120px;
+  height: 134px;
   border-radius: 0px 0px 15px 15px;
   padding-top: 40px;
   box-sizing: border-box;
@@ -276,7 +365,7 @@ export default {
   padding: 0 12px;
   width: 100%;
   position: absolute;
-  top: 150px;
+  top: 120px;
 }
 .middles .tab_list .tab_list_box {
   box-shadow: 0px 1px 7px 0px rgba(0, 102, 255, 0.16);

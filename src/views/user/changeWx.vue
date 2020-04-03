@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-  import { login , smsVerification ,loginWeiXin} from '@/api/user/user.js'
+  import { loginWeiXin } from '@/api/user/user.js'
 export default {
 
   name: "changeWx",
@@ -39,9 +39,9 @@ export default {
     },
     getCodes () {
       // let local = process.env.VUE_APP_LOCAL_URL  //这个地址
-      let local = ''
+      let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
       if(local) {
-        let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_base&state=123#wechat_redirect'
+        let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
         let code = this.getUrlParam('code') || ''
         if (code === '') {
           window.location.href = url
@@ -57,8 +57,8 @@ export default {
       }
     },
     getOppenId (code) {
-      loginWeiXin({ code:code }).then(res => {
-        if(res.status == 200) {
+      loginWeiXin({ authCode:code }).then(res => {
+        if(res.data.code == 200) {
           this.$router.push({
             path: '/mine'
           })

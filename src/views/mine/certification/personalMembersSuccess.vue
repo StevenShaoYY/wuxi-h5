@@ -95,7 +95,7 @@
       //会员提交
       authQuery () {
         authQuery({}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             let data = res.data.result
             this.objs = data.authInfo
             this.createTime = data.createTime

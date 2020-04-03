@@ -44,7 +44,7 @@
       },
       updateAddress() {
         updateAddress({ address: this.address}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             this.$toast.success('编辑成功')
             this.$router.go(-1)
           }

@@ -82,15 +82,16 @@
 				<div class="input">
 					<span class="red"></span><span class="name">邮箱</span> <span class="right">{{objs.email}}</span>
 				</div>
-
-
+				<div class="input">
+					<span class="red"></span><span class="name">邀请码</span> <span class="right">{{objs.invitationCode}}</span>
+				</div>
 			</div>
 			<div class="boxform boxformCost">
 				<div class="input_t">
 					<span class="name">会员费用</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">会员年费</span> <span class="right">100元</span>
+					<span class="red"></span><span class="name">会员年费</span> <span class="right">{{annualFees}}元</span>
 				</div>
 			</div>
 			<div class="next">
@@ -116,7 +117,7 @@
 
 <script>
   import headerTop from '@/components/header/index.vue'
-  import { authAdd,authRenew,usertesPay } from '@/api/certification/certification.js'
+  import { authAdd,authRenew,usertesPay,getAnnualFee,authQuery } from '@/api/certification/certification.js'
 
   export default {
     name: 'feedback',
@@ -126,7 +127,8 @@
         headStyle: {}, // 头部样式
         backIcon: false,
         showFlag:false,
-        objs:{}
+        objs:{},
+        annualFees:''
       }
     },
     components: {
@@ -134,13 +136,42 @@
     },
     computed: {},
     created () {
-      let tt = sessionStorage.getItem("unitObj")
-      let dataobj = JSON.parse(JSON.stringify(tt))
-      this.objs = JSON.parse(dataobj)
+
+			if(this.$route.query.authStatus) {
+        if(this.$route.query.authStatus == 3) {
+          this.$toast.fail('认证过期，重新提交认证')
+        }
+        if(this.$route.query.authStatus == 4) {
+          this.$toast.fail('支付异常，重新提交认证')
+        }
+				this.authQuery()
+			}else {
+        let tt = sessionStorage.getItem("unitObj")
+        let dataobj = JSON.parse(JSON.stringify(tt))
+        this.objs = JSON.parse(dataobj)
+			}
+      this.getAnnualFee()
     },
     methods: {
       goback () {
         this.$router.push('/mine')
+      },
+      getAnnualFee () {
+        getAnnualFee({}).then(res => {
+          if (res.data.code == 200) {
+            let data = res.data.result
+            this.annualFees = data
+          }
+        })
+      },
+      //会员查询
+      authQuery () {
+        authQuery({}).then(res => {
+          if (res.data.code == 200) {
+            let data = res.data.result
+            this.objs = data.authInfo
+          }
+        })
       },
       textLast () {
         this.$router.go(-1)
@@ -150,7 +181,7 @@
       },
       showPopup() {
         this.authAdd()
-        this.showFlag = true;
+        // this.showFlag = true;
       },
       closed() {
         this.showFlag = false;
@@ -165,15 +196,19 @@
           authType:2   //1个人 2单位
         }
         authAdd(data).then(res => {
-          if (res.status == 200) {
-
+          if (res.data.code == 200) {
+            let datapayHtml = res.data.result
+            const div = document.createElement('div')
+            div.innerHTML = datapayHtml.payHtml
+            document.body.appendChild(div)
+            document.forms[0].submit()
           }
         })
       },
       //会员续费支付
       usertesPay () {
         usertesPay().then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             const div = document.createElement('div')
             div.innerHTML = res.data
             document.body.appendChild(div)
@@ -198,15 +233,17 @@
 
 	.timeLine {
 		width: 100%;
-		height: 50px;
+		height: 55px;
 		background: rgba(255, 255, 255, 1);
 		box-shadow: 0px 0px 8px 0px rgba(10, 103, 241, 0.1);
 		border-radius: 5px;
 		margin-top: 20px;
 		margin-bottom: 20px;
-
+		box-sizing: border-box;
+		padding-top: 5px;
 		.top {
 			width: 100%;
+			overflow: hidden;
 		}
 
 		.bot {
@@ -287,7 +324,6 @@
 		box-shadow: 0px 0px 8px 0px rgba(10, 103, 241, 0.1);
 		border-radius: 4px;
 		.input_t {
-			width: 100%;
 			line-height: 48px;
 			border-bottom: 1px solid #E6E6E6;
 			padding-left: 14px;

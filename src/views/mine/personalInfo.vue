@@ -4,30 +4,34 @@
 
     <div class="middles">
       <div class="header_background">
-        <div class="header">
-          <!--信息展示-->
-        </div>
+        <!--<div class="header">-->
+          <!--&lt;!&ndash;信息展示&ndash;&gt;-->
+        <!--</div>-->
         <div class="header_title">
           <div>
             <img class="imgs1" src="@/assets/imgs/mine/erweimaInfo.png" alt="">
-            <div class="text"><img class="imgs2" src="@/assets/imgs/mine/gerenhuiyuan.png" alt="">个人会员</div>
+            <div class="text"><img class="imgs2" src="@/assets/imgs/mine/gerenhuiyuan.png" alt="">{{changeType(result.type)}}</div>
           </div>
         </div>
       </div>
 
       <div class="tab_list">
         <div class="tab_list_box">
-          <div
-            class="lists"
-            v-for="(item,index) of tab_lists"
-            :key="index"
-          >
-            <div class="left">
-              <span class="span1">{{item.name}}</span>
-            </div>
-            <div class="right">
-              {{item.keys}}
-            </div>
+          <div class="lists" v-if="result.type == 2">
+            <div class="left"><span class="span1">单位名称</span></div>
+            <div class="right">{{result.companyName?result.companyName:'--'}}</div>
+          </div>
+          <div class="lists">
+            <div class="left"><span class="span1">姓名</span></div>
+            <div class="right">{{result.name?result.name:'--'}}</div>
+          </div>
+          <div class="lists">
+            <div class="left"><span class="span1">身份证号码</span></div>
+            <div class="right">{{result.certificateNumber?result.certificateNumber:'--'}}</div>
+          </div>
+          <div class="lists">
+            <div class="left"><span class="span1">车牌号码</span></div>
+            <div class="right">{{result.plateNumber?result.plateNumber:'--'}}</div>
           </div>
         </div>
       </div>
@@ -49,20 +53,7 @@ export default {
         background:"linear-gradient(151deg,rgba(0,114,255,1),rgba(0,138,255,1))"
       }, // 头部样式
       backIcon: false,
-      tab_lists: [
-        {
-          name: "姓名",
-          keys: "--",
-        },
-        {
-          name: "身份证号码",
-          keys: "--",
-        },
-        {
-          name: "车牌号码",
-          keys: "--",
-        }
-      ]
+      result:{}
     };
   },
   components: {
@@ -79,22 +70,36 @@ export default {
         path: "/mine"
       });
     },
+    changeType(type) {
+      //[0.非会员，1.普通会员，2.单位会员，3.单位成员]
+      if(type == 0) {
+        return '非会员'
+      }else if(type == 1) {
+        return '普通会员'
+      }else if(type == 2) {
+        return '单位会员'
+      }else {
+        return '单位成员'
+      }
+    },
     userInfo() {
       let data = {}
       userInfo(data).then(res => {
-        if (res.status == 200) {
+        if (res.data.code == 200) {
           let data = res.data.result
-          this.tab_lists.forEach(item => {
-            if(item.name == '姓名') {
-              item.keys = data.name?data.name: '--'
-            }
-            if(item.name == '身份证号码') {
-              item.keys = data.certificateNumber?data.certificateNumber: '--'
-            }
-            if(item.name == '车牌号码') {
-              item.keys = data.plateNumber?data.plateNumber: '--'
-            }
-          })
+          this.result = data
+
+          // this.tab_lists.forEach(item => {
+          //   if(item.name == '姓名') {
+          //     item.keys = data.name?data.name: '--'
+          //   }
+          //   if(item.name == '身份证号码') {
+          //     item.keys = data.certificateNumber?data.certificateNumber: '--'
+          //   }
+          //   if(item.name == '车牌号码') {
+          //     item.keys = data.plateNumber?data.plateNumber: '--'
+          //   }
+          // })
         }
       })
     }
@@ -107,7 +112,7 @@ export default {
 }
 .header_background {
   width: 100%;
-  height: 144px;
+  height: 134px;
   background: linear-gradient(
       151deg,
       rgba(0, 114, 255, 1),
@@ -153,7 +158,7 @@ export default {
 }
 .middles .tab_list {
   box-sizing: border-box;
-  padding: 100px 12px;
+  padding: 80px 12px;
   width: 100%;
 }
 .middles .tab_list .tab_list_box {

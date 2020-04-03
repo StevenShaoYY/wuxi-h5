@@ -86,15 +86,17 @@
 
 	.timeLine {
 		width: 100%;
-		height: 50px;
+		height: 55px;
 		background: rgba(255, 255, 255, 1);
 		box-shadow: 0px 0px 8px 0px rgba(10, 103, 241, 0.1);
 		border-radius: 5px;
 		margin-top: 20px;
 		margin-bottom: 20px;
-
+		box-sizing: border-box;
+		padding-top: 5px;
 		.top {
 			width: 100%;
+			overflow: hidden;
 		}
 
 		.bot {

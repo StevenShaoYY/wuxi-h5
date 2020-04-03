@@ -39,3 +39,11 @@ export function updateAddress (data) {
     data: data
   })
 }
+//会费查询
+export function getAnnualFee (data) {
+  return request({
+    url: '/app/user/getAnnualFee',
+    method: 'post',
+    data: data
+  })
+}

@@ -104,7 +104,7 @@
       //字典
       getDictionaryAll() {
         getDictionaryAll({}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             this.vehicleTypeOption = res.data.result.vehicleType
             let a = []
             this.vehicleTypeOption.forEach(item => {
@@ -128,7 +128,7 @@
           vehicleType: a
         }
         vehiclebind(data).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             this.$toast.success('绑定成功')
             this.$router.go(-1)
           }

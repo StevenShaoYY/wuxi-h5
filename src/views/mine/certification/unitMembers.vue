@@ -75,6 +75,9 @@
 				<div class="input">
 					<span class="red"></span><span class="name">邮箱</span> <input type="text" v-model="froms.email" placeholder="请输入邮箱"/>
 				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">邀请码</span> <input type="text" placeholder="请输入邀请码" v-model="froms.invitationCode"/>
+				</div>
 			</div>
 			<div class="next">
 				<div class="text" @click="nexted">下一步</div>
@@ -109,7 +112,7 @@
           annualSale: '',
           totalStaff: '',
           email: '',
-
+          invitationCode:''
         }
       }
     },
@@ -183,15 +186,17 @@
 
 	.timeLine {
 		width: 100%;
-		height: 50px;
+		height: 55px;
 		background: rgba(255, 255, 255, 1);
 		box-shadow: 0px 0px 8px 0px rgba(10, 103, 241, 0.1);
 		border-radius: 5px;
 		margin-top: 20px;
 		margin-bottom: 20px;
-
+		box-sizing: border-box;
+		padding-top: 5px;
 		.top {
 			width: 100%;
+			overflow: hidden;
 		}
 
 		.bot {

@@ -79,7 +79,7 @@
       },
       feedbackadd () {
         feedbackadd({content:this.content}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             this.showconfirmFlag = true
           }else {
 

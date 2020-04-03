@@ -34,16 +34,18 @@
 					<span class="red">*</span><span class="name">联系地址</span> <input type="text" placeholder="请输入联系地址" v-model="froms.address"/>
 				</div>
 				<div class="input">
-					<span class="red">*</span><span class="name">手机号码</span> <input type="tel" placeholder="请输入手机号码" v-model="froms.phoneNumber"/>
+					<span class="red">*</span><span class="name">手机号码</span>
+					<div class="picker_bottom">{{froms.phoneNumber}}</div>
+					<!--<input type="tel" class="inputTel" disabled placeholder="请输入手机号码" v-model="froms.phoneNumber"/>-->
 				</div>
 				<div class="input">
 					<span class="red"></span><span class="name">性别</span>
-					<div class="picker_bottom"  @click="showPicker_gender = true">{{froms.gender?froms.gender:'请选择'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
+					<div class="picker_bottom"  @click="showPicker_gender = true"><span v-if="froms.gender">{{froms.gender}}</span><span class="color99" v-else>请选择</span> <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
 					<van-popup v-model="showPicker_gender" position="bottom"><van-picker show-toolbar :columns="genderColumns" @confirm="onConfirm_gender" @cancel="showPicker_gender = false" /></van-popup>
 				</div>
 				<div class="input">
 					<span class="red"></span><span class="name">民族</span>
-					<div class="picker_bottom"  @click="showPicker_nation = true">{{froms.nation?froms.nation:'请选择'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
+					<div class="picker_bottom"  @click="showPicker_nation = true"><span v-if="froms.nation">{{froms.nation}}</span><span class="color99" v-else>请选择</span> <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
 					<van-popup v-model="showPicker_nation" position="bottom"><van-picker show-toolbar :columns="nationColumns" @confirm="onConfirm_nation" @cancel="showPicker_nation = false" /></van-popup>
 				</div>
 				<div class="input">
@@ -57,12 +59,12 @@
 				</div>
 				<div class="input">
 					<span class="red"></span><span class="name">学历</span>
-					<div class="picker_bottom"  @click="showPicker_educationRecord = true">{{froms.educationRecord?froms.educationRecord:'请选择'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
+					<div class="picker_bottom"  @click="showPicker_educationRecord = true"><span v-if="froms.educationRecord">{{froms.educationRecord}}</span><span class="color99" v-else>请选择</span> <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
 					<van-popup v-model="showPicker_educationRecord" position="bottom"><van-picker show-toolbar :columns="educationRecordColumns" @confirm="onConfirm_educationRecord" @cancel="showPicker_educationRecord = false" /></van-popup>
 				</div>
 				<div class="input">
 					<span class="red"></span><span class="name">学位</span>
-					<div class="picker_bottom"  @click="showPicker_academicDegree = true">{{froms.academicDegree?froms.academicDegree:'请选择'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
+					<div class="picker_bottom"  @click="showPicker_academicDegree = true"><span v-if="froms.academicDegree">{{froms.academicDegree}}</span><span class="color99" v-else>请选择</span> <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
 					<van-popup v-model="showPicker_academicDegree" position="bottom"><van-picker show-toolbar :columns="academicDegreeColumns" @confirm="onConfirm_academicDegree" @cancel="showPicker_academicDegree = false" /></van-popup>
 				</div>
 				<div class="input">
@@ -73,6 +75,9 @@
 				</div>
 				<div class="input">
 					<span class="red"></span><span class="name">职称</span> <input type="text" placeholder="请输入职称" v-model="froms.companyGradle"/>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">邀请码</span> <input type="text" placeholder="请输入邀请码" v-model="froms.invitationCode"/>
 				</div>
 			</div>
 			<div class="next">
@@ -87,7 +92,7 @@
   import { getDictionaryAll } from '@/api/mine/mine.js'
   import { checkIDCard } from '@/utils/index.js';
   export default {
-    name: 'feedback',
+    name: 'personalMembers',
     data () {
       return {
         title: '个人会员认证', // 名称
@@ -107,7 +112,8 @@
           academicDegree: '',
           companyName: '',
           companyDuty: '',
-          companyGradle: ''
+          companyGradle: '',
+          invitationCode:''
         },
         vehicleTypeOption:[],
         showPicker_gender:false,
@@ -130,6 +136,7 @@
       let tt = sessionStorage.getItem("personalObj")
       let dataobj = JSON.parse(JSON.stringify(tt))
       this.froms = JSON.parse(dataobj)?JSON.parse(dataobj) : {}
+      this.froms.phoneNumber = sessionStorage.getItem("phoneNumber")
     },
 		mounted(){
 
@@ -173,7 +180,7 @@
       //字典
       getDictionaryAll() {
         getDictionaryAll({}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             let data = res.data.result
             this.genderColumns = this.changeSelect(data.gender) //性别
             this.nationColumns = this.changeSelect(data.nation) //民族
@@ -221,15 +228,19 @@
 
 	.timeLine {
 		width: 100%;
-		height: 50px;
+		height:55px;
 		background: rgba(255, 255, 255, 1);
 		box-shadow: 0px 0px 8px 0px rgba(10, 103, 241, 0.1);
 		border-radius: 5px;
 		margin-top: 20px;
 		margin-bottom: 20px;
+		box-sizing: border-box;
+		padding-top: 5px;
 
 		.top {
 			width: 100%;
+			overflow: hidden;
+
 		}
 
 		.bot {
@@ -330,7 +341,10 @@
 				text-align: right;
 				padding-right: 10px;
 				line-height: 49px;
-				color: #999999;
+				color: #666666;
+				.color99 {
+					color: #999999;
+				}
 				img {
 					width: 10px;
 					height: 6px;
@@ -377,5 +391,9 @@
 
 	input::-ms-input-placeholder { /* Internet Explorer 10+ */
 		color: #999999;
+	}
+	.inputTel {
+		background: white;
+		color: red !important;
 	}
 </style>

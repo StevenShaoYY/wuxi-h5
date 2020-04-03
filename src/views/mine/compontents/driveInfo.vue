@@ -30,7 +30,7 @@
           <span class="red">*</span><span class="name">驾驶证有效期</span>
           <div class="picker_bottom"  @click="showFlags = true">{{driveExpiredTime?driveExpiredTime:'请选择日期'}} <span><img src="@/assets/imgs/car/down.png" alt=""></span></div>
           <van-popup v-model="showFlags" position="bottom">
-            <van-datetime-picker v-model="defaultdate" type="date" :min-date="minDate" :max-date="maxDate" @confirm="onConfirmTimes"/>
+            <van-datetime-picker v-model="defaultdates" type="date" :min-date="minDate" :max-date="maxDate" @confirm="onConfirmTimes"/>
           </van-popup>
           <!--<van-calendar v-model="showFlags" color="#0066FF" :min-date="minDate" :max-date="maxDate" :default-date="defaultdate" @confirm="onConfirmTimes" />-->
         </div>
@@ -63,6 +63,7 @@
         minDate: new Date(1970, 0, 1),
         maxDate: new Date(2050, 0, 31),
         defaultdate: new Date(),
+        defaultdates: new Date(),
         showPicker: false,
         datetime: '',
         showFlag: false,
@@ -101,7 +102,6 @@
       confirms() {
         if(!this.quasiVehicleType) {
           return this.$notify('请选择准驾车型');
-          // return this.$toast('请选择车型')
         }
         if(!this.driveCertTime) {
           return this.$notify('请选择初次领证日期')
@@ -117,7 +117,7 @@
       //字典
       getDictionaryAll() {
         getDictionaryAll({}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             this.vehicleTypeOption = res.data.result.quasiVehicleType
             let a = []
             this.vehicleTypeOption.forEach(item => {
@@ -142,7 +142,7 @@
           driveExpiredTime:  this.driveExpiredTime,
         }
         drivebind(data).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             this.$toast.success('绑定成功')
             this.$router.go(-1)
           }

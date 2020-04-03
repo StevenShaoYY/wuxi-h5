@@ -75,13 +75,16 @@
 				<div class="input">
 					<span class="red"></span><span class="name">职称</span> <span class="right">{{objs.companyGradle}}</span>
 				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">邀请码</span> <span class="right">{{objs.invitationCode}}</span>
+				</div>
 			</div>
 			<div class="boxform boxformCost">
 				<div class="input_t">
 					<span class="name">会员费用</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">会员年费</span> <span class="right">100元</span>
+					<span class="red"></span><span class="name">会员年费</span> <span class="right">{{annualFees}}元</span>
 				</div>
 			</div>
 			<div class="next">
@@ -95,7 +98,7 @@
 				<div class="title">订单支付 <span class="close" @click="closed">X</span></div>
 				<div class="boxcontent">
 					<div class="text"><span class="left">订单内容</span><span class="right">会员年费</span></div>
-					<div class="text"><span class="left">支付金额</span><span class="right">￥100.00</span></div>
+					<div class="text"><span class="left">支付金额</span><span class="right">￥{{annualFees}}</span></div>
 				</div>
 				<div class="sure" @click="over">
 					确认支付
@@ -107,7 +110,7 @@
 
 <script>
   import headerTop from '@/components/header/index.vue'
-  import { authAdd,authRenew,usertesPay } from '@/api/certification/certification.js'
+  import { authAdd,authRenew,usertesPay,getAnnualFee,authQuery } from '@/api/certification/certification.js'
   import { getDictionaryAll } from '@/api/mine/mine.js'
 
   export default {
@@ -120,6 +123,7 @@
         showFlag:false,
 				objs:{},
         resultList:{},
+        annualFees:''
       }
     },
     components: {
@@ -127,20 +131,47 @@
     },
     computed: {},
     created () {
+      if(this.$route.query.authStatus) {
+        if(this.$route.query.authStatus == 3) {
+          this.$toast.fail('认证过期，重新提交认证')
+				}
+        if(this.$route.query.authStatus == 4) {
+          this.$toast.fail('支付异常')
+        }
+        this.authQuery()
+      }else {
+        let tt = sessionStorage.getItem("personalObj")
+        let dataobj = JSON.parse(JSON.stringify(tt))
+        this.objs = JSON.parse(dataobj)
+      }
       this.getDictionaryAll()
-
-      let tt = sessionStorage.getItem("personalObj")
-      let dataobj = JSON.parse(JSON.stringify(tt))
-      this.objs = JSON.parse(dataobj)
+			this.getAnnualFee()
     },
     methods: {
       goback () {
         this.$router.push('/mine')
       },
+      //会员查询
+      authQuery () {
+        authQuery({}).then(res => {
+          if (res.data.code == 200) {
+            let data = res.data.result
+            this.objs = data.authInfo
+          }
+        })
+      },
+      getAnnualFee () {
+        getAnnualFee({}).then(res => {
+          if (res.data.code == 200) {
+            let data = res.data.result
+            this.annualFees = data
+          }
+        })
+			},
       //字典
       getDictionaryAll() {
         getDictionaryAll({}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             let data = res.data.result
 						this.resultList = data
           }
@@ -151,7 +182,8 @@
       },
       showPopup() {
         this.authAdd()
-        this.usertesPay()
+        // this.usertesPay()
+
         // this.showFlag = true;
       },
       closed() {
@@ -180,15 +212,19 @@
           authType:1   //1个人 2单位
 				}
         authAdd(data).then(res => {
-          if (res.status == 200) {
-
+          if (res.data.code == 200) {
+            let datapayHtml = res.data.result
+            const div = document.createElement('div')
+            div.innerHTML = datapayHtml.payHtml
+            document.body.appendChild(div)
+            document.forms[0].submit()
           }
         })
 			},
 			//会员续费支付
       usertesPay () {
         usertesPay().then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             const div = document.createElement('div')
             div.innerHTML = res.data
             document.body.appendChild(div)
@@ -214,15 +250,17 @@
 
 	.timeLine {
 		width: 100%;
-		height: 50px;
+		height: 55px;
 		background: rgba(255, 255, 255, 1);
 		box-shadow: 0px 0px 8px 0px rgba(10, 103, 241, 0.1);
 		border-radius: 5px;
 		margin-top: 20px;
 		margin-bottom: 20px;
-
+		box-sizing: border-box;
+		padding-top: 5px;
 		.top {
 			width: 100%;
+			overflow: hidden;
 		}
 
 		.bot {

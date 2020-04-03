@@ -53,7 +53,7 @@
       },
       userGetPolicy() {
         userGetPolicy({type: this.$route.query.type}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             let data = res.data.result
             this.result = data
           }

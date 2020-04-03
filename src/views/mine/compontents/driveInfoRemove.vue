@@ -93,7 +93,7 @@
       //获取信息
       drivequery() {
         drivequery({}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             let data = res.data.result
             this.driveCertTime = data.driveCertTime
             this.driveExpiredTime = data.driveExpiredTime
@@ -105,7 +105,7 @@
       //字典
       getDictionaryAll(datas) {
         getDictionaryAll({}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             this.vehicleTypeOption = res.data.result.vehicleType
             this.vehicleTypeOption.forEach(item => {
               if(datas == item.value){
@@ -118,7 +118,7 @@
       //解除绑定
       driveunbind() {
         driveunbind({}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             this.$toast.success('解除绑定成功')
             this.$router.go(-1)
           }
@@ -232,28 +232,28 @@
       .sure {
         width: 38%;
         height:40px;
-        background:rgba(225,225,225,1);
         border-radius:5px;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size:16px;
         font-weight:500;
-        color:rgba(51,51,51,1);
         line-height:23px;
+        background:rgba(0,102,255,1);
+        color:rgba(255,255,255,1);
       }
       .cancel {
         width: 38%;
         height:40px;
-        background:rgba(0,102,255,1);
         border-radius:5px;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size:16px;
         font-weight:500;
-        color:rgba(255,255,255,1);
         line-height:23px;
+        background:rgba(225,225,225,1);
+        color:rgba(51,51,51,1);
       }
     }
 

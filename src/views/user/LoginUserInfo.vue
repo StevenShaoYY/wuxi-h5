@@ -81,7 +81,7 @@ export default {
     gitcode() {
       if(this.phoneNumber) {
         smsVerification({phoneNumber:Number(this.phoneNumber)}).then(res => {
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             this.smsCodeFlag = false;
             this.clock();
             return this.$toast('发送成功')
@@ -126,7 +126,8 @@ export default {
         phoneNumber: this.phoneNumber
       }
       LoginUserInfo(data).then(res => {
-        if (res.status == 200) {
+        console.log(res)
+        if (res.data.code == 200) {
           localStorage.setItem('tokens', res.data.message)
           this.$router.push({
             path: '/mine'
