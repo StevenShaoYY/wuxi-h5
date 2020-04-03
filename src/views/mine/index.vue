@@ -9,7 +9,8 @@
         <div class="header_title" @click="handlepersonalInfo">
           <div class="left">
             <div class="left_imgs">
-              <img src="@/assets/imgs/mine/people.png" alt />
+              <img v-if="result.headImage" :src="result.headImage" alt="">
+              <img v-else src="@/assets/imgs/mine/people.png" alt />
             </div>
             <div class="left_text">
               <div class="name">{{result.name?result.name:'暂无'}}</div>

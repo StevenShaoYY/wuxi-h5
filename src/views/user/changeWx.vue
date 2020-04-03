@@ -27,7 +27,7 @@ export default {
   methods: {
     //获取url参数
     getUrlParam(name){
-      return decodeURIComponent((new RegExp('[?|&]'+name+'='+'([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g,'%20'))||null;
+      return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
     },
     isWeixin(){
       const ua = window.navigator.userAgent.toLowerCase();
@@ -64,9 +64,7 @@ export default {
           })
           localStorage.setItem('tokens', res.data.message)
         }else {
-          this.$router.push({
-            path: '/LoginUserInfo'
-          })
+          // this.$toast.fail(res.data.message)
         }
       })
     }
