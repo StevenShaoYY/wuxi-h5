@@ -47,6 +47,16 @@ export default {
   created() {
     this.phoneNumber = sessionStorage.getItem('phoneNumber')?sessionStorage.getItem('phoneNumber'):null
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if(vm.isWeixin()) {
+        vm.getCodes()
+      }
+      // vm.$router.replace({
+      //   // path: '/mine',
+      // })
+    })
+  },
   methods: {
     //获取url参数
     getUrlParam(name){
@@ -59,6 +69,35 @@ export default {
       } else {
         return false;
       }
+    },
+    getCodes () {
+      // let local = process.env.VUE_APP_LOCAL_URL  //这个地址
+      let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
+      if(local) {
+        let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
+        let code = this.getUrlParam('code') || ''
+        if (code === '') {
+          window.location.href = url
+          code = this.getUrlParam('code')
+          this.getOppenId(code)
+        } else {
+          this.getOppenId(code)
+        }
+      }else {
+        this.$router.push({
+          path: '/LoginUserInfo'
+        })
+      }
+    },
+    getOppenId (code) {
+      loginWeiXin({ authCode:code }).then(res => {
+        if(res.data.code == 200) {
+          this.$router.push({
+            path: '/mine'
+          })
+          localStorage.setItem('tokens', res.data.message)
+        }
+      })
     },
     //验证手机号
     handlephoneFlag() {

@@ -18,7 +18,7 @@ export default {
     if(this.isWeixin()) {
       this.getCodes()
     }else {
-      this.$toast.fail('请在微信端打开')
+      // this.$toast.fail('请在微信端打开')
       this.$router.push({
         path: '/LoginUserInfo'
       })
@@ -64,7 +64,10 @@ export default {
           })
           localStorage.setItem('tokens', res.data.message)
         }else {
-          // this.$toast.fail(res.data.message)
+          // window.location.href = window.location.origin + '/LoginUserInfo'
+          this.$router.push({
+            path: '/LoginUserInfo'
+          })
         }
       })
     }

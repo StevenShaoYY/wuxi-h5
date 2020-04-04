@@ -35,8 +35,8 @@ service.interceptors.response.use(
     // const resp = response.data
 
     if(response.data.code == 400) {
-      router.push('/LoginUserInfo');
-      return Toast.fail(response.data.message);
+      router.push('/LoginUserInfo')
+      return Toast.fail(response.data.message)
     }else {
       return response
     }

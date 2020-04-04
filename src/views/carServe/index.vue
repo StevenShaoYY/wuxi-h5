@@ -43,7 +43,6 @@ export default {
     background-image: url("./../../assets/imgs/car/carback.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
-
     .title1 {
       width: 100%;
       font-size:16px;
