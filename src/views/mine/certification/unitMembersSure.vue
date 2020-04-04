@@ -174,10 +174,10 @@
         })
       },
       textLast () {
-        this.$router.go(-1)
-        // this.$router.push({
-        //   path: '/mine/personalMembers'
-        // })
+        this.$router.push({
+          path: '/mine/unitMembers'
+        })
+        sessionStorage.setItem("unitObj",JSON.stringify(this.objs))
       },
       showPopup() {
         this.authAdd()

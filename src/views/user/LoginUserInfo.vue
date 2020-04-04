@@ -12,7 +12,7 @@
       <div class="box_input_code">
         <div class="left_code">
           <div class="imgs"><img src="@/assets/imgs/user/code.png" alt=""></div>
-          <input type="tel" class="input" placeholder="请输入验证码" @change="handlecodeFlag()" v-model.trim="code" />
+          <input type="tel" id="input2" class="input" placeholder="请输入验证码" @change="handlecodeFlag()" v-model.trim="code" />
         </div>
         <div class="gitcode" @click="gitcode" v-if="smsCodeFlag">获取验证码</div>
         <div class="gitcode" v-if="!smsCodeFlag">{{timeNum}}秒后重试</div>
@@ -46,6 +46,11 @@ export default {
   },
   created() {
     this.phoneNumber = sessionStorage.getItem('phoneNumber')?sessionStorage.getItem('phoneNumber'):null
+  },
+  mounted() {
+    document.getElementById('input2').addEventListener('blur',function(){
+        window.scrollTo(0,0)   //页面滚动到顶部
+    },false)
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
@@ -168,6 +173,11 @@ export default {
         console.log(res)
         if (res.data.code == 200) {
           localStorage.setItem('tokens', res.data.message)
+          document.getElementById('input2').addEventListener('blur',function(){
+            window.scrollTo(0,0)
+            console.log(11111)
+          },false)
+
           this.$router.push({
             path: '/mine'
           })

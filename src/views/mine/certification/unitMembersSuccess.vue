@@ -52,7 +52,8 @@
 				</div>
 			</div>
 			<div class="next">
-				<div class="text" @click="editAddress">联系地址更新</div>
+				<div class="text" v-if="$route.query.authStatus == 7" @click="agains">重新认证</div>
+				<div class="text" v-else @click="editAddress">联系地址更新</div>
 			</div>
 		</div>
 	</div>
@@ -94,6 +95,11 @@
           path: '/mine/personalMembers/success/editAddress'
         })
       },
+      agains () {
+        this.$router.push({
+          path: '/mine/unitMembers'
+        })
+      },
       changeauthStatus (type) {
         if(type == 1) {
           return '未支付'
@@ -129,6 +135,7 @@
 <style lang="scss" scoped>
 	.content {
 		width: 100%;
+
 		box-sizing: border-box;
 		padding: 12px 12px 12px 12px;
 		background: #F5F5F5;

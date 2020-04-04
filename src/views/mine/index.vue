@@ -112,8 +112,18 @@ export default {
     headerTop
   },
   computed: {},
+  beforeCreate() {
+
+  },
   created() {
+    window.scrollTo(0,0)
+
     this.userInfo()
+  },
+  mounted() {
+    setTimeout(() => {
+      window.scrollTo(0,0)
+    },1000)
   },
   methods: {
     goback() {
@@ -137,6 +147,9 @@ export default {
         }else {
           this.$router.push(item.path)
         }
+      }
+      if(item.name == '意见反馈') {
+        this.$router.push(item.path)
       }
 
       if(item.name == '驾驶证信息') {
@@ -246,6 +259,7 @@ export default {
         }
 
       }
+
     },
     userInfo() {
       let data = {}
@@ -260,7 +274,6 @@ export default {
 </script>
 <style lang="scss" scoped>
   .container {
-    height: auto;
     width: 100%;
   }
 .middles {

@@ -178,7 +178,11 @@
         })
       },
       textLast () {
-        this.$router.go(-1)
+        this.$router.push({
+          path: '/mine/personalMembers'
+        })
+        sessionStorage.setItem("personalObj",JSON.stringify(this.objs))
+        // this.$router.go(-1)
       },
       showPopup() {
         this.authAdd()

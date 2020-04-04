@@ -37,7 +37,8 @@
 
 
 			<div class="next">
-				<div class="text" @click="editAddress">联系地址更新</div>
+				<div class="text" v-if="$route.query.authStatus == 7" @click="agains">重新认证</div>
+				<div class="text" v-else @click="editAddress">联系地址更新</div>
 			</div>
 		</div>
 	</div>
@@ -64,6 +65,9 @@
     },
     computed: {},
     created () {
+      if(this.$route.query.authStatus == 7) {
+        this.$toast.fail('已退款，可重新认证')
+      }
 			this.authQuery()
     },
     methods: {
@@ -75,6 +79,11 @@
           path: '/mine/personalMembers/success/editAddress'
         })
       },
+      agains () {
+        this.$router.push({
+          path: '/mine/personalMembers'
+        })
+			},
       changeauthStatus (type) {
         if(type == 1) {
           return '未支付'
