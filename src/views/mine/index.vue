@@ -270,6 +270,7 @@ export default {
       userInfo(data).then(res => {
         if (res.data.code == 200) {
           this.result = res.data.result
+          sessionStorage.setItem("phoneNumber",res.data.result.phoneNumber)
         }
       })
     }

@@ -55,7 +55,7 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if(vm.isWeixin()) {
-        vm.getCodes()
+        // vm.getCodes()
       }
       // vm.$router.replace({
       //   // path: '/mine',
@@ -213,6 +213,7 @@ export default {
     background-image: url("./../../assets/imgs/user/back.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
+
   }
   .header {
     width: 100%;
@@ -244,6 +245,7 @@ export default {
     box-sizing: border-box;
     padding: 0 11.5px;
     margin-top: 80px;
+
     .box_input {
       width: 100%;
       height: 37px;
@@ -263,7 +265,6 @@ export default {
         height: 30px;
         font-size: 16px;
         z-index: 999;
-        pointer-events: all;
       }
       .imgs {
         width: 14px;
