@@ -37,7 +37,9 @@
 					<span class="red">*</span><span class="name">法定代表人</span> <input type="text" v-model="froms.companyLegalPerson" placeholder="请输入法人"/>
 				</div>
 				<div class="input">
-					<span class="red">*</span><span class="name">法人联系电话</span> <input type="tel" v-model="froms.companyLegalPersonPhone" placeholder="请输入联系电话"/>
+					<span class="red">*</span><span class="name">法人手机号码</span>
+					<div class="picker_bottom">{{froms.companyLegalPersonPhone}}</div>
+					<!--<input type="tel" v-model="froms.companyLegalPersonPhone" placeholder="请输入联系电话"/>-->
 				</div>
 				<div class="input">
 					<span class="red">*</span><span class="name">法人身份证号码</span> <input type="text" v-model="froms.companyLegalPersonCertificateNumber" placeholder="请输入法人身份证号码"/>
@@ -124,6 +126,7 @@
       let tt = sessionStorage.getItem("unitObj")
       let dataobj = JSON.parse(JSON.stringify(tt))
 			this.froms = JSON.parse(dataobj)?JSON.parse(dataobj) : {}
+      this.froms.companyLegalPersonPhone = sessionStorage.getItem("phoneNumber")
     },
     mounted(){
 
@@ -289,6 +292,22 @@
 
 			.name {
 				line-height: 48px;
+			}
+			.picker_bottom {
+				width: 50%;
+				height: 44px;
+				float: right;
+				text-align: right;
+				padding-right: 10px;
+				line-height: 49px;
+				color: #666666;
+				.color99 {
+					color: #999999;
+				}
+				img {
+					width: 10px;
+					height: 6px;
+				}
 			}
 		}
 	}

@@ -55,7 +55,7 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if(vm.isWeixin()) {
-        vm.getCodes()
+        // vm.getCodes()
       }
       // vm.$router.replace({
       //   // path: '/mine',
@@ -150,6 +150,7 @@ export default {
         return this.$toast('请勾选用户注册协议和隐私政策')
       }
       sessionStorage.setItem("phoneNumber",this.phoneNumber)
+      // this.LoginUserInfo()
       this.getAuthCodes()
     },
     privacy (type) {
@@ -261,6 +262,8 @@ export default {
         width: 80%;
         height: 30px;
         font-size: 16px;
+        z-index: 999;
+        pointer-events: all;
       }
       .imgs {
         width: 14px;
@@ -302,6 +305,7 @@ export default {
           height: 30px;
           width: 70%;
           font-size: 16px;
+          z-index: 999;
         }
 
       }
