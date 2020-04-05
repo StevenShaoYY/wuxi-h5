@@ -150,7 +150,7 @@ export default {
         return this.$toast('请勾选用户注册协议和隐私政策')
       }
       sessionStorage.setItem("phoneNumber",this.phoneNumber)
-      
+
       if(this.isWeixin()) {
         this.getAuthCodes()
       }else {
@@ -169,14 +169,10 @@ export default {
     getAuthCodes () {
       let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
       let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+      window.location.href = url
       let code = this.getUrlParam('code') || ''
-      if (code === '') {
-        window.location.href = url
-        code = this.getUrlParam('code')
-        this.LoginUserInfo(code)
-      } else {
-        this.LoginUserInfo(code)
-      }
+      this.LoginUserInfo(code)
+
     },
     //登录
     LoginUserInfo (authCode) {
