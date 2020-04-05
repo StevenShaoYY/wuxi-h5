@@ -133,7 +133,7 @@ export default {
     },
     handlepersonalInfo() {
       if(this.result.type == 0) {
-        return this.$toast('请完成会员认证')
+        return this.$toast('请先完成会员认证')
       }else {
         this.$router.push({
           path: "/personalInfo"
@@ -246,8 +246,6 @@ export default {
           }else {
             this.$router.push(item.path)
           }
-
-
         }
 
         if(this.result.type == 1) {
@@ -256,6 +254,12 @@ export default {
 
         if(this.result.type == 2){
           this.$router.push(item.pathu)
+        }
+        if(this.result.type == 3){
+          this.$router.push({
+            path: "/mine/UnitPopMembersSuccess/success",
+            query:{authStatus:this.result.authStatus}
+          })
         }
 
       }
@@ -322,6 +326,7 @@ export default {
       float: left;
       img {
         width: 100%;
+        height: 100%;
       }
     }
     .left_text {
@@ -406,6 +411,7 @@ export default {
   float: left;
   color: #666666;
   img {
+    width: 18px;
     vertical-align: middle;
   }
 }
@@ -418,5 +424,8 @@ export default {
   font-size: 18px;
   padding-right: 10px;
   line-height: 49px;
+  img {
+    width: 8px;
+  }
 }
 </style>

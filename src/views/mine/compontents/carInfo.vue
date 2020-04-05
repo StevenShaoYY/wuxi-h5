@@ -19,7 +19,7 @@
           </van-popup>
         </div>
         <div class="input">
-          <span class="red">*</span><span class="name">车牌号码</span> <input type="text" v-model="plateNumber" placeholder="请填写车牌号码" />
+          <span class="red">*</span><span class="name">车牌号码</span> <input type="text" @change="changeplateNumber" v-model="plateNumber" placeholder="请填写车牌号码" />
         </div>
         <div class="input">
           <span class="red">*</span><span class="name">注册时间</span>
@@ -74,6 +74,9 @@
     methods: {
       goback () {
         this.$router.push('/mine')
+      },
+      changeplateNumber () {
+        this.plateNumber = this.plateNumber.toUpperCase()
       },
       onConfirm(value) {
         this.vehicleType = value;

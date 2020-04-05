@@ -27,7 +27,7 @@ const personalMembersSuccess = () => import('@/views/mine/certification/personal
 const unitMembersSuccess = () => import('@/views/mine/certification/unitMembersSuccess.vue') // 单位会员成功
 const editAddress = () => import('@/views/mine/certification/editAddress.vue') // 编辑地址
 const unitMembersOver = () => import('@/views/mine/certification/unitMembersOver.vue') // 认证完成
-
+const UnitPopMembersSuccess = () => import('@/views/mine/certification/UnitPopMembersSuccess.vue') // 单位会员完成
 
 Vue.use(Router)
 const router = new Router({
@@ -160,6 +160,15 @@ const router = new Router({
       component: personalMembersSuccess,
       meta: {
         title: '个人会员认证',
+        keepAlive: false
+      }
+    },
+    {
+      path: '/mine/UnitPopMembersSuccess/success',
+      name: 'UnitPopMembersSuccess',
+      component: UnitPopMembersSuccess,
+      meta: {
+        title: '单位会员认证',
         keepAlive: false
       }
     },

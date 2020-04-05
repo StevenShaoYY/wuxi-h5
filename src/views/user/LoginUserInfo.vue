@@ -150,7 +150,7 @@ export default {
         return this.$toast('请勾选用户注册协议和隐私政策')
       }
       sessionStorage.setItem("phoneNumber",this.phoneNumber)
-      this.LoginUserInfo()
+      this.getAuthCodes()
     },
     privacy (type) {
       this.$router.push({
@@ -160,13 +160,26 @@ export default {
         }
       })
     },
+    //获取authCode  验证码登录的
+    getAuthCodes () {
+      let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
+      let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+      let code = this.getUrlParam('code') || ''
+      if (code === '') {
+        window.location.href = url
+        code = this.getUrlParam('code')
+        this.LoginUserInfo(code)
+      } else {
+        this.LoginUserInfo(code)
+      }
+    },
     //登录
-    LoginUserInfo () {
+    LoginUserInfo (authCode) {
       let data = {
         clientType: 1,
         clientVersion: 1,
-        code: this.code,
-        openid: 333333,
+        code : this.code,
+        authCode : authCode,
         phoneNumber: this.phoneNumber
       }
       LoginUserInfo(data).then(res => {
@@ -181,6 +194,7 @@ export default {
           this.$router.push({
             path: '/mine'
           })
+          this.$toast.success('登录成功！')
         }else {
           return this.$toast(res.data.message)
         }

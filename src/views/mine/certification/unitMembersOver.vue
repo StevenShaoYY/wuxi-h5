@@ -29,9 +29,11 @@
 					<div class="imgs">
 						<img src="@/assets/imgs/mine/chenggong.png" alt="">
 					</div>
-					<div class="text">注册成功</div>
+					<div class="text">认证提交成功</div>
+					<div class="text">请等待管理员审核...</div>
 				</div>
 			</div>
+			<div class="btn" @click="confirms">确认</div>
 		</div>
 	</div>
 </template>
@@ -73,6 +75,9 @@
       closed() {
         this.showFlag = false;
       },
+      confirms () {
+        this.$router.push('/mine')
+			}
     }
   }
 </script>
@@ -162,7 +167,7 @@
 	.boxform {
 		width: 100%;
 		background: rgba(255, 255, 255, 1);
-		box-shadow: 0px 0px 8px 0px rgba(10, 103, 241, 0.1);
+		/*box-shadow: 0px 0px 8px 0px rgba(10, 103, 241, 0.1);*/
 		border-radius: 4px;
 		.box {
 			margin-top: 20px;
@@ -188,7 +193,19 @@
 			}
 		}
 	}
-
+	.btn {
+		width: 100%;
+		height:40px;
+		background:rgba(0,102,255,1);
+		border-radius:5px;
+		font-size:16px;
+		font-weight:500;
+		color:rgba(255,255,255,1);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 30px;
+	}
 
 
 </style>

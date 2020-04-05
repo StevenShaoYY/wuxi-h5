@@ -50,6 +50,9 @@
 				<div class="input">
 					<span class="red"></span><span class="name">到期时间</span> <span class="right">{{expiredTime}}</span>
 				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">发票号码</span> <span class="right">{{invoiceNumber}}</span>
+				</div>
 			</div>
 			<div class="next">
 				<div class="text" v-if="$route.query.authStatus == 7" @click="agains">重新认证</div>
@@ -72,8 +75,8 @@
         objs:{},
         createTime:'',//认证时间
         authStatus:'',//认证状态
-        expiredTime:''//到期时间
-
+        expiredTime:'',//到期时间
+        invoiceNumber:'' //发票号码
       }
     },
     components: {
@@ -126,6 +129,7 @@
 						this.createTime = data.createTime
             this.expiredTime = data.expiredTime
 						this.authStatus = data.authStatus
+            this.invoiceNumber = data.invoiceNumber
           }
         })
       },

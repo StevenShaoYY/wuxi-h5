@@ -24,7 +24,7 @@
 
     <van-popup v-model="showconfirmFlag">
       <div class="boxshow">
-        <div class="title">确认解绑川{{plateNumber}}</div>
+        <div class="title">确认解绑{{plateNumber}}</div>
         <div class="box">
           <div class="sure" @click="sures">确认</div><div class="cancel" @click="cancels">取消</div>
         </div>

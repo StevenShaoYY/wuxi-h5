@@ -8,7 +8,10 @@
 					<span class="name">认证信息</span>
 				</div>
 				<div class="input">
-					<span class="red"></span><span class="name">会员类型</span> <span class="right">个人会员</span>
+					<span class="red"></span><span class="name">会员类型</span> <span class="right">单位成员</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">单位名称</span> <span class="right">{{objs.companyName}}</span>
 				</div>
 				<div class="input">
 					<span class="red"></span><span class="name">姓名</span> <span class="right">{{objs.name}}</span>
@@ -37,7 +40,6 @@
 					<span class="red"></span><span class="name">发票号码</span> <span class="right">{{invoiceNumber}}</span>
 				</div>
 			</div>
-
 
 			<div class="next">
 				<div class="text" v-if="$route.query.authStatus == 7" @click="agains">重新认证</div>

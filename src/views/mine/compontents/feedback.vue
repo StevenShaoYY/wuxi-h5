@@ -2,10 +2,18 @@
   <div>
     <headerTop :title="title" :head-style="headStyle" :back-icon="backIcon" @goback="goback"/>
     <div class="content">
+
       <div class="boxform">
-        <div class="title1">请输入您宝贵的意见</div>
-        <div class="title2">因为有您，我们会努力做的更好</div>
-        <textarea class="input" type="text" v-model="content" />
+        <div class="top">
+          <div class="left">
+            <img src="@/assets/imgs/mine/feedback.png" alt="">
+          </div>
+          <div class="right">
+            <div class="title1">请输入您宝贵的意见</div>
+            <div class="title2">因为有您，我们会努力做的更好</div>
+          </div>
+        </div>
+        <textarea class="input" type="text" v-model="content" placeholder="在此填写您的宝贵意见......" />
       </div>
       <div class="next" @click="confirms">
         确认
@@ -97,17 +105,35 @@
     box-sizing: border-box;
     padding: 20px 12px 12px 12px;
     .boxform {
+
       width: 100%;
       border-radius:5px;
+      .top {
+        width: 100%;
+        height: 34px;
+        overflow: hidden;
+        .left {
+          float: left;
+          width: 30px;
+          height: 34px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .right {
+          float: left;
+          height: 34px;
+          margin-left: 7px;
+        }
+      }
       .title1 {
         width: 100%;
         height: 20px;
         font-size:13px;
         font-weight:500;
         color:rgba(51,51,51,1);
-        display: flex;
-        justify-content: center;
-        padding-top: 20px;
+
       }
       .title2 {
         width: 100%;
@@ -115,12 +141,9 @@
         font-size:10px;
         font-weight:500;
         color:rgba(102,102,102,1);
-        display: flex;
-        justify-content: center;
-
       }
       .input {
-        margin-top: 13px;
+        margin-top: 18px;
         border:1px solid rgba(204,204,204,1);
         outline: none;
         resize: none;
@@ -129,6 +152,8 @@
         background:rgba(255,255,255,1);
         border:1px solid rgba(204,204,204,1);
         border-radius:5px;
+        box-sizing: border-box;
+        padding: 10px;
       }
     }
     .next {
