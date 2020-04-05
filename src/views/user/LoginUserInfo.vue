@@ -150,8 +150,12 @@ export default {
         return this.$toast('请勾选用户注册协议和隐私政策')
       }
       sessionStorage.setItem("phoneNumber",this.phoneNumber)
-      // this.LoginUserInfo()
-      this.getAuthCodes()
+      
+      if(this.isWeixin()) {
+        this.getAuthCodes()
+      }else {
+        this.LoginUserInfo()
+      }
     },
     privacy (type) {
       this.$router.push({
