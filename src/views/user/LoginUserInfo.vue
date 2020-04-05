@@ -55,7 +55,7 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if(vm.isWeixin()) {
-        // vm.getCodes()
+        vm.getCodes()
       }
       // vm.$router.replace({
       //   // path: '/mine',
