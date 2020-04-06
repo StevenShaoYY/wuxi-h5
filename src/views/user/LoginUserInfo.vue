@@ -52,167 +52,167 @@ import {
   LoginUserInfo,
   smsVerification,
   loginWeiXin
-} from "@/api/user/user.js";
+} from '@/api/user/user.js'
 export default {
-  name: "LoginUserInfo",
-  data() {
+  name: 'LoginUserInfo',
+  data () {
     return {
       phoneNumber: null,
       code: null,
-      codeName: "获取验证码",
+      codeName: '获取验证码',
       smsCodeFlag: true,
       checked: true,
       timeNum: 60,
-      authCodes: ""
-    };
+      authCodes: ''
+    }
   },
-  created() {
-    localStorage.removeItem("tokens");
-    this.phoneNumber = sessionStorage.getItem("phoneNumber")
-      ? sessionStorage.getItem("phoneNumber")
-      : null;
-    let changeCode = localStorage.getItem("changeCode");
+  created () {
+    localStorage.removeItem('tokens')
+    this.phoneNumber = sessionStorage.getItem('phoneNumber')
+      ? sessionStorage.getItem('phoneNumber')
+      : null
+    let changeCode = localStorage.getItem('changeCode')
 
-    if (changeCode == 1 && this.getUrlParam("code") !== null) {
-      console.log("手动登录code获取前", authCodes);
-      this.authCodes = this.getUrlParam("code");
-      console.log("手动登录code获取后", authCodes);
+    if (changeCode == 1 && this.getUrlParam('code') !== null) {
+      console.log('手动登录code获取前', this.authCodes)
+      this.authCodes = this.getUrlParam('code')
+      console.log('手动登录code获取后', this.authCodes)
     } else {
       if (this.isWeixin()) {
-        console.log("自动登录code");
-        this.getCodes();
+        console.log('自动登录code')
+        this.getCodes()
       }
     }
   },
-  mounted() {
-    document.getElementById("input2").addEventListener(
-      "blur",
-      function() {
-        window.scrollTo(0, 0); // 页面滚动到顶部
+  mounted () {
+    document.getElementById('input2').addEventListener(
+      'blur',
+      function () {
+        window.scrollTo(0, 0) // 页面滚动到顶部
       },
       false
-    );
+    )
   },
 
   methods: {
     // 获取url参数
-    getUrlParam(name) {
+    getUrlParam (name) {
       return (
         decodeURIComponent(
-          (new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(
+          (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(
             location.href
-          ) || [, ""])[1].replace(/\+/g, "%20")
+          ) || [, ''])[1].replace(/\+/g, '%20')
         ) || null
-      );
+      )
     },
-    isWeixin() {
-      const ua = window.navigator.userAgent.toLowerCase();
-      if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        return true;
+    isWeixin () {
+      const ua = window.navigator.userAgent.toLowerCase()
+      if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        return true
       } else {
-        return false;
+        return false
       }
     },
-    getCodes() {
+    getCodes () {
       // let local = process.env.VUE_APP_LOCAL_URL  //这个地址
-      let local = "http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f";
+      let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
       if (local) {
         let url =
-          "http://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=" +
+          'http://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' +
           local +
-          "&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
-        let code = this.getUrlParam("code") || "";
-        if (code === "") {
-          window.location.href = url;
+          '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
+        let code = this.getUrlParam('code') || ''
+        if (code === '') {
+          window.location.href = url
         } else {
-          this.getOppenId(code);
+          this.getOppenId(code)
         }
       } else {
         this.$router.push({
-          path: "/LoginUserInfo"
-        });
+          path: '/LoginUserInfo'
+        })
       }
     },
-    getOppenId(code) {
+    getOppenId (code) {
       loginWeiXin({ authCode: code }).then(res => {
         if (res.data.code == 200) {
           this.$router.push({
-            path: "/mine"
-          });
-          localStorage.setItem("tokens", res.data.message);
+            path: '/mine'
+          })
+          localStorage.setItem('tokens', res.data.message)
         } else {
-          localStorage.setItem("changeCode", 1);
-          this.getAuthCodes();
+          localStorage.setItem('changeCode', 1)
+          this.getAuthCodes()
         }
-      });
+      })
     },
     // 验证手机号
-    handlephoneFlag() {},
+    handlephoneFlag () {},
     // 验证码
-    handlecodeFlag() {},
-    clock() {
+    handlecodeFlag () {},
+    clock () {
       let timeIndex = setInterval(() => {
-        this.timeNum -= 1;
+        this.timeNum -= 1
         if (this.timeNum == 0) {
-          this.smsCodeFlag = true;
-          clearInterval(timeIndex);
-          this.timeNum = 60;
+          this.smsCodeFlag = true
+          clearInterval(timeIndex)
+          this.timeNum = 60
           // this.$toast.success('发送成功')
         }
-      }, 1000);
+      }, 1000)
     },
     // 获取验证码
-    gitcode() {
+    gitcode () {
       if (this.phoneNumber) {
         smsVerification({ phoneNumber: Number(this.phoneNumber) }).then(res => {
           if (res.data.code == 200) {
-            this.smsCodeFlag = false;
-            this.clock();
-            return this.$toast("发送成功");
+            this.smsCodeFlag = false
+            this.clock()
+            return this.$toast('发送成功')
           }
-        });
+        })
       } else {
-        return this.$toast("请输入手机号码");
+        return this.$toast('请输入手机号码')
       }
     },
-    confirm() {
-      const regphone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+    confirm () {
+      const regphone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/
       if (!this.phoneNumber) {
-        return this.$toast("请输入手机号码");
+        return this.$toast('请输入手机号码')
       } else if (!regphone.test(this.phoneNumber)) {
-        return this.$toast("请输入正确的手机号码");
+        return this.$toast('请输入正确的手机号码')
       }
 
       if (!this.code) {
-        return this.$toast("请输入验证码");
+        return this.$toast('请输入验证码')
       }
       if (!this.checked) {
-        return this.$toast("请勾选用户注册协议和隐私政策");
+        return this.$toast('请勾选用户注册协议和隐私政策')
       }
-      sessionStorage.setItem("phoneNumber", this.phoneNumber);
-      this.LoginUserInfo();
+      sessionStorage.setItem('phoneNumber', this.phoneNumber)
+      this.LoginUserInfo()
     },
-    privacy(type) {
+    privacy (type) {
       this.$router.push({
-        path: "/privacy",
+        path: '/privacy',
         query: {
           type: type
         }
-      });
+      })
     },
     // 获取authCode  验证码登录的
-    getAuthCodes() {
-      let local = "http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f";
+    getAuthCodes () {
+      let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
       let url =
-        "http://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=" +
+        'http://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' +
         local +
-        "&response_type=code&scope=snsapi_userinfo&state=2#wechat_redirect";
-      window.location.href = url;
+        '&response_type=code&scope=snsapi_userinfo&state=2#wechat_redirect'
+      window.location.href = url
       // this.authCodes = this.getUrlParam('code') || ''
       // this.LoginUserInfo()
     },
     // 登录
-    LoginUserInfo() {
+    LoginUserInfo () {
       let data = {
         clientType: 1,
         clientVersion: 1,
@@ -220,33 +220,33 @@ export default {
         authCode: this.authCodes,
         phoneNumber: this.phoneNumber
           ? this.phoneNumber
-          : sessionStorage.getItem("phoneNumber")
-      };
+          : sessionStorage.getItem('phoneNumber')
+      }
       LoginUserInfo(data).then(res => {
-        console.log(res);
+        console.log(res)
         if (res.data.code == 200) {
-          localStorage.setItem("tokens", res.data.message);
-          document.getElementById("input2").addEventListener(
-            "blur",
-            function() {
-              window.scrollTo(0, 0);
+          localStorage.setItem('tokens', res.data.message)
+          document.getElementById('input2').addEventListener(
+            'blur',
+            function () {
+              window.scrollTo(0, 0)
             },
             false
-          );
+          )
 
           this.$router.push({
-            path: "/mine"
-          });
-          this.$toast.success("登录成功！");
+            path: '/mine'
+          })
+          this.$toast.success('登录成功！')
         } else {
-          return this.$toast(res.data.message);
+          return this.$toast(res.data.message)
         }
-      });
+      })
     }
   },
   computed: {},
   components: {}
-};
+}
 </script>
 <style lang="scss" scoped>
 .box-wrapper {
