@@ -170,7 +170,8 @@ export default {
       showFlag: false,
       objs: {},
       resultList: {},
-      annualFees: ""
+      annualFees: "",
+      objSob: {}
     };
   },
   components: {
@@ -185,11 +186,12 @@ export default {
       if (this.$route.query.authStatus == 4) {
         // this.$toast.fail('支付异常')
       }
-      this.authQuery();
+      this.getDictionaryAll();
     } else {
       let tt = sessionStorage.getItem("personalObj");
       let dataobj = JSON.parse(JSON.stringify(tt));
       this.objs = JSON.parse(dataobj);
+      this.objSob = JSON.parse(dataobj);
     }
     this.getDictionaryAll();
     this.getAnnualFee();
@@ -198,12 +200,40 @@ export default {
     goback() {
       this.$router.push("/mine");
     },
+    changeObjsAg(dataList, name) {
+      let tt = null;
+      dataList.forEach(item => {
+        if (item.value == name) {
+          tt = item.name;
+        }
+      });
+      return tt;
+    },
     // 会员查询
     authQuery() {
       authQuery({}).then(res => {
         if (res.data.code == 200) {
           let data = res.data.result;
           this.objs = data.authInfo;
+
+          this.objs.gender = this.changeObjsAg(
+            this.resultList.gender,
+            this.objs.gender
+          );
+          this.objs.nation = this.changeObjsAg(
+            this.resultList.nation,
+            this.objs.nation
+          );
+          this.objs.educationRecord = this.changeObjsAg(
+            this.resultList.educationRecord,
+            this.objs.educationRecord
+          );
+          this.objs.academicDegree = this.changeObjsAg(
+            this.resultList.academicDegree,
+            this.objs.academicDegree
+          );
+
+          this.objSob = this.objs;
         }
       });
     },
@@ -221,6 +251,9 @@ export default {
         if (res.data.code == 200) {
           let data = res.data.result;
           this.resultList = data;
+          if (this.$route.query.authStatus) {
+            this.authQuery();
+          }
         }
       });
     },
@@ -254,24 +287,24 @@ export default {
     },
     // 会员提交
     authAdd() {
-      this.objs.gender = this.changeObjs(
+      this.objSob.gender = this.changeObjs(
         this.resultList.gender,
-        this.objs.gender
+        this.objSob.gender
       );
-      this.objs.nation = this.changeObjs(
+      this.objSob.nation = this.changeObjs(
         this.resultList.nation,
-        this.objs.nation
+        this.objSob.nation
       );
-      this.objs.educationRecord = this.changeObjs(
+      this.objSob.educationRecord = this.changeObjs(
         this.resultList.educationRecord,
-        this.objs.educationRecord
+        this.objSob.educationRecord
       );
-      this.objs.academicDegree = this.changeObjs(
+      this.objSob.academicDegree = this.changeObjs(
         this.resultList.academicDegree,
-        this.objs.academicDegree
+        this.objSob.academicDegree
       );
       let data = {
-        authInfo: this.objs,
+        authInfo: this.objSob,
         authType: 1 // 1个人 2单位
       };
       authAdd(data).then(res => {
