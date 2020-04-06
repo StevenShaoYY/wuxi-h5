@@ -17,21 +17,21 @@
 
       <div class="tab_list">
         <div class="tab_list_box">
-          <div class="lists" v-if="result.type == 2">
+          <div class="lists" v-if="result.type == 2 || result.type == 3">
             <div class="left"><span class="span1">单位名称</span></div>
-            <div class="right">{{result.companyName?result.companyName:'--'}}</div>
+            <div class="right">{{result.companyName?result.companyName:''}}</div>
           </div>
           <div class="lists">
             <div class="left"><span class="span1">姓名</span></div>
-            <div class="right">{{result.name?result.name:'--'}}</div>
+            <div class="right">{{result.name?result.name:''}}</div>
           </div>
           <div class="lists">
             <div class="left"><span class="span1">身份证号码</span></div>
-            <div class="right">{{result.certificateNumber?result.certificateNumber:'--'}}</div>
+            <div class="right">{{result.certificateNumber?result.certificateNumber:''}}</div>
           </div>
           <div class="lists">
             <div class="left"><span class="span1">车牌号码</span></div>
-            <div class="right">{{result.plateNumber?result.plateNumber:'--'}}</div>
+            <div class="right">{{result.plateNumber?result.plateNumber:''}}</div>
           </div>
         </div>
       </div>
@@ -112,7 +112,7 @@ export default {
 }
 .header_background {
   width: 100%;
-  height: 134px;
+  height: 94px;
   background: linear-gradient(
       151deg,
       rgba(0, 114, 255, 1),
@@ -158,7 +158,7 @@ export default {
 }
 .middles .tab_list {
   box-sizing: border-box;
-  padding: 80px 12px;
+  padding: 100px 12px;
   width: 100%;
 }
 .middles .tab_list .tab_list_box {

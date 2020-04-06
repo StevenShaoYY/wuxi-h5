@@ -87,7 +87,7 @@
       },
       agains () {
         this.$router.push({
-          path: '/mine/personalMembers'
+          path: '/mine/members'
         })
 			},
       changeauthStatus (type) {
@@ -96,15 +96,15 @@
         }else if(type == 2) {
           return '已支付'
         }else if(type == 3) {
-          return '支付异常'
+          return '已过期'
         }else if(type == 4) {
-          return '已退款'
+          return '支付异常'
         }else if(type == 5) {
-          return '已清除'
+          return '已重置'
         }else if(type == 6){
           return '已审核'
         }else {
-          return '--'
+          return '已退款'
         }
       },
       //会员提交

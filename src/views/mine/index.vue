@@ -14,7 +14,7 @@
             </div>
             <div class="left_text">
               <div class="name">{{result.name?result.name:'暂无'}}</div>
-              <div class="labels">{{result.type == 0 ?'未认证':'已认证'}}</div>
+              <div class="labels">{{changeresult(result.type)}}</div>
             </div>
           </div>
           <div class="right">
@@ -130,6 +130,18 @@ export default {
       this.$router.push({
         path: "/carInfo"
       });
+    },
+    changeresult (type) {
+      //[0.非会员，1.普通会员，2.单位会员，3.单位成员]
+        if( type == 1 ) {
+          return '普通会员'
+        }else if ( type == 2 ) {
+          return '单位会员'
+        }else if ( type == 3 ) {
+          return '单位成员'
+        }else {
+          return '未认证'
+        }
     },
     handlepersonalInfo() {
       if(this.result.type == 0) {
@@ -325,6 +337,7 @@ export default {
       width: 56px;
       height: 56px;
       float: left;
+      border-radius: 50%;
       img {
         width: 100%;
         height: 100%;

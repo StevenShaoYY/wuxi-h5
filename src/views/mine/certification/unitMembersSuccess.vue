@@ -21,9 +21,7 @@
 				</div>
 			</div>
 			<div class="boxform boxformCost">
-				<div class="input">
-					<span class="red"></span><span class="name">联系地址</span> <span class="right">{{objs.address}}</span>
-				</div>
+
 				<div class="input">
 					<span class="red"></span><span class="name">法定代表人</span> <span class="right">{{objs.companyLegalPerson}}</span>
 				</div>
@@ -33,19 +31,22 @@
 				<div class="input">
 					<span class="red"></span><span class="name">法定代表人身份证号码</span> <span class="right">{{objs.companyLegalPersonCertificateNumber}}</span>
 				</div>
-			</div>
-			<div class="boxform boxformCost">
 				<div class="input">
 					<span class="red"></span><span class="name">经办人</span> <span class="right">{{objs.companyChargelPerson}}</span>
 				</div>
 				<div class="input">
 					<span class="red"></span><span class="name">经办人联系电话</span> <span class="right">{{objs.companyChargelPersonPhone}}</span>
 				</div>
+			</div>
+			<div class="boxform boxformCost">
 				<div class="input">
-					<span class="red"></span><span class="name">认证时间</span> <span class="right">{{createTime}}</span>
+					<span class="red"></span><span class="name">联系地址</span> <span class="right">{{objs.address}}</span>
 				</div>
 				<div class="input">
 					<span class="red"></span><span class="name">认证状态</span> <span class="right">{{changeauthStatus(authStatus)}}</span>
+				</div>
+				<div class="input">
+					<span class="red"></span><span class="name">认证时间</span> <span class="right">{{createTime}}</span>
 				</div>
 				<div class="input">
 					<span class="red"></span><span class="name">到期时间</span> <span class="right">{{expiredTime}}</span>
@@ -100,25 +101,25 @@
       },
       agains () {
         this.$router.push({
-          path: '/mine/unitMembers'
+          path: '/mine/members'
         })
       },
       changeauthStatus (type) {
         if(type == 1) {
           return '未支付'
-				}else if(type == 2) {
+        }else if(type == 2) {
           return '已支付'
         }else if(type == 3) {
-          return '支付异常'
+          return '已过期'
         }else if(type == 4) {
-          return '已退款'
+          return '支付异常'
         }else if(type == 5) {
-          return '已清除'
+          return '已重置'
         }else if(type == 6){
           return '已审核'
-				}else {
-          return '--'
-				}
+        }else {
+          return '已退款'
+        }
 			},
       //会员提交
       authQuery () {

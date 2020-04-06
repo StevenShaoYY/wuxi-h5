@@ -123,7 +123,7 @@ const router = new Router({
       name: 'unitMembersSuccess',
       component: unitMembersSuccess,
       meta: {
-        title: '个人会员认证',
+        title: '单位会员认证',
         keepAlive: false
       }
     },
@@ -168,7 +168,7 @@ const router = new Router({
       name: 'UnitPopMembersSuccess',
       component: UnitPopMembersSuccess,
       meta: {
-        title: '单位会员认证',
+        title: '单位成员认证',
         keepAlive: false
       }
     },
