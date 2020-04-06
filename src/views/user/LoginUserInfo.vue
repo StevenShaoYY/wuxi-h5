@@ -46,6 +46,7 @@ export default {
     };
   },
   created() {
+    localStorage.removeItem("tokens")
     this.phoneNumber = sessionStorage.getItem('phoneNumber')?sessionStorage.getItem('phoneNumber'):null
   },
   mounted() {
@@ -56,7 +57,7 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if(vm.isWeixin()) {
-        vm.getAuthCodes()
+        vm.getCodes()
       }
     })
   },
@@ -74,9 +75,23 @@ export default {
       }
     },
     getCodes () {
-      console.log(1)
       // let local = process.env.VUE_APP_LOCAL_URL  //这个地址
-
+      let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
+      if(local) {
+        let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
+        let code = this.getUrlParam('code') || ''
+        if (code === '') {
+          window.location.href = url
+          code = this.getUrlParam('code')
+          this.getOppenId(code)
+        } else {
+          this.getOppenId(code)
+        }
+      }else {
+        this.$router.push({
+          path: '/LoginUserInfo'
+        })
+      }
     },
     getOppenId (code) {
       loginWeiXin({ authCode:code }).then(res => {
@@ -85,6 +100,8 @@ export default {
             path: '/mine'
           })
           localStorage.setItem('tokens', res.data.message)
+        }else {
+          this.getAuthCodes()
         }
       })
     },
@@ -134,13 +151,6 @@ export default {
         return this.$toast('请勾选用户注册协议和隐私政策')
       }
       sessionStorage.setItem("phoneNumber",this.phoneNumber)
-
-      // if(this.isWeixin()) {
-      //   this.getAuthCodes()
-      // }else {
-      //
-      // }
-
       this.LoginUserInfo()
     },
     privacy (type) {

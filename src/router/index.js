@@ -35,7 +35,7 @@ const router = new Router({
 
     {
       path: '/',
-      redirect: 'changeWx'
+      redirect: 'LoginUserInfo'
     },
     {
       path: '/changeWx',
