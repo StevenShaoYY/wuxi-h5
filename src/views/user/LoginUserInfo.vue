@@ -86,8 +86,7 @@ export default {
         let code = this.getUrlParam('code') || ''
         if (code === '') {
           window.location.href = url
-          code = this.getUrlParam('code')
-          this.getOppenId(code)
+        
         } else {
           this.getOppenId(code)
         }
@@ -111,9 +110,7 @@ export default {
       })
     },
     //验证手机号
-    handlephoneFlag() {
-
-    },
+    handlephoneFlag() {},
     //验证码
     handlecodeFlag() {},
     clock() {
