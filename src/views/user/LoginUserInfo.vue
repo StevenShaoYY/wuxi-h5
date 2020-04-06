@@ -53,7 +53,7 @@ export default {
     if(changeCode == 1) {
       this.authCodes = this.getUrlParam('code')
     }else {
-      if(vm.isWeixin()) {
+      if(this.isWeixin()) {
         this.getCodes()
       }
     }
@@ -64,15 +64,7 @@ export default {
         window.scrollTo(0,0)   //页面滚动到顶部
     },false)
   },
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      // if(vm.isWeixin()) {
-      //   if(!vm.authCodes) {
-      //     vm.getCodes()
-      //   }
-      // }
-    })
-  },
+
   methods: {
     //获取url参数
     getUrlParam(name){
@@ -90,7 +82,7 @@ export default {
       // let local = process.env.VUE_APP_LOCAL_URL  //这个地址
       let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
       if(local) {
-        let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
+        let url = 'http://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
         let code = this.getUrlParam('code') || ''
         if (code === '') {
           window.location.href = url
@@ -177,7 +169,7 @@ export default {
     //获取authCode  验证码登录的
     getAuthCodes () {
       let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
-      let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_userinfo&state=2#wechat_redirect'
+      let url = 'http://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_userinfo&state=2#wechat_redirect'
       window.location.href = url
       // this.authCodes = this.getUrlParam('code') || ''
       // this.LoginUserInfo()
