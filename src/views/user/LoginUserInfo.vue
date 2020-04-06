@@ -57,9 +57,10 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if(vm.isWeixin()) {
-        if(!this.authCodes) {
+        if(!vm.authCodes) {
           vm.getCodes()
         }
+
       }
     })
   },
@@ -102,10 +103,6 @@ export default {
             path: '/mine'
           })
           localStorage.setItem('tokens', res.data.message)
-        }else {
-          if(this.isWeixin()) {
-            this.getAuthCodes()
-          }
         }
       })
     },
@@ -155,7 +152,13 @@ export default {
         return this.$toast('请勾选用户注册协议和隐私政策')
       }
       sessionStorage.setItem("phoneNumber",this.phoneNumber)
-      this.LoginUserInfo()
+
+      if(this.isWeixin()) {
+        this.getAuthCodes()
+      }else {
+        this.LoginUserInfo()
+      }
+
     },
     privacy (type) {
       this.$router.push({
@@ -168,10 +171,12 @@ export default {
     //获取authCode  验证码登录的
     getAuthCodes () {
       let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
-      let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+      let codes = this.code
+      let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_userinfo&state='+ codes +'#wechat_redirect'
       window.location.href = url
       this.authCodes = this.getUrlParam('code') || ''
-
+      this.code = this.getUrlParam('state') || ''
+      this.LoginUserInfo()
     },
     //登录
     LoginUserInfo () {
@@ -180,7 +185,7 @@ export default {
         clientVersion: 1,
         code : this.code,
         authCode : this.authCodes,
-        phoneNumber: this.phoneNumber
+        phoneNumber: this.phoneNumber?this.phoneNumber:sessionStorage.getItem('phoneNumber')
       }
       LoginUserInfo(data).then(res => {
         console.log(res)

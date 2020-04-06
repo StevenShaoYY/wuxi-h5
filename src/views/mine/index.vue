@@ -338,6 +338,7 @@ export default {
       height: 56px;
       float: left;
       border-radius: 50%;
+      overflow: hidden;
       img {
         width: 100%;
         height: 100%;
