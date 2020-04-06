@@ -47,9 +47,6 @@ export default {
   },
   created() {
     localStorage.removeItem("tokens")
-    if(this.isWeixin()) {
-      this.getAuthCodes()
-    }
     this.phoneNumber = sessionStorage.getItem('phoneNumber')?sessionStorage.getItem('phoneNumber'):null
   },
   mounted() {
@@ -60,7 +57,9 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if(vm.isWeixin()) {
-        // vm.getCodes()
+        if(!this.authCodes) {
+          vm.getCodes()
+        }
       }
     })
   },
@@ -103,6 +102,10 @@ export default {
             path: '/mine'
           })
           localStorage.setItem('tokens', res.data.message)
+        }else {
+          if(this.isWeixin()) {
+            this.getAuthCodes()
+          }
         }
       })
     },
@@ -168,6 +171,7 @@ export default {
       let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
       window.location.href = url
       this.authCodes = this.getUrlParam('code') || ''
+
     },
     //登录
     LoginUserInfo () {

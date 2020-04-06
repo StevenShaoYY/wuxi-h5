@@ -35,7 +35,7 @@ const router = new Router({
 
     {
       path: '/',
-      redirect: 'changeWx'
+      redirect: 'LoginUserInfo'
     },
     {
       path: '/changeWx',
@@ -51,7 +51,7 @@ const router = new Router({
       name: 'LoginUserInfo',
       component: LoginUserInfo,
       meta: {
-        title: '登陆',
+        title: '登录',
         keepAlive: false
       }
     },
