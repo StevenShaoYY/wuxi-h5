@@ -8,7 +8,17 @@ import 'utils/permission'
 import SvgIcon from 'components/SvgIcon'
 import '@/icons' // icon
 import '@/style/common.scss'
-import { Lazyload, Checkbox, CheckboxGroup, Popup, Picker, Calendar,Toast,Notify,DatetimePicker } from 'vant' //Calendar
+import {
+  Lazyload,
+  Checkbox,
+  CheckboxGroup,
+  Popup,
+  Picker,
+  Calendar,
+  Toast,
+  Notify,
+  DatetimePicker
+} from 'vant' // Calendar
 import defaultSettings from '@/settings'
 
 /**
@@ -19,21 +29,23 @@ import defaultSettings from '@/settings'
  * Currently MockJs will be used in the production environment,
  * please remove it before going online! ! !
  */
-import { mockXHR } from '../mock'
+import {
+  mockXHR
+} from '../mock'
 
 if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
 
-//FastClick的ios点击穿透解决方案
+// FastClick的ios点击穿透解决方案
 FastClick.prototype.focus = function (targetElement) {
-  let length;
+  let length
   if (targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month') {
-    length = targetElement.value.length;
-    targetElement.focus();
-    targetElement.setSelectionRange(length, length);
+    length = targetElement.value.length
+    targetElement.focus()
+    targetElement.setSelectionRange(length, length)
   } else {
-    targetElement.focus();
+    targetElement.focus()
   }
 }
 
@@ -51,11 +63,11 @@ Vue.use(Notify)
 Vue.use(DatetimePicker)
 Vue.component('svg-icon', SvgIcon)
 
-if (process.env.NODE_ENV === 'development' && defaultSettings.vconsole) {
-  const VConsole = require('vconsole')
-  // eslint-disable-next-line
-  const my_console = new VConsole()
-}
+// if (process.env.NODE_ENV === 'development' && defaultSettings.vconsole) {
+const VConsole = require('vconsole')
+// eslint-disable-next-line
+const my_console = new VConsole()
+// }
 // var vConsole = new VConsole(option)
 
 // element-ui 引用

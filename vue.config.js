@@ -1,7 +1,9 @@
 const path = require('path')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const {
+  BundleAnalyzerPlugin
+} = require('webpack-bundle-analyzer')
 const port = process.env.port || process.env.npm_config_port || 8888
 const cdnDomian = './' // cdn域名，如果有cdn修改成对应的cdn
 const name = '' // page title
@@ -25,7 +27,7 @@ const externals = {
   'js-cookie': 'Cookies'
 }
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
@@ -80,7 +82,7 @@ module.exports = {
       }
     }
   },
-  chainWebpack (config) {
+  chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
     config.plugins.delete('prefetch') // TODO: need test
 
@@ -113,7 +115,7 @@ module.exports = {
       .end()
 
     config
-    // https://webpack.js.org/configuration/devtool/#development
+      // https://webpack.js.org/configuration/devtool/#development
       .when(process.env.NODE_ENV === 'development',
         config => config.devtool('cheap-source-map')
       )
@@ -125,7 +127,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()
@@ -166,13 +168,11 @@ module.exports = {
       config
         .plugin('compression')
         .use(CompressionWebpackPlugin)
-        .tap(() => [
-          {
-            test: /\.js$|\.html$|\.css/, // 匹配文件名
-            threshold: 10240, // 超过10k进行压缩
-            deleteOriginalAssets: false // 是否删除源文件
-          }
-        ])
+        .tap(() => [{
+          test: /\.js$|\.html$|\.css/, // 匹配文件名
+          threshold: 10240, // 超过10k进行压缩
+          deleteOriginalAssets: false // 是否删除源文件
+        }])
       config.optimization.minimizer([
         new UglifyjsWebpackPlugin({
           // 生产环境推荐关闭 sourcemap 防止源码泄漏
@@ -181,8 +181,8 @@ module.exports = {
           uglifyOptions: {
             warnings: false,
             compress: {
-              drop_console: false,
-              drop_debugger: false
+              drop_console: true,
+              drop_debugger: true
             }
           }
         })
