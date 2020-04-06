@@ -116,6 +116,7 @@ export default {
 
   },
   created() {
+    localStorage.removeItem('changeCode')
     window.scrollTo(0,0)
 
     this.userInfo()

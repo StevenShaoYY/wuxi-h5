@@ -48,6 +48,16 @@ export default {
   created() {
     localStorage.removeItem("tokens")
     this.phoneNumber = sessionStorage.getItem('phoneNumber')?sessionStorage.getItem('phoneNumber'):null
+    let changeCode = localStorage.getItem('changeCode')
+
+    if(changeCode == 1) {
+      this.authCodes = this.getUrlParam('code')
+    }else {
+      if(vm.isWeixin()) {
+        this.getCodes()
+      }
+    }
+
   },
   mounted() {
     document.getElementById('input2').addEventListener('blur',function(){
@@ -56,12 +66,11 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      if(vm.isWeixin()) {
-        if(!vm.authCodes) {
-          vm.getCodes()
-        }
-
-      }
+      // if(vm.isWeixin()) {
+      //   if(!vm.authCodes) {
+      //     vm.getCodes()
+      //   }
+      // }
     })
   },
   methods: {
@@ -103,6 +112,9 @@ export default {
             path: '/mine'
           })
           localStorage.setItem('tokens', res.data.message)
+        }else {
+          localStorage.setItem('changeCode',1)
+          this.getAuthCodes()
         }
       })
     },
@@ -152,13 +164,7 @@ export default {
         return this.$toast('请勾选用户注册协议和隐私政策')
       }
       sessionStorage.setItem("phoneNumber",this.phoneNumber)
-
-      if(this.isWeixin()) {
-        this.getAuthCodes()
-      }else {
-        this.LoginUserInfo()
-      }
-
+      this.LoginUserInfo()
     },
     privacy (type) {
       this.$router.push({
@@ -171,12 +177,10 @@ export default {
     //获取authCode  验证码登录的
     getAuthCodes () {
       let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
-      let codes = this.code
-      let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_userinfo&state='+ codes +'#wechat_redirect'
+      let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_userinfo&state=2#wechat_redirect'
       window.location.href = url
-      this.authCodes = this.getUrlParam('code') || ''
-      this.code = this.getUrlParam('state') || ''
-      this.LoginUserInfo()
+      // this.authCodes = this.getUrlParam('code') || ''
+      // this.LoginUserInfo()
     },
     //登录
     LoginUserInfo () {
