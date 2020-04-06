@@ -50,13 +50,13 @@ export default {
     this.phoneNumber = sessionStorage.getItem('phoneNumber')?sessionStorage.getItem('phoneNumber'):null
     let changeCode = localStorage.getItem('changeCode')
 
-    if(changeCode == 1) {
-      this.authCodes = this.getUrlParam('code')
-    }else {
-      if(this.isWeixin()) {
-        this.getCodes()
-      }
-    }
+    // if(changeCode == 1) {
+    //   this.authCodes = this.getUrlParam('code')
+    // }else {
+    //   if(this.isWeixin()) {
+    //     this.getCodes()
+    //   }
+    // }
 
   },
   mounted() {
@@ -86,7 +86,7 @@ export default {
         let code = this.getUrlParam('code') || ''
         if (code === '') {
           window.location.href = url
-        
+
         } else {
           this.getOppenId(code)
         }
