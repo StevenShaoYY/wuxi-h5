@@ -73,16 +73,16 @@ export default {
       : null;
     let changeCode = localStorage.getItem("changeCode");
 
-    // if (changeCode == 1 && this.getUrlParam('code') !== null) {
-    //   console.log('手动登录code获取前', this.authCodes)
-    //   this.authCodes = this.getUrlParam('code')
-    //   console.log('手动登录code获取后', this.authCodes)
-    // } else {
-    //   if (this.isWeixin()) {
-    //     console.log('自动登录code')
-    //     this.getCodes()
-    //   }
-    // }
+    if (changeCode == 1 && this.getUrlParam("code") !== null) {
+      console.log("手动登录code获取前", this.authCodes);
+      this.authCodes = this.getUrlParam("code");
+      console.log("手动登录code获取后", this.authCodes);
+    } else {
+      if (this.isWeixin()) {
+        console.log("自动登录code");
+        this.getCodes();
+      }
+    }
   },
   mounted() {
     document.getElementById("input2").addEventListener(
