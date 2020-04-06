@@ -122,9 +122,12 @@ export default {
           local +
           '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
         let code = this.getUrlParam('code') || ''
+        console.log('自动登录code', code)
         if (code === '') {
+          console.log('自动登录code,code为空')
           window.location.href = url
         } else {
+          alert('获得的code' + code)
           this.getOppenId(code)
         }
       } else {
