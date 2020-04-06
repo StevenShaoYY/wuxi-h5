@@ -73,7 +73,7 @@ export default {
       : null;
     let changeCode = localStorage.getItem("changeCode");
 
-    if (changeCode == 1) {
+    if (changeCode == 1 && this.getUrlParam("code") !== "") {
       console.log("手动登录code获取前", authCodes);
       this.authCodes = this.getUrlParam("code");
       console.log("手动登录code获取后", authCodes);
