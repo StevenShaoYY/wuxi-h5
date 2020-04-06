@@ -41,7 +41,8 @@ export default {
       codeName:'获取验证码',
       smsCodeFlag:true,
       checked:true,
-      timeNum:60
+      timeNum:60,
+      authCodes:''
     };
   },
   created() {
@@ -55,11 +56,8 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if(vm.isWeixin()) {
-        vm.getCodes()
+        vm.getAuthCodes()
       }
-      // vm.$router.replace({
-      //   // path: '/mine',
-      // })
     })
   },
   methods: {
@@ -76,23 +74,9 @@ export default {
       }
     },
     getCodes () {
+      console.log(1)
       // let local = process.env.VUE_APP_LOCAL_URL  //这个地址
-      let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
-      if(local) {
-        let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
-        let code = this.getUrlParam('code') || ''
-        if (code === '') {
-          window.location.href = url
-          code = this.getUrlParam('code')
-          this.getOppenId(code)
-        } else {
-          this.getOppenId(code)
-        }
-      }else {
-        this.$router.push({
-          path: '/LoginUserInfo'
-        })
-      }
+
     },
     getOppenId (code) {
       loginWeiXin({ authCode:code }).then(res => {
@@ -151,11 +135,13 @@ export default {
       }
       sessionStorage.setItem("phoneNumber",this.phoneNumber)
 
-      if(this.isWeixin()) {
-        this.getAuthCodes()
-      }else {
-        this.LoginUserInfo()
-      }
+      // if(this.isWeixin()) {
+      //   this.getAuthCodes()
+      // }else {
+      //
+      // }
+
+      this.LoginUserInfo()
     },
     privacy (type) {
       this.$router.push({
@@ -170,17 +156,15 @@ export default {
       let local = 'http%3a%2f%2fm.jsyjq.cn%2ftraffic%2ffront%2f'
       let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa16c02724b19bb58&redirect_uri=' + local + '&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
       window.location.href = url
-      let code = this.getUrlParam('code') || ''
-      this.LoginUserInfo(code)
-
+      this.authCodes = this.getUrlParam('code') || ''
     },
     //登录
-    LoginUserInfo (authCode) {
+    LoginUserInfo () {
       let data = {
         clientType: 1,
         clientVersion: 1,
         code : this.code,
-        authCode : authCode,
+        authCode : this.authCodes,
         phoneNumber: this.phoneNumber
       }
       LoginUserInfo(data).then(res => {
