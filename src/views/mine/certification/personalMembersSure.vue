@@ -232,8 +232,9 @@ export default {
             this.resultList.academicDegree,
             this.objs.academicDegree
           );
+          let dataobj = JSON.parse(JSON.stringify(this.objs));
 
-          this.objSob = this.objs;
+          this.objSob = dataobj;
         }
       });
     },
