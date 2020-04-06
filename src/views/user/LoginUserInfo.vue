@@ -47,6 +47,9 @@ export default {
   },
   created() {
     localStorage.removeItem("tokens")
+    if(this.isWeixin()) {
+      this.getAuthCodes()
+    }
     this.phoneNumber = sessionStorage.getItem('phoneNumber')?sessionStorage.getItem('phoneNumber'):null
   },
   mounted() {
@@ -57,7 +60,7 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if(vm.isWeixin()) {
-        vm.getCodes()
+        // vm.getCodes()
       }
     })
   },
@@ -100,8 +103,6 @@ export default {
             path: '/mine'
           })
           localStorage.setItem('tokens', res.data.message)
-        }else {
-          this.getAuthCodes()
         }
       })
     },
@@ -183,7 +184,6 @@ export default {
           localStorage.setItem('tokens', res.data.message)
           document.getElementById('input2').addEventListener('blur',function(){
             window.scrollTo(0,0)
-            console.log(11111)
           },false)
 
           this.$router.push({
